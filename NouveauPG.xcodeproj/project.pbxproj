@@ -22,6 +22,9 @@
 		04B9D7701913421C00D2790A /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04B9D7541913421C00D2790A /* CoreData.framework */; };
 		04B9D7781913421C00D2790A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 04B9D7761913421C00D2790A /* InfoPlist.strings */; };
 		04B9D77A1913421C00D2790A /* NouveauPGTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B9D7791913421C00D2790A /* NouveauPGTests.m */; };
+		04B9D7841916734200D2790A /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04B9D7831916734200D2790A /* MainStoryboard.storyboard */; };
+		04B9D787191673E900D2790A /* RecipientsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B9D786191673E900D2790A /* RecipientsViewController.m */; };
+		04B9D78A19167A3900D2790A /* RecipientCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B9D78919167A3900D2790A /* RecipientCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +56,11 @@
 		04B9D7751913421C00D2790A /* NouveauPGTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "NouveauPGTests-Info.plist"; sourceTree = "<group>"; };
 		04B9D7771913421C00D2790A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		04B9D7791913421C00D2790A /* NouveauPGTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NouveauPGTests.m; sourceTree = "<group>"; };
+		04B9D7831916734200D2790A /* MainStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MainStoryboard.storyboard; sourceTree = "<group>"; };
+		04B9D785191673E900D2790A /* RecipientsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecipientsViewController.h; sourceTree = "<group>"; };
+		04B9D786191673E900D2790A /* RecipientsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecipientsViewController.m; sourceTree = "<group>"; };
+		04B9D78819167A3900D2790A /* RecipientCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecipientCell.h; sourceTree = "<group>"; };
+		04B9D78919167A3900D2790A /* RecipientCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecipientCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,11 +123,16 @@
 		04B9D7561913421C00D2790A /* NouveauPG */ = {
 			isa = PBXGroup;
 			children = (
+				04B9D78819167A3900D2790A /* RecipientCell.h */,
+				04B9D78919167A3900D2790A /* RecipientCell.m */,
 				04B9D75F1913421C00D2790A /* AppDelegate.h */,
 				04B9D7601913421C00D2790A /* AppDelegate.m */,
 				04B9D7651913421C00D2790A /* Images.xcassets */,
 				04B9D7621913421C00D2790A /* NouveauPG.xcdatamodeld */,
 				04B9D7571913421C00D2790A /* Supporting Files */,
+				04B9D7831916734200D2790A /* MainStoryboard.storyboard */,
+				04B9D785191673E900D2790A /* RecipientsViewController.h */,
+				04B9D786191673E900D2790A /* RecipientsViewController.m */,
 			);
 			path = NouveauPG;
 			sourceTree = "<group>";
@@ -228,6 +241,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04B9D7841916734200D2790A /* MainStoryboard.storyboard in Resources */,
 				04B9D75B1913421C00D2790A /* InfoPlist.strings in Resources */,
 				04B9D7661913421C00D2790A /* Images.xcassets in Resources */,
 			);
@@ -250,6 +264,8 @@
 			files = (
 				04B9D7611913421C00D2790A /* AppDelegate.m in Sources */,
 				04B9D75D1913421C00D2790A /* main.m in Sources */,
+				04B9D78A19167A3900D2790A /* RecipientCell.m in Sources */,
+				04B9D787191673E900D2790A /* RecipientsViewController.m in Sources */,
 				04B9D7641913421C00D2790A /* NouveauPG.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
