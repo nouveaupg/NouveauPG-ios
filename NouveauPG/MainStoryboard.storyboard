@@ -66,10 +66,10 @@
             </objects>
             <point key="canvasLocation" x="1166" y="-31"/>
         </scene>
-        <!--View Controller - Import-->
+        <!--Import View Controller - Import-->
         <scene sceneID="9od-gc-4X1">
             <objects>
-                <viewController id="uXf-8X-buI" sceneMemberID="viewController">
+                <viewController id="uXf-8X-buI" customClass="ImportViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="K3a-GV-B1U"/>
                         <viewControllerLayoutGuide type="bottom" id="3vk-YU-KN3"/>
@@ -78,18 +78,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ggz-Ya-PfM">
-                                <rect key="frame" x="-8" y="77" width="337" height="441"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="62e-nt-ze6">
                                 <rect key="frame" x="20" y="32" width="45" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Import">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="importFromTextView:" destination="uXf-8X-buI" eventType="touchUpInside" id="u8d-25-cHh"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DCs-FQ-oIC">
                                 <rect key="frame" x="141" y="32" width="39" height="30"/>
@@ -105,10 +102,20 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CUq-wQ-Za1">
+                                <rect key="frame" x="20" y="70" width="285" height="449"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Import" id="B1N-lR-ZX0"/>
+                    <connections>
+                        <outlet property="m_importText" destination="CUq-wQ-Za1" id="VK0-Yq-st4"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gsk-8F-hOm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
