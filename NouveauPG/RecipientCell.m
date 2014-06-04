@@ -31,4 +31,24 @@
     // Configure the view for the selected state
 }
 
+- (void) setPublicKeyAlgo:(NSString *)publicKeyAlgo {
+    [m_publicKeyAlgo setText:publicKeyAlgo];
+}
+
+- (void) setKeyId:(NSString *)keyId {
+    [m_keyId setText:keyId];
+}
+
+- (void) setName:(NSString *)name {
+    [m_name setText:name];
+}
+
+- (void) setEmail:(NSString *)email {
+    [m_email setText:email];
+}
+
+- (void) setIdenticonCode: (NSInteger)newIdenticonCode {
+    [m_indenticonView setIdenticonCode:newIdenticonCode];
+}
+
 @end

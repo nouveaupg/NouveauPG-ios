@@ -7,6 +7,11 @@
 //
 
 #import "ImportViewController.h"
+#import "OpenPGPMessage.h"
+#import "OpenPGPPacket.h"
+#import "UserIDPacket.h"
+
+#import "AppDelegate.h"
 
 @interface ImportViewController ()
 
@@ -36,7 +41,23 @@
 }
 
 -(IBAction)importFromTextView:(id)sender {
-    
+    NSString *importData = [m_importText text];
+    OpenPGPMessage *openPGPMessage = [[OpenPGPMessage alloc]initWithArmouredText:importData];
+    if ([openPGPMessage validChecksum]) {
+        NSLog(@"Valid PGP Message found.");
+        NSArray *packets = [OpenPGPPacket packetsFromMessage:openPGPMessage];
+        for ( OpenPGPPacket *eachPacket in packets ) {
+            NSLog(@"Packet tag: %ld, length: %ld", (long)[eachPacket packetTag], (unsigned long)[[eachPacket packetData] length]);
+            if ([eachPacket packetTag] == 13) {
+                UserIDPacket *userIdPacket = [[UserIDPacket alloc] initWithPacket:eachPacket];
+                NSLog(@"Found UserId: %@", [userIdPacket stringValue]);
+            }
+            if ([eachPacket packetTag] == 6) {
+                AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+                [appDelegate addRecipient:@"New User" certificate:[openPGPMessage originalArmouredText]];
+            }
+        }
+    }
 }
 
 /*

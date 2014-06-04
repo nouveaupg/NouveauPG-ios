@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="8hU-xQ-uyj">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="8hU-xQ-uyj">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <scenes>
-        <!--Recipients View Controller-->
+        <!--Recipients View Controller - Recipients-->
         <scene sceneID="AKE-u5-qsT">
             <objects>
                 <tableViewController id="WFc-bH-4ha" customClass="RecipientsViewController" sceneMemberID="viewController">
@@ -20,10 +20,6 @@
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="82"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vDQ-HA-Dlr">
-                                            <rect key="frame" x="5" y="8" width="70" height="70"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                        </imageView>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="12BC4E5F" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tNG-ZY-BiV">
                                             <rect key="frame" x="83" y="8" width="83" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -39,20 +35,32 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="John Hill" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cZi-Cm-pe1">
-                                            <rect key="frame" x="83" y="37" width="206" height="24"/>
+                                            <rect key="frame" x="83" y="32" width="206" height="24"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                                            <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="22"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="nouveau.pg@gmail.com" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zoz-a8-FlO">
-                                            <rect key="frame" x="83" y="57" width="184" height="21"/>
+                                            <rect key="frame" x="83" y="55" width="184" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GUM-oG-1IA" customClass="IdenticonView">
+                                            <rect key="frame" x="5" y="6" width="70" height="70"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                        </view>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="m_email" destination="Zoz-a8-FlO" id="L48-WZ-3Gy"/>
+                                    <outlet property="m_indenticonView" destination="GUM-oG-1IA" id="K6O-xy-KGM"/>
+                                    <outlet property="m_keyId" destination="tNG-ZY-BiV" id="LB5-2n-RVO"/>
+                                    <outlet property="m_name" destination="cZi-Cm-pe1" id="wbv-MN-80n"/>
+                                    <outlet property="m_publicKeyAlgo" destination="0wP-wN-YTR" id="k3t-xe-cPs"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -60,7 +68,7 @@
                             <outlet property="delegate" destination="WFc-bH-4ha" id="eOZ-A7-IDI"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="XaM-Rf-Nf6"/>
+                    <navigationItem key="navigationItem" title="Recipients" prompt="Select to compose message" id="XaM-Rf-Nf6"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Id1-DJ-V9Y" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

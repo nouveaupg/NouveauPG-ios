@@ -8,6 +8,10 @@
 
 #import "AppDelegate.h"
 #import "RecipientsViewController.h"
+#import "UserIDPacket.h"
+#import "OpenPGPPacket.h"
+#import "OpenPGPMessage.h"
+#import "OpenPGPPublicKey.h"
 
 @implementation AppDelegate
 
@@ -51,6 +55,23 @@
 {
     // Saves changes in the application's managed object context before the application terminates.
     [self saveContext];
+}
+
+- (void)addRecipient:(NSString *)userId certificate:(NSString *)certData {
+    
+    OpenPGPMessage *certMessage = [[OpenPGPMessage alloc] initWithArmouredText:certData];
+    if ([certMessage validChecksum]) {
+        NSArray *packets = [OpenPGPPacket packetsFromMessage:certMessage];
+        for (OpenPGPPacket *eachPacket in packets) {
+            if ([eachPacket packetTag] == 6) {
+                OpenPGPPublicKey *publicKey = [[OpenPGPPublicKey alloc]initWithPacket:eachPacket];
+                if (publicKey) {
+                    NSLog(@"Key ID: %@",publicKey.keyId);
+                    NSLog(@"Key Length: %ld",(long)publicKey.publicKeySize);
+                }
+            }
+        }
+    }
 }
 
 - (void)saveContext

@@ -28,6 +28,14 @@
 		04B9D78D191DAFFE00D2790A /* Recipient.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B9D78C191DAFFE00D2790A /* Recipient.m */; };
 		04B9D790191DB01B00D2790A /* RecipientDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B9D78F191DB01B00D2790A /* RecipientDetails.m */; };
 		04B9D793191EF92A00D2790A /* ImportViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B9D792191EF92A00D2790A /* ImportViewController.m */; };
+		04B9D799191EFB1D00D2790A /* OpenPGPMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B9D798191EFB1D00D2790A /* OpenPGPMessage.m */; };
+		04B9D79D191EFEA400D2790A /* OpenPGPPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B9D79C191EFEA400D2790A /* OpenPGPPacket.m */; };
+		04B9D7A0191F000F00D2790A /* UserIDPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B9D79F191F000F00D2790A /* UserIDPacket.m */; };
+		04B9D7A5191FF5AF00D2790A /* OpenPGPPublicKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B9D7A2191FF5AF00D2790A /* OpenPGPPublicKey.m */; };
+		04B9D7A6191FF5AF00D2790A /* OpenPGPSignature.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B9D7A4191FF5AF00D2790A /* OpenPGPSignature.m */; };
+		04B9D7F81923044D00D2790A /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04B9D7F61923044D00D2790A /* libcrypto.a */; };
+		04B9D7F91923044D00D2790A /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04B9D7F71923044D00D2790A /* libssl.a */; };
+		04B9D84F193C218E00D2790A /* IdenticonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B9D84E193C218E00D2790A /* IdenticonView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +78,20 @@
 		04B9D78F191DB01B00D2790A /* RecipientDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecipientDetails.m; sourceTree = "<group>"; };
 		04B9D791191EF92A00D2790A /* ImportViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImportViewController.h; sourceTree = "<group>"; };
 		04B9D792191EF92A00D2790A /* ImportViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImportViewController.m; sourceTree = "<group>"; };
+		04B9D797191EFB1D00D2790A /* OpenPGPMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenPGPMessage.h; sourceTree = "<group>"; };
+		04B9D798191EFB1D00D2790A /* OpenPGPMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenPGPMessage.m; sourceTree = "<group>"; };
+		04B9D79B191EFEA400D2790A /* OpenPGPPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenPGPPacket.h; sourceTree = "<group>"; };
+		04B9D79C191EFEA400D2790A /* OpenPGPPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenPGPPacket.m; sourceTree = "<group>"; };
+		04B9D79E191F000F00D2790A /* UserIDPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserIDPacket.h; sourceTree = "<group>"; };
+		04B9D79F191F000F00D2790A /* UserIDPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserIDPacket.m; sourceTree = "<group>"; };
+		04B9D7A1191FF5AF00D2790A /* OpenPGPPublicKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenPGPPublicKey.h; sourceTree = "<group>"; };
+		04B9D7A2191FF5AF00D2790A /* OpenPGPPublicKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenPGPPublicKey.m; sourceTree = "<group>"; };
+		04B9D7A3191FF5AF00D2790A /* OpenPGPSignature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenPGPSignature.h; sourceTree = "<group>"; };
+		04B9D7A4191FF5AF00D2790A /* OpenPGPSignature.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenPGPSignature.m; sourceTree = "<group>"; };
+		04B9D7F61923044D00D2790A /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
+		04B9D7F71923044D00D2790A /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libssl.a; sourceTree = "<group>"; };
+		04B9D84D193C218E00D2790A /* IdenticonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IdenticonView.h; sourceTree = "<group>"; };
+		04B9D84E193C218E00D2790A /* IdenticonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IdenticonView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +100,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				04B9D7511913421C00D2790A /* CoreGraphics.framework in Frameworks */,
+				04B9D7F81923044D00D2790A /* libcrypto.a in Frameworks */,
+				04B9D7F91923044D00D2790A /* libssl.a in Frameworks */,
 				04B9D7551913421C00D2790A /* CoreData.framework in Frameworks */,
 				04B9D7531913421C00D2790A /* UIKit.framework in Frameworks */,
 				04B9D74F1913421C00D2790A /* Foundation.framework in Frameworks */,
@@ -132,10 +156,13 @@
 		04B9D7561913421C00D2790A /* NouveauPG */ = {
 			isa = PBXGroup;
 			children = (
+				04B9D79A191EFB3000D2790A /* OpenPGP */,
 				04B9D78819167A3900D2790A /* RecipientCell.h */,
 				04B9D78919167A3900D2790A /* RecipientCell.m */,
 				04B9D75F1913421C00D2790A /* AppDelegate.h */,
 				04B9D7601913421C00D2790A /* AppDelegate.m */,
+				04B9D84D193C218E00D2790A /* IdenticonView.h */,
+				04B9D84E193C218E00D2790A /* IdenticonView.m */,
 				04B9D7651913421C00D2790A /* Images.xcassets */,
 				04B9D7621913421C00D2790A /* NouveauPG.xcdatamodeld */,
 				04B9D78E191DB01B00D2790A /* RecipientDetails.h */,
@@ -155,6 +182,7 @@
 		04B9D7571913421C00D2790A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				04B9D7F51923044D00D2790A /* lib */,
 				04B9D7581913421C00D2790A /* NouveauPG-Info.plist */,
 				04B9D7591913421C00D2790A /* InfoPlist.strings */,
 				04B9D75C1913421C00D2790A /* main.m */,
@@ -179,6 +207,32 @@
 				04B9D7761913421C00D2790A /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		04B9D79A191EFB3000D2790A /* OpenPGP */ = {
+			isa = PBXGroup;
+			children = (
+				04B9D7A1191FF5AF00D2790A /* OpenPGPPublicKey.h */,
+				04B9D7A2191FF5AF00D2790A /* OpenPGPPublicKey.m */,
+				04B9D7A3191FF5AF00D2790A /* OpenPGPSignature.h */,
+				04B9D7A4191FF5AF00D2790A /* OpenPGPSignature.m */,
+				04B9D79E191F000F00D2790A /* UserIDPacket.h */,
+				04B9D79F191F000F00D2790A /* UserIDPacket.m */,
+				04B9D79B191EFEA400D2790A /* OpenPGPPacket.h */,
+				04B9D79C191EFEA400D2790A /* OpenPGPPacket.m */,
+				04B9D797191EFB1D00D2790A /* OpenPGPMessage.h */,
+				04B9D798191EFB1D00D2790A /* OpenPGPMessage.m */,
+			);
+			name = OpenPGP;
+			sourceTree = "<group>";
+		};
+		04B9D7F51923044D00D2790A /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				04B9D7F61923044D00D2790A /* libcrypto.a */,
+				04B9D7F71923044D00D2790A /* libssl.a */,
+			);
+			path = lib;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -280,11 +334,17 @@
 				04B9D7611913421C00D2790A /* AppDelegate.m in Sources */,
 				04B9D75D1913421C00D2790A /* main.m in Sources */,
 				04B9D78A19167A3900D2790A /* RecipientCell.m in Sources */,
+				04B9D79D191EFEA400D2790A /* OpenPGPPacket.m in Sources */,
 				04B9D793191EF92A00D2790A /* ImportViewController.m in Sources */,
 				04B9D78D191DAFFE00D2790A /* Recipient.m in Sources */,
+				04B9D84F193C218E00D2790A /* IdenticonView.m in Sources */,
 				04B9D787191673E900D2790A /* RecipientsViewController.m in Sources */,
 				04B9D790191DB01B00D2790A /* RecipientDetails.m in Sources */,
 				04B9D7641913421C00D2790A /* NouveauPG.xcdatamodeld in Sources */,
+				04B9D7A0191F000F00D2790A /* UserIDPacket.m in Sources */,
+				04B9D7A5191FF5AF00D2790A /* OpenPGPPublicKey.m in Sources */,
+				04B9D799191EFB1D00D2790A /* OpenPGPMessage.m in Sources */,
+				04B9D7A6191FF5AF00D2790A /* OpenPGPSignature.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -403,8 +463,19 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NouveauPG/NouveauPG-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"/Users/jack/Documents/ios-openssl/include",
+				);
 				INFOPLIST_FILE = "NouveauPG/NouveauPG-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/NouveauPG/lib",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -416,8 +487,19 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NouveauPG/NouveauPG-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"/Users/jack/Documents/ios-openssl/include",
+				);
 				INFOPLIST_FILE = "NouveauPG/NouveauPG-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/NouveauPG/lib",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -481,6 +563,7 @@
 				04B9D77F1913421C00D2790A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		04B9D7801913421C00D2790A /* Build configuration list for PBXNativeTarget "NouveauPGTests" */ = {
 			isa = XCConfigurationList;
@@ -489,6 +572,7 @@
 				04B9D7821913421C00D2790A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

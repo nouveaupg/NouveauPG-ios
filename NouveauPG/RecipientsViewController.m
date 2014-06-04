@@ -8,6 +8,8 @@
 
 #import "RecipientsViewController.h"
 
+#import "RecipientCell.h"
+
 @interface RecipientsViewController ()
 
 @end
@@ -59,9 +61,12 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"recipientCell" forIndexPath:indexPath];
+    RecipientCell *cell = [tableView dequeueReusableCellWithIdentifier:@"recipientCell" forIndexPath:indexPath];
     
     // Configure the cell...
+    int newIdenticonCode = random();
+    [cell setIdenticonCode:newIdenticonCode];
+    
     
     return cell;
 }

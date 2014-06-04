@@ -18,5 +18,6 @@
 
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
+- (void)addRecipient:(NSString *)userId certificate:(NSString *)certData;
 
 @end
