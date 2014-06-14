@@ -12,6 +12,10 @@
 #import "OpenPGPPacket.h"
 #import "OpenPGPMessage.h"
 #import "OpenPGPPublicKey.h"
+#import "Recipient.h"
+#import "RecipientDetails.h"
+#import "UserIDPacket.h"
+#import "OpenPGPSignature.h"
 
 @implementation AppDelegate
 
@@ -26,6 +30,19 @@
     
     //self.window.backgroundColor = [UIColor whiteColor];
     //[self.window makeKeyAndVisible];
+    NSManagedObjectContext *ctx = [self managedObjectContext];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Recipient"
+                                              inManagedObjectContext:ctx];
+    [fetchRequest setEntity:entity];
+    
+    NSError *error;
+    NSArray *fetchedObjects = [ctx executeFetchRequest:fetchRequest error:&error];
+    for (Recipient*info in fetchedObjects) {
+        NSLog(@"Name: %@", info.details.userName);
+        NSLog(@"UserId: %@", info.userId);
+    }
+    
     return YES;
 }
 
@@ -62,14 +79,77 @@
     OpenPGPMessage *certMessage = [[OpenPGPMessage alloc] initWithArmouredText:certData];
     if ([certMessage validChecksum]) {
         NSArray *packets = [OpenPGPPacket packetsFromMessage:certMessage];
+        UserIDPacket *userId = nil;
+        OpenPGPPublicKey *primaryPublicKey;
+        OpenPGPPublicKey *publicSubkey;
+        
+        OpenPGPSignature *userIdSig;
+        OpenPGPSignature *subkeySig;
+        
         for (OpenPGPPacket *eachPacket in packets) {
             if ([eachPacket packetTag] == 6) {
-                OpenPGPPublicKey *publicKey = [[OpenPGPPublicKey alloc]initWithPacket:eachPacket];
-                if (publicKey) {
-                    NSLog(@"Key ID: %@",publicKey.keyId);
-                    NSLog(@"Key Length: %ld",(long)publicKey.publicKeySize);
-                }
+                primaryPublicKey = [[OpenPGPPublicKey alloc]initWithPacket:eachPacket];
             }
+            else if( [eachPacket packetTag] == 14) {
+                publicSubkey = [[OpenPGPPublicKey alloc]initWithPacket:eachPacket];
+            }
+            else if ( [eachPacket packetTag] == 13 ) {
+                userId = [[UserIDPacket alloc]initWithPacket:eachPacket];
+            }
+            else if( [eachPacket packetTag] == 2 ) {
+                OpenPGPSignature *signature = [[OpenPGPSignature alloc]initWithPacket:eachPacket];
+                if (signature.signatureType == 0x13) {
+                    userIdSig = signature;
+                }
+                else if(signature.signatureType == 0x18 ) {
+                    subkeySig = signature;
+                }
+                NSLog(@"Signature type: %lx",(long)signature.signatureType);
+            }
+        }
+        
+        // check the public key certificate for errors before importing
+        
+        NSManagedObjectContext *ctx = [self managedObjectContext];
+        Recipient *newRecipient = [NSEntityDescription insertNewObjectForEntityForName:@"Recipient" inManagedObjectContext:ctx];
+        newRecipient.userId = [userId stringValue];
+        newRecipient.certificate = certData;
+        
+        RecipientDetails *details = [NSEntityDescription insertNewObjectForEntityForName:@"RecipientDetails" inManagedObjectContext:ctx];
+        details.publicKeyAlgo = [NSString stringWithFormat:@"%ld-bit RSA",(long)primaryPublicKey.publicKeySize];
+        details.keyId = [[primaryPublicKey keyId] uppercaseString];
+        newRecipient.details = details;
+        
+        NSRange firstBracket = [[userId stringValue] rangeOfString:@"<"];
+        if (firstBracket.location != NSNotFound) {
+            NSString *nameOnly = [[userId stringValue]substringToIndex:firstBracket.location];
+            NSRange secondBracket =[[userId stringValue] rangeOfString:@">"];
+            NSUInteger len = secondBracket.location - firstBracket.location - 1;
+            NSString *emailOnly = [[userId stringValue]substringWithRange:NSMakeRange(firstBracket.location+1, len)];
+
+            details.userName = nameOnly;
+            details.email = emailOnly;
+        }
+        else {
+            // If the UserID doesn't conform to RFC 2822, we don't attempt to pull out the e-mail address
+            details.userName = [userId stringValue];
+        }
+        NSString *alertText = [NSString stringWithFormat:@"Do you wish to add the public key certificate for User ID \"%@\" to your recipient list?",[userId stringValue]];
+        
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Add recipient?" message:alertText delegate:nil cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
+        [alert setDelegate:self];
+        [alert show];
+    }
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1) {
+        NSError *error;
+        if([[self managedObjectContext] save:&error]) {
+            NSLog(@"Stored certificate.");
+        }
+        else {
+            NSLog(@"%@", [error description]);
         }
     }
 }
