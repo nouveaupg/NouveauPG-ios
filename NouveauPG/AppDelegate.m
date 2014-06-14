@@ -22,6 +22,7 @@
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize managedObjectModel = _managedObjectModel;
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
+@synthesize recipients = _recipients;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -37,8 +38,8 @@
     [fetchRequest setEntity:entity];
     
     NSError *error;
-    NSArray *fetchedObjects = [ctx executeFetchRequest:fetchRequest error:&error];
-    for (Recipient*info in fetchedObjects) {
+    self.recipients = [ctx executeFetchRequest:fetchRequest error:&error];
+    for (Recipient*info in self.recipients) {
         NSLog(@"Name: %@", info.details.userName);
         NSLog(@"UserId: %@", info.userId);
     }
@@ -74,7 +75,7 @@
     [self saveContext];
 }
 
-- (void)addRecipient:(NSString *)userId certificate:(NSString *)certData {
+- (void)addRecipientWithCertificate:(NSString *)certData {
     
     OpenPGPMessage *certMessage = [[OpenPGPMessage alloc] initWithArmouredText:certData];
     if ([certMessage validChecksum]) {

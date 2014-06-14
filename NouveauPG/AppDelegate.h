@@ -16,8 +16,10 @@
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
+@property (assign,nonatomic) NSArray *recipients;
+
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
-- (void)addRecipient:(NSString *)userId certificate:(NSString *)certData;
+- (void)addRecipientWithCertificate:(NSString *)certData;
 
 @end

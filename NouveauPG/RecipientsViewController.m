@@ -7,7 +7,10 @@
 //
 
 #import "RecipientsViewController.h"
+#import "AppDelegate.h"
 
+#import "Recipient.h"
+#import "RecipientDetails.h"
 #import "RecipientCell.h"
 
 @interface RecipientsViewController ()
@@ -46,25 +49,50 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
     // Return the number of sections.
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
-    // Return the number of rows in the section.
-    return 1;
+    AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    
+    if (app.recipients) {
+        return [app.recipients count];
+    }
+    
+    return 0;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     RecipientCell *cell = [tableView dequeueReusableCellWithIdentifier:@"recipientCell" forIndexPath:indexPath];
+    AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     
-    // Configure the cell...
-    int newIdenticonCode = random();
+    Recipient *current = [app.recipients objectAtIndex:[indexPath row]];
+    
+    [cell setName:current.details.userName];
+    [cell setEmail:current.details.email];
+    [cell setKeyId:current.details.keyId];
+    [cell setPublicKeyAlgo:current.details.publicKeyAlgo];
+    
+    NSInteger newIdenticonCode = 0;
+    
+    NSString *keyId = current.details.keyId;
+    for (int i = 0; i < 8; i++) {
+        unichar c = [keyId characterAtIndex:i];
+        if ((int)c < 58) {
+            newIdenticonCode |=  ((int)c-48);
+        }
+        else {
+            newIdenticonCode |= ((int)c-55);
+        }
+        if (i < 7) {
+            newIdenticonCode <<= 4;
+        }
+    }
+    
     [cell setIdenticonCode:newIdenticonCode];
     
     

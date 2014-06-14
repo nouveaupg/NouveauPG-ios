@@ -54,7 +54,7 @@
             }
             if ([eachPacket packetTag] == 6) {
                 AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-                [appDelegate addRecipient:@"New User" certificate:[openPGPMessage originalArmouredText]];
+                [appDelegate addRecipientWithCertificate:[openPGPMessage originalArmouredText]];
             }
         }
     }
