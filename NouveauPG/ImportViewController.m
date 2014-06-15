@@ -58,6 +58,20 @@
             }
         }
     }
+    [m_importText resignFirstResponder];
+}
+
+-(IBAction)clearTextView:(id)sender {
+    [m_importText setText:@""];
+    
+    [m_importText resignFirstResponder];
+}
+
+-(IBAction)pasteToTextView:(id)sender {
+    UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+    [m_importText insertText:pasteboard.string];
+    
+    [m_importText resignFirstResponder];
 }
 
 /*

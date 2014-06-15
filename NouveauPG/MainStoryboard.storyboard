@@ -102,6 +102,9 @@
                                 <state key="normal" title="Paste">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="pasteToTextView:" destination="uXf-8X-buI" eventType="touchUpInside" id="b8H-hZ-dFc"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4fU-Bz-chh">
                                 <rect key="frame" x="263" y="32" width="37" height="30"/>
@@ -109,6 +112,9 @@
                                 <state key="normal" title="Clear">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="clearTextView:" destination="uXf-8X-buI" eventType="touchUpInside" id="vTv-Sw-iB0"/>
+                                </connections>
                             </button>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" keyboardDismissMode="interactive" translatesAutoresizingMaskIntoConstraints="NO" id="CUq-wQ-Za1">
                                 <rect key="frame" x="20" y="70" width="285" height="449"/>

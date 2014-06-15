@@ -14,5 +14,7 @@
 }
 
 -(IBAction)importFromTextView:(id)sender;
+-(IBAction)clearTextView:(id)sender;
+-(IBAction)pasteToTextView:(id)sender;
 
 @end
