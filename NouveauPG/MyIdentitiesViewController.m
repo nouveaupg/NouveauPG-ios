@@ -7,6 +7,7 @@
 //
 
 #import "MyIdentitiesViewController.h"
+#import "IdentityCell.h"
 
 @interface MyIdentitiesViewController ()
 
@@ -54,11 +55,16 @@
     return 1;
 }
 
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"myIdentities" forIndexPath:indexPath];
+    IdentityCell *cell = [tableView dequeueReusableCellWithIdentifier:@"IdentityCell" forIndexPath:indexPath];
     
     // Configure the cell...
+    
+    [cell setIdenticonCode:0xff14423];
+    [cell setName:@"John Hill"];
+    [cell setKeyMetadata:@"ff144233 (2048-bit RSA)"];
     
     return cell;
 }
