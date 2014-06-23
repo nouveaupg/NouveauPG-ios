@@ -16,6 +16,7 @@
 #import "RecipientDetails.h"
 #import "UserIDPacket.h"
 #import "OpenPGPSignature.h"
+#import "Identity.h"
 
 @implementation AppDelegate
 
@@ -23,6 +24,7 @@
 @synthesize managedObjectModel = _managedObjectModel;
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 @synthesize recipients = _recipients;
+@synthesize identities = _identities;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -39,9 +41,21 @@
     
     NSError *error;
     self.recipients = [ctx executeFetchRequest:fetchRequest error:&error];
-    for (Recipient*info in self.recipients) {
-        NSLog(@"Name: %@", info.details.userName);
-        NSLog(@"UserId: %@", info.userId);
+    NSLog(@"Loaded %lu recipients (public key certificates) from datastore.",(unsigned long)[self.recipients count]);
+    
+    if (error) {
+        NSLog(@"NSError: %@",[error description]);
+    }
+    
+    fetchRequest = [[NSFetchRequest alloc] init];
+    entity = [NSEntityDescription entityForName:@"Identity"
+                                              inManagedObjectContext:ctx];
+    [fetchRequest setEntity:entity];
+    self.identities = [ctx executeFetchRequest:fetchRequest error:&error];
+    NSLog(@"Loaded %lu identities (private keystores) from datastore.",(unsigned long)[self.identities count]);
+    
+    if (error) {
+        NSLog(@"NSError: %@",[error description]);
     }
     
     return YES;
@@ -143,6 +157,21 @@
     }
 }
 
+- (void)addIdentityWithPublicCertificate: (NSString*)publicCertificate privateKeystore: (NSString *)keystore name: (NSString *)userId emailAddr:(NSString *)email keyId: (NSString *)keyid {
+    
+    NSManagedObjectContext *ctx = [self managedObjectContext];
+    Identity *newIdentity = [NSEntityDescription insertNewObjectForEntityForName:@"Identity" inManagedObjectContext:ctx];
+    newIdentity.name = userId;
+    newIdentity.email = email;
+    newIdentity.keyId = keyid;
+    newIdentity.privateKeystore = keystore;
+    newIdentity.publicCertificate = publicCertificate;
+    newIdentity.created = [NSDate date];
+    
+    [self saveContext];
+}
+
+
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 1) {
         NSError *error;
@@ -152,6 +181,9 @@
         else {
             NSLog(@"%@", [error description]);
         }
+    }
+    else {
+        [[self managedObjectContext] reset];
     }
 }
 

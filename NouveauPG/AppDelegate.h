@@ -17,9 +17,11 @@
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
 @property (copy,nonatomic) NSArray *recipients;
+@property (copy,nonatomic) NSArray *identities;
 
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
 - (void)addRecipientWithCertificate:(NSString *)certData;
+- (void)addIdentityWithPublicCertificate: (NSString*)publicCertificate privateKeystore: (NSString *)keystore name: (NSString *)userId emailAddr:(NSString *)email keyId: (NSString *)keyid;
 
 @end

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13D65" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
-    <entity name="Identity" syncable="YES">
+    <entity name="Identity" representedClassName="Identity" syncable="YES">
         <attribute name="created" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="keyId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="privateKeystore" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="publicCertificate" optional="YES" attributeType="String" syncable="YES"/>
@@ -24,6 +25,6 @@
     <elements>
         <element name="Recipient" positionX="-317" positionY="-114" width="128" height="103"/>
         <element name="RecipientDetails" positionX="-54" positionY="18" width="128" height="133"/>
-        <element name="Identity" positionX="-414" positionY="126" width="128" height="118"/>
+        <element name="Identity" positionX="-414" positionY="126" width="128" height="133"/>
     </elements>
 </model>
