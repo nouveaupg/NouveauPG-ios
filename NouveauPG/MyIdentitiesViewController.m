@@ -64,9 +64,26 @@
     
     [cell setIdenticonCode:0xff14423];
     [cell setName:@"John Hill"];
-    [cell setKeyMetadata:@"ff144233 (2048-bit RSA)"];
+    [cell setKeyMetadata:@"FF144233"];
     
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    UIActionSheet *privateKeyStoreOptions = [[UIActionSheet alloc] initWithTitle:nil delegate:nil cancelButtonTitle:@"Dismiss" destructiveButtonTitle:nil otherButtonTitles:@"Export public certificate", @"Export private keystore", nil];
+    [privateKeyStoreOptions setDelegate:self];
+    [privateKeyStoreOptions showFromTabBar:[[self tabBarController] tabBar]];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 0) {
+        [self performSegueWithIdentifier:@"exportPublicKey" sender:self];
+    }
+    else if( buttonIndex == 1 ) {
+        [self performSegueWithIdentifier:@"unlockKeystore" sender:self];
+    }
 }
 
 /*
@@ -106,6 +123,8 @@
     return YES;
 }
 */
+
+
 
 /*
 #pragma mark - Navigation

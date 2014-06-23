@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MyIdentitiesViewController : UITableViewController
+@interface MyIdentitiesViewController : UITableViewController <UIActionSheetDelegate>
 
 @end

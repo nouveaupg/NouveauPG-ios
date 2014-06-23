@@ -7,9 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0427A3141957BF1A00817FD3 /* UnlockKeystoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0427A3131957BF1A00817FD3 /* UnlockKeystoreViewController.m */; };
+		0427A3171957C29000817FD3 /* EncryptedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0427A3161957C29000817FD3 /* EncryptedViewController.m */; };
 		04B5180A194E159100CA43DB /* MyIdentitiesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B51809194E159100CA43DB /* MyIdentitiesViewController.m */; };
 		04B5180D194E3B2400CA43DB /* GenerateKeyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B5180C194E3B2400CA43DB /* GenerateKeyViewController.m */; };
 		04B51815194FDB5800CA43DB /* IdentityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B51814194FDB5800CA43DB /* IdentityCell.m */; };
+		04B5181B195299D300CA43DB /* ExportViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B5181A195299D300CA43DB /* ExportViewController.m */; };
 		04B9D74F1913421C00D2790A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04B9D74E1913421C00D2790A /* Foundation.framework */; };
 		04B9D7511913421C00D2790A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04B9D7501913421C00D2790A /* CoreGraphics.framework */; };
 		04B9D7531913421C00D2790A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04B9D7521913421C00D2790A /* UIKit.framework */; };
@@ -52,12 +55,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0427A3121957BF1A00817FD3 /* UnlockKeystoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnlockKeystoreViewController.h; sourceTree = "<group>"; };
+		0427A3131957BF1A00817FD3 /* UnlockKeystoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnlockKeystoreViewController.m; sourceTree = "<group>"; };
+		0427A3151957C29000817FD3 /* EncryptedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EncryptedViewController.h; sourceTree = "<group>"; };
+		0427A3161957C29000817FD3 /* EncryptedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EncryptedViewController.m; sourceTree = "<group>"; };
 		04B51808194E159100CA43DB /* MyIdentitiesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyIdentitiesViewController.h; sourceTree = "<group>"; };
 		04B51809194E159100CA43DB /* MyIdentitiesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyIdentitiesViewController.m; sourceTree = "<group>"; };
 		04B5180B194E3B2400CA43DB /* GenerateKeyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenerateKeyViewController.h; sourceTree = "<group>"; };
 		04B5180C194E3B2400CA43DB /* GenerateKeyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenerateKeyViewController.m; sourceTree = "<group>"; };
 		04B51813194FDB5800CA43DB /* IdentityCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IdentityCell.h; sourceTree = "<group>"; };
 		04B51814194FDB5800CA43DB /* IdentityCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IdentityCell.m; sourceTree = "<group>"; };
+		04B51819195299D300CA43DB /* ExportViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExportViewController.h; sourceTree = "<group>"; };
+		04B5181A195299D300CA43DB /* ExportViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExportViewController.m; sourceTree = "<group>"; };
 		04B9D74B1913421C00D2790A /* NouveauPG.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NouveauPG.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04B9D74E1913421C00D2790A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		04B9D7501913421C00D2790A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -142,6 +151,12 @@
 				04B51809194E159100CA43DB /* MyIdentitiesViewController.m */,
 				04B5180B194E3B2400CA43DB /* GenerateKeyViewController.h */,
 				04B5180C194E3B2400CA43DB /* GenerateKeyViewController.m */,
+				04B51819195299D300CA43DB /* ExportViewController.h */,
+				04B5181A195299D300CA43DB /* ExportViewController.m */,
+				0427A3121957BF1A00817FD3 /* UnlockKeystoreViewController.h */,
+				0427A3131957BF1A00817FD3 /* UnlockKeystoreViewController.m */,
+				0427A3151957C29000817FD3 /* EncryptedViewController.h */,
+				0427A3161957C29000817FD3 /* EncryptedViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -364,12 +379,15 @@
 			files = (
 				04B9D7611913421C00D2790A /* AppDelegate.m in Sources */,
 				04B9D75D1913421C00D2790A /* main.m in Sources */,
+				0427A3141957BF1A00817FD3 /* UnlockKeystoreViewController.m in Sources */,
 				04B9D78A19167A3900D2790A /* RecipientCell.m in Sources */,
 				04B9D79D191EFEA400D2790A /* OpenPGPPacket.m in Sources */,
 				04B9D793191EF92A00D2790A /* ImportViewController.m in Sources */,
 				04B9D78D191DAFFE00D2790A /* Recipient.m in Sources */,
 				04B9D84F193C218E00D2790A /* IdenticonView.m in Sources */,
 				04B9D787191673E900D2790A /* RecipientsViewController.m in Sources */,
+				0427A3171957C29000817FD3 /* EncryptedViewController.m in Sources */,
+				04B5181B195299D300CA43DB /* ExportViewController.m in Sources */,
 				04B9D790191DB01B00D2790A /* RecipientDetails.m in Sources */,
 				04B5180D194E3B2400CA43DB /* GenerateKeyViewController.m in Sources */,
 				04B9D7641913421C00D2790A /* NouveauPG.xcdatamodeld in Sources */,
