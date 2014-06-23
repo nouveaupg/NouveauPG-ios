@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "OpenPGPPublicKey.h"
 
-@interface RecipientsViewController : UITableViewController
+@interface RecipientsViewController : UITableViewController {
+    NSString *m_selectedEmailAddress;
+    OpenPGPPublicKey *m_selectedEncryptionKey;
+}
 
 @end

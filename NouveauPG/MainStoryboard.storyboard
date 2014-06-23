@@ -56,7 +56,6 @@
                                     <outlet property="m_keyId" destination="tNG-ZY-BiV" id="LB5-2n-RVO"/>
                                     <outlet property="m_name" destination="cZi-Cm-pe1" id="wbv-MN-80n"/>
                                     <outlet property="m_publicKeyAlgo" destination="0wP-wN-YTR" id="k3t-xe-cPs"/>
-                                    <segue destination="uda-iu-IFn" kind="push" id="6IW-XU-EcF"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -66,6 +65,9 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Recipients" prompt="Select to compose message" id="XaM-Rf-Nf6"/>
+                    <connections>
+                        <segue destination="uda-iu-IFn" kind="push" identifier="composeNewMessage" id="82W-pC-qvV"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Id1-DJ-V9Y" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -126,15 +128,18 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
+                    <connections>
+                        <outlet property="m_encryptedMessage" destination="ahs-Hl-Fc8" id="EP9-yu-xTb"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9p2-wt-zbS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1659" y="-797"/>
         </scene>
-        <!--View Controller-->
+        <!--Compose View Controller-->
         <scene sceneID="oox-Aw-rEI">
             <objects>
-                <viewController id="uda-iu-IFn" sceneMemberID="viewController">
+                <viewController id="uda-iu-IFn" customClass="ComposeViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="gCJ-00-uD9"/>
                         <viewControllerLayoutGuide type="bottom" id="dRW-1B-8pf"/>
@@ -163,11 +168,15 @@
                                 <state key="normal" title="Encrypt">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="encryptMessage:" destination="uda-iu-IFn" eventType="touchUpInside" id="kh5-zj-4c3"/>
+                                </connections>
                             </button>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <segue destination="exc-UE-28t" kind="modal" modalTransitionStyle="flipHorizontal" id="fXH-ri-jsc"/>
+                        <outlet property="m_composedMessage" destination="euT-FM-vgx" id="1Tj-uj-tEM"/>
+                        <segue destination="exc-UE-28t" kind="modal" identifier="exportEncryptedData" modalTransitionStyle="flipHorizontal" id="fXH-ri-jsc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Uca-PD-ESh" userLabel="First Responder" sceneMemberID="firstResponder"/>

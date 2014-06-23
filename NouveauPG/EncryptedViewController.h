@@ -10,7 +10,12 @@
 
 @interface EncryptedViewController : UIViewController {
     IBOutlet UITextView *m_encryptedMessage;
+    
+    NSString *m_armouredMessage;
+    NSString *m_recipientEmail;
 }
+
+-(void)setEncryptedMessage: (NSString *)message recipientEmail: (NSString *)email;
 
 -(IBAction)dismiss:(id)sender;
 

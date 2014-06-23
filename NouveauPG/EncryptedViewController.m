@@ -27,6 +27,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [m_encryptedMessage setText:m_armouredMessage];
 }
 
 - (void)didReceiveMemoryWarning
@@ -37,6 +38,12 @@
 
 -(IBAction)dismiss:(id)sender {
     [self dismissViewControllerAnimated:YES completion:NULL];
+}
+
+-(void)setEncryptedMessage: (NSString *)message recipientEmail: (NSString *)email {
+    
+    m_armouredMessage = [[NSString alloc]initWithString:message];
+    m_recipientEmail = [[NSString alloc]initWithString:email];
 }
 
 /*

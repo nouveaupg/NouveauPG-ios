@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		0427A3141957BF1A00817FD3 /* UnlockKeystoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0427A3131957BF1A00817FD3 /* UnlockKeystoreViewController.m */; };
 		0427A3171957C29000817FD3 /* EncryptedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0427A3161957C29000817FD3 /* EncryptedViewController.m */; };
+		0427A31A1957C44800817FD3 /* ComposeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0427A3191957C44800817FD3 /* ComposeViewController.m */; };
+		0427A31F1957C7B700817FD3 /* EncryptedEnvelope.m in Sources */ = {isa = PBXBuildFile; fileRef = 0427A31C1957C7B700817FD3 /* EncryptedEnvelope.m */; };
+		0427A3201957C7B700817FD3 /* LiteralPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = 0427A31E1957C7B700817FD3 /* LiteralPacket.m */; };
+		0427A3231957C7EB00817FD3 /* NSString+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 0427A3221957C7EB00817FD3 /* NSString+Base64.m */; };
 		04B5180A194E159100CA43DB /* MyIdentitiesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B51809194E159100CA43DB /* MyIdentitiesViewController.m */; };
 		04B5180D194E3B2400CA43DB /* GenerateKeyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B5180C194E3B2400CA43DB /* GenerateKeyViewController.m */; };
 		04B51815194FDB5800CA43DB /* IdentityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B51814194FDB5800CA43DB /* IdentityCell.m */; };
@@ -59,6 +63,14 @@
 		0427A3131957BF1A00817FD3 /* UnlockKeystoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnlockKeystoreViewController.m; sourceTree = "<group>"; };
 		0427A3151957C29000817FD3 /* EncryptedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EncryptedViewController.h; sourceTree = "<group>"; };
 		0427A3161957C29000817FD3 /* EncryptedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EncryptedViewController.m; sourceTree = "<group>"; };
+		0427A3181957C44800817FD3 /* ComposeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComposeViewController.h; sourceTree = "<group>"; };
+		0427A3191957C44800817FD3 /* ComposeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ComposeViewController.m; sourceTree = "<group>"; };
+		0427A31B1957C7B700817FD3 /* EncryptedEnvelope.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EncryptedEnvelope.h; sourceTree = "<group>"; };
+		0427A31C1957C7B700817FD3 /* EncryptedEnvelope.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EncryptedEnvelope.m; sourceTree = "<group>"; };
+		0427A31D1957C7B700817FD3 /* LiteralPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiteralPacket.h; sourceTree = "<group>"; };
+		0427A31E1957C7B700817FD3 /* LiteralPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LiteralPacket.m; sourceTree = "<group>"; };
+		0427A3211957C7EB00817FD3 /* NSString+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Base64.h"; sourceTree = "<group>"; };
+		0427A3221957C7EB00817FD3 /* NSString+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Base64.m"; sourceTree = "<group>"; };
 		04B51808194E159100CA43DB /* MyIdentitiesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyIdentitiesViewController.h; sourceTree = "<group>"; };
 		04B51809194E159100CA43DB /* MyIdentitiesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyIdentitiesViewController.m; sourceTree = "<group>"; };
 		04B5180B194E3B2400CA43DB /* GenerateKeyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenerateKeyViewController.h; sourceTree = "<group>"; };
@@ -157,6 +169,8 @@
 				0427A3131957BF1A00817FD3 /* UnlockKeystoreViewController.m */,
 				0427A3151957C29000817FD3 /* EncryptedViewController.h */,
 				0427A3161957C29000817FD3 /* EncryptedViewController.m */,
+				0427A3181957C44800817FD3 /* ComposeViewController.h */,
+				0427A3191957C44800817FD3 /* ComposeViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -258,6 +272,12 @@
 		04B9D79A191EFB3000D2790A /* OpenPGP */ = {
 			isa = PBXGroup;
 			children = (
+				0427A3211957C7EB00817FD3 /* NSString+Base64.h */,
+				0427A3221957C7EB00817FD3 /* NSString+Base64.m */,
+				0427A31B1957C7B700817FD3 /* EncryptedEnvelope.h */,
+				0427A31C1957C7B700817FD3 /* EncryptedEnvelope.m */,
+				0427A31D1957C7B700817FD3 /* LiteralPacket.h */,
+				0427A31E1957C7B700817FD3 /* LiteralPacket.m */,
 				04B9D7A1191FF5AF00D2790A /* OpenPGPPublicKey.h */,
 				04B9D7A2191FF5AF00D2790A /* OpenPGPPublicKey.m */,
 				04B9D7A3191FF5AF00D2790A /* OpenPGPSignature.h */,
@@ -381,6 +401,7 @@
 				04B9D75D1913421C00D2790A /* main.m in Sources */,
 				0427A3141957BF1A00817FD3 /* UnlockKeystoreViewController.m in Sources */,
 				04B9D78A19167A3900D2790A /* RecipientCell.m in Sources */,
+				0427A3201957C7B700817FD3 /* LiteralPacket.m in Sources */,
 				04B9D79D191EFEA400D2790A /* OpenPGPPacket.m in Sources */,
 				04B9D793191EF92A00D2790A /* ImportViewController.m in Sources */,
 				04B9D78D191DAFFE00D2790A /* Recipient.m in Sources */,
@@ -388,6 +409,7 @@
 				04B9D787191673E900D2790A /* RecipientsViewController.m in Sources */,
 				0427A3171957C29000817FD3 /* EncryptedViewController.m in Sources */,
 				04B5181B195299D300CA43DB /* ExportViewController.m in Sources */,
+				0427A3231957C7EB00817FD3 /* NSString+Base64.m in Sources */,
 				04B9D790191DB01B00D2790A /* RecipientDetails.m in Sources */,
 				04B5180D194E3B2400CA43DB /* GenerateKeyViewController.m in Sources */,
 				04B9D7641913421C00D2790A /* NouveauPG.xcdatamodeld in Sources */,
@@ -395,6 +417,8 @@
 				04B9D7A0191F000F00D2790A /* UserIDPacket.m in Sources */,
 				04B9D7A5191FF5AF00D2790A /* OpenPGPPublicKey.m in Sources */,
 				04B5180A194E159100CA43DB /* MyIdentitiesViewController.m in Sources */,
+				0427A31F1957C7B700817FD3 /* EncryptedEnvelope.m in Sources */,
+				0427A31A1957C44800817FD3 /* ComposeViewController.m in Sources */,
 				04B9D799191EFB1D00D2790A /* OpenPGPMessage.m in Sources */,
 				04B9D7A6191FF5AF00D2790A /* OpenPGPSignature.m in Sources */,
 			);

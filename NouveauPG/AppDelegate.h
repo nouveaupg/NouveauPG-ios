@@ -16,7 +16,7 @@
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
-@property (assign,nonatomic) NSArray *recipients;
+@property (copy,nonatomic) NSArray *recipients;
 
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;

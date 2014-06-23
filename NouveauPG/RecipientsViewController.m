@@ -9,6 +9,7 @@
 #import "RecipientsViewController.h"
 #import "AppDelegate.h"
 
+#import "ComposeViewController.h"
 #import "Recipient.h"
 #import "RecipientDetails.h"
 #import "RecipientCell.h"
@@ -99,6 +100,46 @@
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+#pragma mark Public Key Selection
+    // Very crucial logic; it's where we choose which public key to encrypt with by examining the certificate
+    AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    Recipient *object = [app.recipients objectAtIndex:[indexPath row]];
+    RecipientDetails *details = object.details;
+    
+    OpenPGPMessage *certificate = [[OpenPGPMessage alloc]initWithArmouredText:object.certificate];
+    if ([certificate validChecksum]) {
+        OpenPGPPublicKey *keyToUse = nil;
+        NSArray *packets = [OpenPGPPacket packetsFromMessage:certificate];
+        for ( OpenPGPPacket *eachPacket in packets ) {
+            if ([eachPacket packetTag] == 6 ) {
+                keyToUse = [[OpenPGPPublicKey alloc]initWithPacket:eachPacket];
+            }
+            else if([eachPacket packetTag] == 14) {
+                keyToUse = [[OpenPGPPublicKey alloc]initWithPacket:eachPacket];
+            }
+        }
+        if (keyToUse) {
+            m_selectedEncryptionKey = keyToUse;
+            m_selectedEmailAddress = [[NSString alloc]initWithString:details.email];
+            NSLog(@"Selected KeyId: %@ email: %@",[keyToUse keyId],m_selectedEmailAddress);
+            
+            [self performSegueWithIdentifier:@"composeNewMessage" sender:self];
+        }
+        else {
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Certificate Error" message:@"Could not find suitable public key in certificate" delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+            [alert show];
+        }
+        
+    }
+    else {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Certificate Error" message:@"Could not decode certificate" delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+        [alert show];
+    }
+    
+}
+
 
 /*
 // Override to support conditional editing of the table view.
@@ -138,7 +179,7 @@
 }
 */
 
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -146,7 +187,8 @@
 {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    ComposeViewController *nextViewController = (ComposeViewController *)[segue destinationViewController];
+    [nextViewController setEncryptionKey:m_selectedEncryptionKey recipient:m_selectedEmailAddress];
 }
-*/
 
 @end
