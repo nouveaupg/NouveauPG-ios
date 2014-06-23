@@ -13,6 +13,7 @@
 		0427A31F1957C7B700817FD3 /* EncryptedEnvelope.m in Sources */ = {isa = PBXBuildFile; fileRef = 0427A31C1957C7B700817FD3 /* EncryptedEnvelope.m */; };
 		0427A3201957C7B700817FD3 /* LiteralPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = 0427A31E1957C7B700817FD3 /* LiteralPacket.m */; };
 		0427A3231957C7EB00817FD3 /* NSString+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 0427A3221957C7EB00817FD3 /* NSString+Base64.m */; };
+		0427A3251957D33F00817FD3 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0427A3241957D33F00817FD3 /* MessageUI.framework */; };
 		04B5180A194E159100CA43DB /* MyIdentitiesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B51809194E159100CA43DB /* MyIdentitiesViewController.m */; };
 		04B5180D194E3B2400CA43DB /* GenerateKeyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B5180C194E3B2400CA43DB /* GenerateKeyViewController.m */; };
 		04B51815194FDB5800CA43DB /* IdentityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B51814194FDB5800CA43DB /* IdentityCell.m */; };
@@ -44,7 +45,6 @@
 		04B9D7A5191FF5AF00D2790A /* OpenPGPPublicKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B9D7A2191FF5AF00D2790A /* OpenPGPPublicKey.m */; };
 		04B9D7A6191FF5AF00D2790A /* OpenPGPSignature.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B9D7A4191FF5AF00D2790A /* OpenPGPSignature.m */; };
 		04B9D7F81923044D00D2790A /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04B9D7F61923044D00D2790A /* libcrypto.a */; };
-		04B9D7F91923044D00D2790A /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04B9D7F71923044D00D2790A /* libssl.a */; };
 		04B9D84F193C218E00D2790A /* IdenticonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B9D84E193C218E00D2790A /* IdenticonView.m */; };
 /* End PBXBuildFile section */
 
@@ -71,6 +71,7 @@
 		0427A31E1957C7B700817FD3 /* LiteralPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LiteralPacket.m; sourceTree = "<group>"; };
 		0427A3211957C7EB00817FD3 /* NSString+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Base64.h"; sourceTree = "<group>"; };
 		0427A3221957C7EB00817FD3 /* NSString+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Base64.m"; sourceTree = "<group>"; };
+		0427A3241957D33F00817FD3 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		04B51808194E159100CA43DB /* MyIdentitiesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyIdentitiesViewController.h; sourceTree = "<group>"; };
 		04B51809194E159100CA43DB /* MyIdentitiesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyIdentitiesViewController.m; sourceTree = "<group>"; };
 		04B5180B194E3B2400CA43DB /* GenerateKeyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenerateKeyViewController.h; sourceTree = "<group>"; };
@@ -129,9 +130,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0427A3251957D33F00817FD3 /* MessageUI.framework in Frameworks */,
 				04B9D7511913421C00D2790A /* CoreGraphics.framework in Frameworks */,
 				04B9D7F81923044D00D2790A /* libcrypto.a in Frameworks */,
-				04B9D7F91923044D00D2790A /* libssl.a in Frameworks */,
 				04B9D7551913421C00D2790A /* CoreData.framework in Frameworks */,
 				04B9D7531913421C00D2790A /* UIKit.framework in Frameworks */,
 				04B9D74F1913421C00D2790A /* Foundation.framework in Frameworks */,
@@ -208,6 +209,7 @@
 		04B9D74D1913421C00D2790A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0427A3241957D33F00817FD3 /* MessageUI.framework */,
 				04B9D74E1913421C00D2790A /* Foundation.framework */,
 				04B9D7501913421C00D2790A /* CoreGraphics.framework */,
 				04B9D7521913421C00D2790A /* UIKit.framework */,

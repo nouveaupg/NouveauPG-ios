@@ -7,6 +7,7 @@
 //
 
 #import "EncryptedViewController.h"
+#import "MessageUI/MFMailComposeViewController.h"
 
 @interface EncryptedViewController ()
 
@@ -38,6 +39,19 @@
 
 -(IBAction)dismiss:(id)sender {
     [self dismissViewControllerAnimated:YES completion:NULL];
+}
+
+-(IBAction)email:(id)sender {
+    MFMailComposeViewController *mailComposer = [[MFMailComposeViewController alloc]init];
+    [mailComposer setSubject:@"Encrypted PGP Message"];
+    [mailComposer setToRecipients:[NSArray arrayWithObject:m_recipientEmail]];
+    [mailComposer setMessageBody:m_armouredMessage isHTML:FALSE];
+    mailComposer.mailComposeDelegate = self;
+    [self presentViewController:mailComposer animated:YES completion:NULL];
+}
+
+- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {
+    [self dismissModalViewControllerAnimated:YES];
 }
 
 -(void)setEncryptedMessage: (NSString *)message recipientEmail: (NSString *)email {

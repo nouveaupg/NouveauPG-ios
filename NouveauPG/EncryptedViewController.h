@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MessageUI/MFMailComposeViewController.h"
 
-@interface EncryptedViewController : UIViewController {
+@interface EncryptedViewController : UIViewController <MFMailComposeViewControllerDelegate> {
     IBOutlet UITextView *m_encryptedMessage;
     
     NSString *m_armouredMessage;
@@ -17,6 +18,8 @@
 
 -(void)setEncryptedMessage: (NSString *)message recipientEmail: (NSString *)email;
 
+
 -(IBAction)dismiss:(id)sender;
+-(IBAction)email:(id)sender;
 
 @end
