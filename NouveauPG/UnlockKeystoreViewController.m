@@ -7,6 +7,9 @@
 //
 
 #import "UnlockKeystoreViewController.h"
+#import "OpenPGPMessage.h"
+#import "OpenPGPPacket.h"
+#import "OpenPGPPublicKey.h"
 
 @interface UnlockKeystoreViewController ()
 
@@ -33,6 +36,38 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)setKeystore:(NSString *)asciiArmouredData {
+    m_keystoreData = [[NSString alloc]initWithString:asciiArmouredData];
+}
+
+-(IBAction)unlockKeystore:(id)sender {
+    NSString *password = [m_passwordField text];
+    
+    OpenPGPMessage *keystoreMessage = [[OpenPGPMessage alloc]initWithArmouredText:m_keystoreData];
+    if (keystoreMessage && [keystoreMessage validChecksum]) {
+        NSArray *packets = [OpenPGPPacket packetsFromMessage:keystoreMessage];
+        for (OpenPGPPacket *eachPacket in packets) {
+            NSLog(@"Packet tag: %d",[eachPacket packetTag]);
+            if ([eachPacket packetTag] == 5) {
+                OpenPGPPublicKey *key = [[OpenPGPPublicKey alloc]initWithEncryptedPacket:eachPacket];
+                if ([key decryptKey:password]) {
+                    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Change password?" message:@"Would you like to export the keystore protected by a different password than you just entered?" delegate:nil cancelButtonTitle:@"No" otherButtonTitles: @"Yes",nil];
+                    [alert show];
+                    break;
+                }
+                else {
+                    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Wrong password" message:@"The password you entered will not encrypt the keystore." delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles: nil];
+                    [alert show];
+                    break;
+                }
+            }
+        }
+    }
+    else {
+        NSLog(@"Invalid keystore OpenPGP message.");
+    }
 }
 
 /*

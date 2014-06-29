@@ -8,6 +8,10 @@
 
 #import "MyIdentitiesViewController.h"
 #import "IdentityCell.h"
+#import "AppDelegate.h"
+#import "Identity.h"
+#import "ExportViewController.h"
+#import "UnlockKeystoreViewController.h"
 
 @interface MyIdentitiesViewController ()
 
@@ -52,7 +56,9 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return 1;
+    
+    AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    return [app.identities count];
 }
 
 
@@ -62,15 +68,36 @@
     
     // Configure the cell...
     
-    [cell setIdenticonCode:0xff14423];
-    [cell setName:@"John Hill"];
-    [cell setKeyMetadata:@"FF144233"];
+    AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    Identity *identityData = [app.identities objectAtIndex:[indexPath row]];
+    
+    NSInteger newIdenticonCode = 0;
+    
+    NSString *keyId = identityData.keyId;
+    for (int i = 0; i < 8; i++) {
+        unichar c = [keyId characterAtIndex:i];
+        if ((int)c < 58) {
+            newIdenticonCode |=  ((int)c-48);
+        }
+        else {
+            newIdenticonCode |= ((int)c-55);
+        }
+        if (i < 7) {
+            newIdenticonCode <<= 4;
+        }
+    }
+    
+    [cell setIdenticonCode:newIdenticonCode];
+    [cell setName:identityData.name];
+    [cell setKeyMetadata:[identityData.keyId uppercaseString]];
     
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    m_identityData = [app.identities objectAtIndex:[indexPath row]];
     
     UIActionSheet *privateKeyStoreOptions = [[UIActionSheet alloc] initWithTitle:nil delegate:nil cancelButtonTitle:@"Dismiss" destructiveButtonTitle:nil otherButtonTitles:@"Export public certificate", @"Export private keystore", nil];
     [privateKeyStoreOptions setDelegate:self];
@@ -79,6 +106,7 @@
 
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 0) {
+        
         [self performSegueWithIdentifier:@"exportPublicKey" sender:self];
     }
     else if( buttonIndex == 1 ) {
@@ -126,15 +154,23 @@
 
 
 
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    if([[segue identifier] isEqualToString:@"exportPublicKey"]) {
+        ExportViewController *nextViewController = (ExportViewController *)[segue destinationViewController];
+        
+        [nextViewController setText:[m_identityData publicCertificate]];
+    }
+    else if( [[segue identifier] isEqualToString:@"unlockKeystore"]) {
+        UnlockKeystoreViewController *nextViewController = (UnlockKeystoreViewController *)[segue destinationViewController];
+        
+        [nextViewController setKeystore: [m_identityData privateKeystore]];
+    }
 }
-*/
+
 
 @end

@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Identity.h"
 
-@interface MyIdentitiesViewController : UITableViewController <UIActionSheetDelegate>
+@interface MyIdentitiesViewController : UITableViewController <UIActionSheetDelegate> {
+    Identity *m_identityData;
+}
 
 @end

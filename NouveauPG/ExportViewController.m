@@ -8,7 +8,9 @@
 
 #import "ExportViewController.h"
 
-@interface ExportViewController ()
+@interface ExportViewController () {
+    NSString *m_textData;
+}
 
 @end
 
@@ -27,12 +29,18 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    [m_textView setText:m_textData];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)setText:(NSString *)textData {
+    m_textData = [[NSString alloc]initWithString:textData];
 }
 
 -(IBAction)dismissButton:(id)sender

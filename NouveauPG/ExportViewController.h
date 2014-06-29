@@ -12,6 +12,8 @@
     IBOutlet UITextView *m_textView;
 }
 
+-(void)setText:(NSString *)textData;
+
 -(IBAction)dismissButton:(id)sender;
 -(IBAction)copyButton:(id)sender;
 -(IBAction)saveButton:(id)sender;

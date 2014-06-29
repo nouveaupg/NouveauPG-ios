@@ -7,6 +7,11 @@
 //
 
 #import "GenerateKeyViewController.h"
+#import "OpenPGPPublicKey.h"
+#import "OpenPGPSignature.h"
+#import "AppDelegate.h"
+
+#import "NSString+Base64.h"
 
 @interface GenerateKeyViewController ()
 
@@ -36,6 +41,131 @@
 }
 
 -(IBAction)generateKey:(id)sender {
+    
+    NSString *publicKeyCertificate = nil;
+    NSString *privateKeystore = nil;
+    
+    OpenPGPPublicKey *identityKey = [[OpenPGPPublicKey alloc]initWithKeyLength:2048 isSubkey:NO];
+    OpenPGPPublicKey *encryptionSubkey = [[OpenPGPPublicKey alloc]initWithKeyLength:2048 isSubkey:YES];
+    
+    OpenPGPPacket *identityPublicKeyPacket = [identityKey exportPublicKey];
+    OpenPGPPacket *encryptionPublicKeyPacket = [encryptionSubkey exportPublicKey];
+    
+    size_t messageSize = 0;
+    NSString *userId = nil;
+    if ([[m_emailField text] length] > 0) {
+        userId = [NSString stringWithFormat:@"%@ <%@>",[m_nameField text],[m_emailField text]];
+    }
+    else {
+        userId = [NSString stringWithString:[m_nameField text]];
+    }
+    
+    // Generating and self-signing public key certificate
+    
+    NSMutableArray *packets = [[NSMutableArray alloc]initWithCapacity:5];
+    [packets addObject:identityPublicKeyPacket];
+    messageSize += [[identityPublicKeyPacket packetData] length];
+    
+    NSData *userIdData = [NSData dataWithBytes:[userId UTF8String] length:[userId length]];
+    OpenPGPPacket *userIdPacket = [[OpenPGPPacket alloc]initWithPacketBody:userIdData tag:13 oldFormat:YES];
+    messageSize += [[userIdPacket packetData] length];
+    [packets addObject:userIdPacket];
+    
+    OpenPGPPacket *userIdSig = [OpenPGPSignature signUserId:userId withPublicKey:identityKey];
+    [packets addObject:userIdSig];
+    messageSize += [[userIdSig packetData] length];
+    
+    [packets addObject:encryptionPublicKeyPacket];
+    messageSize += [[encryptionPublicKeyPacket packetData] length];
+    
+    OpenPGPPacket *subkeySig = [OpenPGPSignature signSubkey:encryptionSubkey withPrivateKey:identityKey];
+    [packets addObject:subkeySig];
+    messageSize += [[subkeySig packetData] length];
+    
+    size_t offset = 0;
+    NSMutableData *publicKeyCertificateData = [[NSMutableData alloc]initWithCapacity:messageSize];
+    for (OpenPGPPacket *eachPacket in packets) {
+        [publicKeyCertificateData appendData:[eachPacket packetData]];
+    }
+    
+    unsigned char *messageData = (unsigned char *)[publicKeyCertificateData bytes];
+    
+    // RFC 4880
+    
+    long crc = 0xB704CEL;
+    for (int i = 0; i < messageSize; i++) {
+        crc ^= (*(messageData+i)) << 16;
+        for (int j = 0; j < 8; j++) {
+            crc <<= 1;
+            if (crc & 0x1000000) {
+                crc ^= 0x1864CFBL;
+            }
+        }
+    }
+    crc &= 0xFFFFFFL;
+    
+    char data[3];
+    data[0] = ( crc >> 16 ) & 0xff;
+    data[1] = ( crc >> 8 ) & 0xff;
+    data[2] = crc & 0xff;
+    
+    NSData *crcData = [NSData dataWithBytes:data length:3];
+    NSMutableString *stringBuilder = [[NSMutableString alloc]initWithString:@"-----BEGIN PGP PUBLIC KEY BLOCK-----\nVersion: NouveauPG 1.10 (iOS)\n\n"];
+    [stringBuilder appendString:[publicKeyCertificateData base64EncodedString]];
+    [stringBuilder appendFormat:@"\n=%@\n-----END PGP PUBLIC KEY BLOCK-----",[crcData base64EncodedString]];
+
+    publicKeyCertificate = [[NSString alloc]initWithString:stringBuilder];
+    
+    [packets removeAllObjects];
+    
+    // Now generating the private keystore and encrypting it for storage
+    
+    messageSize = 0;
+    
+    OpenPGPPacket *identityPrivateKeyPacket = [identityKey exportPrivateKey:@""];
+    [packets addObject:identityPrivateKeyPacket];
+    messageSize += [[identityPrivateKeyPacket packetData] length];
+    
+    [packets addObject:userIdPacket];
+    messageSize += [[userIdPacket packetData] length];
+    
+    OpenPGPPacket *encryptionPrivateSubkeyPacket = [encryptionSubkey exportPrivateKey:@""];
+    [packets addObject:encryptionPrivateSubkeyPacket];
+    messageSize += [[userIdPacket packetData] length];
+    
+    NSMutableData *privateKeystoreData = [[NSMutableData alloc]initWithCapacity:messageSize];
+    offset = 0;
+    
+    for (OpenPGPPacket *eachPacket in packets) {
+        [privateKeystoreData appendData:[eachPacket packetData]];
+    }
+    messageData = (unsigned char *)[privateKeystoreData bytes];
+    
+    crc = 0xB704CEL;
+    for (int i = 0; i < messageSize; i++) {
+        crc ^= (*(messageData+i)) << 16;
+        for (int j = 0; j < 8; j++) {
+            crc <<= 1;
+            if (crc & 0x1000000) {
+                crc ^= 0x1864CFBL;
+            }
+        }
+    }
+    crc &= 0xFFFFFFL;
+
+    data[0] = ( crc >> 16 ) & 0xff;
+    data[1] = ( crc >> 8 ) & 0xff;
+    data[2] = crc & 0xff;
+    crcData = [NSData dataWithBytes:data length:3];
+    stringBuilder = [[NSMutableString alloc]initWithString:@"-----BEGIN PGP PRIVATE KEY BLOCK-----\nVersion: NouveauPG 1.10 (iOS)\n\n"];
+    [stringBuilder appendString:[privateKeystoreData base64EncodedString]];
+    [stringBuilder appendFormat:@"\n=%@\n-----END PGP PRIVATE KEY BLOCK-----",[crcData base64EncodedString]];
+    
+    privateKeystore = [[NSString alloc]initWithString:stringBuilder];
+    
+    AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    [app addIdentityWithPublicCertificate:publicKeyCertificate privateKeystore:privateKeystore name:[m_nameField text] emailAddr:[m_emailField text] keyId:identityKey.keyId];
+    
     [[self navigationController] popViewControllerAnimated:YES];
 }
 
