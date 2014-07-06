@@ -18,6 +18,7 @@
 -(id)initWithData: (NSData *)packetData;
 -(id)initWithArmouredText:(NSString *)armouredMessage;
 + (NSData *)base64DataFromString: (NSString *)string;
++ (NSString *)privateKeystoreFromPacketChain: (NSArray *)packets;
 -(bool)validChecksum;
 -(NSData *)data;
 -(NSString *)originalArmouredText;

@@ -36,7 +36,7 @@
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 - (void)didReceiveMemoryWarning
@@ -106,7 +106,6 @@
 
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 0) {
-        
         [self performSegueWithIdentifier:@"exportPublicKey" sender:self];
     }
     else if( buttonIndex == 1 ) {
@@ -123,18 +122,38 @@
 }
 */
 
-/*
+
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
+        AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        NSMutableArray *editable = [[NSMutableArray alloc]initWithArray:app.identities];
+        
+        Identity *ptr = [app.identities objectAtIndex:[indexPath row]];
+        
+        NSError *error;
+        NSManagedObjectContext *context = [app managedObjectContext];
+        [context deleteObject:ptr];
+        [context save:&error];
+        
+        if (error) {
+            NSLog(@"CoreData Error: %@",[error description]);
+        }
+        
+        [editable removeObjectAtIndex:[indexPath row]];
+        app.identities = editable;
+        
+        
+        
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
     }   
 }
-*/
+
 
 /*
 // Override to support rearranging the table view.

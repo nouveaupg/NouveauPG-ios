@@ -122,7 +122,12 @@
         }
         if (keyToUse) {
             m_selectedEncryptionKey = keyToUse;
-            m_selectedEmailAddress = [[NSString alloc]initWithString:details.email];
+            if (details.email) {
+                m_selectedEmailAddress = [[NSString alloc]initWithString:details.email];
+            }
+            else {
+                m_selectedEmailAddress = @"";
+            }
             NSLog(@"Selected KeyId: %@ email: %@",[keyToUse keyId],m_selectedEmailAddress);
             
             [self performSegueWithIdentifier:@"composeNewMessage" sender:self];

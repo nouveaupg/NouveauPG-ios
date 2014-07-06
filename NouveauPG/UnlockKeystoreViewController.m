@@ -44,6 +44,7 @@
 
 -(IBAction)unlockKeystore:(id)sender {
     NSString *password = [m_passwordField text];
+    NSLog(@"%@",m_keystoreData);
     
     OpenPGPMessage *keystoreMessage = [[OpenPGPMessage alloc]initWithArmouredText:m_keystoreData];
     if (keystoreMessage && [keystoreMessage validChecksum]) {

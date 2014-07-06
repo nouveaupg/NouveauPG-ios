@@ -7,8 +7,12 @@
 //
 
 #import "OpenPGPMessage.h"
+#import "OpenPGPPacket.h"
+#import "NSString+Base64.h"
 
 @implementation OpenPGPMessage
+
+#define kVersionString @"NouveauPG 1.10 (iOS)"
 
 #define kParsingHeaders 0
 #define kParsingContent 1
@@ -277,6 +281,37 @@
     }
     
     return theData;
+}
+
++ (NSString *)privateKeystoreFromPacketChain: (NSArray *)packets {
+    NSMutableString *armouredText = [[NSMutableString alloc]initWithUTF8String:"-----BEGIN PGP PRIVATE KEY BLOCK-----\n"];
+    [armouredText appendFormat:@"Version: %@\n\n",kVersionString];
+    NSMutableData *data = [[NSMutableData alloc]init];
+    for (OpenPGPPacket *eachPacket in packets) {
+        [data appendData:[eachPacket packetData]];
+    }
+    [armouredText appendString:[data base64EncodedString]];
+    
+    unsigned char crcData[3];
+    unsigned char *ptr = (unsigned char *)[data bytes];
+    long crc = 0xB704CEL;
+    for (int i = 0; i < [data length]; i++) {
+        crc ^= (*(ptr+i)) << 16;
+        for (int j = 0; j < 8; j++) {
+            crc <<= 1;
+            if (crc & 0x1000000) {
+                crc ^= 0x1864CFBL;
+            }
+        }
+    }
+    crc &= 0xFFFFFFL;
+    
+    crcData[0] = ( crc >> 16 ) & 0xff;
+    crcData[1] = ( crc >> 8 ) & 0xff;
+    crcData[2] = crc & 0xff;
+    NSData *privateCRC = [NSData dataWithBytes:crcData length:3];
+    [armouredText appendFormat:@"\n=%@\n-----END PGP PRIVATE KEY BLOCK-----",[privateCRC base64EncodedString]];
+    return armouredText;
 }
 
 @end

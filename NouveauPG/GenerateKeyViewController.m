@@ -13,6 +13,8 @@
 
 #import "NSString+Base64.h"
 
+#define kVersionString @"NouveauPG 1.10 (iOS)"
+
 @interface GenerateKeyViewController ()
 
 @end
@@ -110,7 +112,7 @@
     data[2] = crc & 0xff;
     
     NSData *crcData = [NSData dataWithBytes:data length:3];
-    NSMutableString *stringBuilder = [[NSMutableString alloc]initWithString:@"-----BEGIN PGP PUBLIC KEY BLOCK-----\nVersion: NouveauPG 1.10 (iOS)\n\n"];
+    NSMutableString *stringBuilder = [[NSMutableString alloc]initWithFormat:@"-----BEGIN PGP PUBLIC KEY BLOCK-----\nVersion: %@\n\n",kVersionString];
     [stringBuilder appendString:[publicKeyCertificateData base64EncodedString]];
     [stringBuilder appendFormat:@"\n=%@\n-----END PGP PUBLIC KEY BLOCK-----",[crcData base64EncodedString]];
 
@@ -119,49 +121,12 @@
     [packets removeAllObjects];
     
     // Now generating the private keystore and encrypting it for storage
-    
-    messageSize = 0;
-    
-    OpenPGPPacket *identityPrivateKeyPacket = [identityKey exportPrivateKey:@""];
-    [packets addObject:identityPrivateKeyPacket];
-    messageSize += [[identityPrivateKeyPacket packetData] length];
-    
-    [packets addObject:userIdPacket];
-    messageSize += [[userIdPacket packetData] length];
-    
-    OpenPGPPacket *encryptionPrivateSubkeyPacket = [encryptionSubkey exportPrivateKey:@""];
-    [packets addObject:encryptionPrivateSubkeyPacket];
-    messageSize += [[userIdPacket packetData] length];
-    
-    NSMutableData *privateKeystoreData = [[NSMutableData alloc]initWithCapacity:messageSize];
-    offset = 0;
-    
-    for (OpenPGPPacket *eachPacket in packets) {
-        [privateKeystoreData appendData:[eachPacket packetData]];
-    }
-    messageData = (unsigned char *)[privateKeystoreData bytes];
-    
-    crc = 0xB704CEL;
-    for (int i = 0; i < messageSize; i++) {
-        crc ^= (*(messageData+i)) << 16;
-        for (int j = 0; j < 8; j++) {
-            crc <<= 1;
-            if (crc & 0x1000000) {
-                crc ^= 0x1864CFBL;
-            }
-        }
-    }
-    crc &= 0xFFFFFFL;
 
-    data[0] = ( crc >> 16 ) & 0xff;
-    data[1] = ( crc >> 8 ) & 0xff;
-    data[2] = crc & 0xff;
-    crcData = [NSData dataWithBytes:data length:3];
-    stringBuilder = [[NSMutableString alloc]initWithString:@"-----BEGIN PGP PRIVATE KEY BLOCK-----\nVersion: NouveauPG 1.10 (iOS)\n\n"];
-    [stringBuilder appendString:[privateKeystoreData base64EncodedString]];
-    [stringBuilder appendFormat:@"\n=%@\n-----END PGP PRIVATE KEY BLOCK-----",[crcData base64EncodedString]];
+    [packets addObject:[identityKey exportPrivateKey:@""]];
+    [packets addObject:userIdPacket];
+    [packets addObject:[encryptionSubkey exportPrivateKey:@""]];
     
-    privateKeystore = [[NSString alloc]initWithString:stringBuilder];
+    privateKeystore = [OpenPGPMessage privateKeystoreFromPacketChain:packets];
     
     AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     [app addIdentityWithPublicCertificate:publicKeyCertificate privateKeystore:privateKeystore name:[m_nameField text] emailAddr:[m_emailField text] keyId:identityKey.keyId];
