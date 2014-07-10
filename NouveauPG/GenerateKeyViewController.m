@@ -34,6 +34,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view
+    [m_nameField becomeFirstResponder];
 }
 
 - (void)didReceiveMemoryWarning
@@ -46,6 +47,12 @@
     
     NSString *publicKeyCertificate = nil;
     NSString *privateKeystore = nil;
+    
+    if (![[m_passwordField text] isEqualToString:[m_passwordRepeatField text]]) {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Can't create identity" message:@"Passwords don't match!" delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+        [alert show];
+        return;
+    }
     
     OpenPGPPublicKey *identityKey = [[OpenPGPPublicKey alloc]initWithKeyLength:2048 isSubkey:NO];
     OpenPGPPublicKey *encryptionSubkey = [[OpenPGPPublicKey alloc]initWithKeyLength:2048 isSubkey:YES];

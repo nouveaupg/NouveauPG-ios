@@ -11,6 +11,7 @@
 
 @interface MyIdentitiesViewController : UITableViewController <UIActionSheetDelegate> {
     Identity *m_identityData;
+    
 }
 
 @end

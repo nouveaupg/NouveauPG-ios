@@ -93,6 +93,7 @@
     
     [cell setIdenticonCode:newIdenticonCode];
     [cell setName:identityData.name];
+    [cell setEmail:identityData.email];
     [cell setKeyMetadata:[identityData.keyId uppercaseString]];
     
     return cell;
@@ -103,7 +104,7 @@
     AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     m_identityData = [app.identities objectAtIndex:[indexPath row]];
     
-    UIActionSheet *privateKeyStoreOptions = [[UIActionSheet alloc] initWithTitle:nil delegate:nil cancelButtonTitle:@"Dismiss" destructiveButtonTitle:nil otherButtonTitles:@"Export public certificate", @"Export private keystore", nil];
+    UIActionSheet *privateKeyStoreOptions = [[UIActionSheet alloc] initWithTitle:nil delegate:nil cancelButtonTitle:@"Dismiss" destructiveButtonTitle:nil otherButtonTitles:@"Export public certificate", @"Unlock keystore", nil];
     [privateKeyStoreOptions setDelegate:self];
     [privateKeyStoreOptions showFromTabBar:[[self tabBarController] tabBar]];
 }

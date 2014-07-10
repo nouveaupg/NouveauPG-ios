@@ -31,6 +31,14 @@
     // Configure the view for the selected state
 }
 
+-(void)setLocked: (NSString *)locked {
+    [m_locked setText:locked];
+}
+
+-(void)setEmail: (NSString *)email {
+    [m_email setText:email];
+}
+
 -(void) setName: (NSString *)name {
     [m_name setText:name];
 }

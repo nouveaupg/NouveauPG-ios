@@ -12,11 +12,15 @@
 @interface IdentityCell : UITableViewCell {
     IBOutlet UILabel *m_name;
     IBOutlet UILabel *m_keyMetadata;
+    IBOutlet UILabel *m_email;
+    IBOutlet UILabel *m_locked;
     IBOutlet IdenticonView *m_identicon;
 }
 
 -(void) setName: (NSString *)name;
 -(void) setKeyMetadata: (NSString *)metadata;
 -(void) setIdenticonCode: (NSInteger)identiconCode;
+-(void) setLocked:(NSString *)locked;
+-(void) setEmail:(NSString *)email;
 
 @end
