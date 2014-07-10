@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0407406B196E5140001AF5E5 /* MessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0407406A196E5140001AF5E5 /* MessageCell.m */; };
+		0407406E196E520A001AF5E5 /* MessagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0407406D196E520A001AF5E5 /* MessagesViewController.m */; };
+		04074071196E522D001AF5E5 /* EditMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04074070196E522D001AF5E5 /* EditMessageViewController.m */; };
 		0427A3141957BF1A00817FD3 /* UnlockKeystoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0427A3131957BF1A00817FD3 /* UnlockKeystoreViewController.m */; };
 		0427A3171957C29000817FD3 /* EncryptedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0427A3161957C29000817FD3 /* EncryptedViewController.m */; };
 		0427A31A1957C44800817FD3 /* ComposeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0427A3191957C44800817FD3 /* ComposeViewController.m */; };
@@ -60,6 +63,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		04074069196E5140001AF5E5 /* MessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageCell.h; sourceTree = "<group>"; };
+		0407406A196E5140001AF5E5 /* MessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageCell.m; sourceTree = "<group>"; };
+		0407406C196E520A001AF5E5 /* MessagesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessagesViewController.h; sourceTree = "<group>"; };
+		0407406D196E520A001AF5E5 /* MessagesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessagesViewController.m; sourceTree = "<group>"; };
+		0407406F196E522D001AF5E5 /* EditMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditMessageViewController.h; sourceTree = "<group>"; };
+		04074070196E522D001AF5E5 /* EditMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditMessageViewController.m; sourceTree = "<group>"; };
 		0427A3121957BF1A00817FD3 /* UnlockKeystoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnlockKeystoreViewController.h; sourceTree = "<group>"; };
 		0427A3131957BF1A00817FD3 /* UnlockKeystoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnlockKeystoreViewController.m; sourceTree = "<group>"; };
 		0427A3151957C29000817FD3 /* EncryptedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EncryptedViewController.h; sourceTree = "<group>"; };
@@ -188,6 +197,10 @@
 				0427A3161957C29000817FD3 /* EncryptedViewController.m */,
 				0427A3181957C44800817FD3 /* ComposeViewController.h */,
 				0427A3191957C44800817FD3 /* ComposeViewController.m */,
+				0407406C196E520A001AF5E5 /* MessagesViewController.h */,
+				0407406D196E520A001AF5E5 /* MessagesViewController.m */,
+				0407406F196E522D001AF5E5 /* EditMessageViewController.h */,
+				04074070196E522D001AF5E5 /* EditMessageViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -199,6 +212,8 @@
 				04B51814194FDB5800CA43DB /* IdentityCell.m */,
 				04B9D78819167A3900D2790A /* RecipientCell.h */,
 				04B9D78919167A3900D2790A /* RecipientCell.m */,
+				04074069196E5140001AF5E5 /* MessageCell.h */,
+				0407406A196E5140001AF5E5 /* MessageCell.m */,
 			);
 			name = "Table Cells";
 			sourceTree = "<group>";
@@ -412,6 +427,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04074071196E522D001AF5E5 /* EditMessageViewController.m in Sources */,
 				04B9D7611913421C00D2790A /* AppDelegate.m in Sources */,
 				04B9D75D1913421C00D2790A /* main.m in Sources */,
 				0427A3141957BF1A00817FD3 /* UnlockKeystoreViewController.m in Sources */,
@@ -427,10 +443,12 @@
 				0427A3231957C7EB00817FD3 /* NSString+Base64.m in Sources */,
 				04B9D790191DB01B00D2790A /* RecipientDetails.m in Sources */,
 				04B5180D194E3B2400CA43DB /* GenerateKeyViewController.m in Sources */,
+				0407406B196E5140001AF5E5 /* MessageCell.m in Sources */,
 				04B9D7641913421C00D2790A /* NouveauPG.xcdatamodeld in Sources */,
 				04B51815194FDB5800CA43DB /* IdentityCell.m in Sources */,
 				04B9D7A0191F000F00D2790A /* UserIDPacket.m in Sources */,
 				04B9D7A5191FF5AF00D2790A /* OpenPGPPublicKey.m in Sources */,
+				0407406E196E520A001AF5E5 /* MessagesViewController.m in Sources */,
 				04B5180A194E159100CA43DB /* MyIdentitiesViewController.m in Sources */,
 				0427A31F1957C7B700817FD3 /* EncryptedEnvelope.m in Sources */,
 				0427A31A1957C44800817FD3 /* ComposeViewController.m in Sources */,
