@@ -168,6 +168,10 @@
     newIdentity.publicCertificate = publicCertificate;
     newIdentity.created = [NSDate date];
     
+    NSMutableArray *editable = [[NSMutableArray alloc]initWithArray:self.identities];
+    [editable addObject:newIdentity];
+    self.identities = editable;
+    
     [self saveContext];
 }
 

@@ -28,6 +28,10 @@
     return self;
 }
 
+-(void)viewWillAppear:(BOOL)animate {
+    [[self tableView] reloadData];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -144,8 +148,6 @@
         
         [editable removeObjectAtIndex:[indexPath row]];
         app.identities = editable;
-        
-        
         
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
         

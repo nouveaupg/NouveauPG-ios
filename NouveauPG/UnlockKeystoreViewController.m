@@ -50,7 +50,7 @@
     if (keystoreMessage && [keystoreMessage validChecksum]) {
         NSArray *packets = [OpenPGPPacket packetsFromMessage:keystoreMessage];
         for (OpenPGPPacket *eachPacket in packets) {
-            NSLog(@"Packet tag: %d",[eachPacket packetTag]);
+            NSLog(@"Packet tag: %ld",(long)[eachPacket packetTag]);
             if ([eachPacket packetTag] == 5) {
                 OpenPGPPublicKey *key = [[OpenPGPPublicKey alloc]initWithEncryptedPacket:eachPacket];
                 if ([key decryptKey:password]) {

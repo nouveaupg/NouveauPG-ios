@@ -84,7 +84,6 @@
     [packets addObject:subkeySig];
     messageSize += [[subkeySig packetData] length];
     
-    size_t offset = 0;
     NSMutableData *publicKeyCertificateData = [[NSMutableData alloc]initWithCapacity:messageSize];
     for (OpenPGPPacket *eachPacket in packets) {
         [publicKeyCertificateData appendData:[eachPacket packetData]];
