@@ -18,6 +18,7 @@
 		0427A3231957C7EB00817FD3 /* NSString+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 0427A3221957C7EB00817FD3 /* NSString+Base64.m */; };
 		0427A3251957D33F00817FD3 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0427A3241957D33F00817FD3 /* MessageUI.framework */; };
 		0427A32C1957EBA300817FD3 /* Identity.m in Sources */ = {isa = PBXBuildFile; fileRef = 0427A32B1957EBA300817FD3 /* Identity.m */; };
+		0431CADA1970156A0025A26B /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 0431CAD91970156A0025A26B /* Message.m */; };
 		04B5180A194E159100CA43DB /* MyIdentitiesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B51809194E159100CA43DB /* MyIdentitiesViewController.m */; };
 		04B5180D194E3B2400CA43DB /* GenerateKeyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B5180C194E3B2400CA43DB /* GenerateKeyViewController.m */; };
 		04B51815194FDB5800CA43DB /* IdentityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B51814194FDB5800CA43DB /* IdentityCell.m */; };
@@ -84,6 +85,8 @@
 		0427A3241957D33F00817FD3 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		0427A32A1957EBA300817FD3 /* Identity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Identity.h; path = ../Identity.h; sourceTree = "<group>"; };
 		0427A32B1957EBA300817FD3 /* Identity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Identity.m; path = ../Identity.m; sourceTree = "<group>"; };
+		0431CAD81970156A0025A26B /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
+		0431CAD91970156A0025A26B /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
 		04B51808194E159100CA43DB /* MyIdentitiesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyIdentitiesViewController.h; sourceTree = "<group>"; };
 		04B51809194E159100CA43DB /* MyIdentitiesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyIdentitiesViewController.m; sourceTree = "<group>"; };
 		04B5180B194E3B2400CA43DB /* GenerateKeyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenerateKeyViewController.h; sourceTree = "<group>"; };
@@ -174,6 +177,8 @@
 				04B9D78B191DAFFE00D2790A /* Recipient.h */,
 				04B9D78C191DAFFE00D2790A /* Recipient.m */,
 				04B9D78E191DB01B00D2790A /* RecipientDetails.h */,
+				0431CAD81970156A0025A26B /* Message.h */,
+				0431CAD91970156A0025A26B /* Message.m */,
 			);
 			name = "CoreData Models";
 			sourceTree = "<group>";
@@ -455,6 +460,7 @@
 				0427A32C1957EBA300817FD3 /* Identity.m in Sources */,
 				04B9D799191EFB1D00D2790A /* OpenPGPMessage.m in Sources */,
 				04B9D7A6191FF5AF00D2790A /* OpenPGPSignature.m in Sources */,
+				0431CADA1970156A0025A26B /* Message.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
