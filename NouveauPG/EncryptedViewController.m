@@ -29,6 +29,10 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [m_encryptedMessage setText:m_armouredMessage];
+    
+    UINavigationController *nav = self.navigationController;
+    nav.toolbarHidden = NO;
+
 }
 
 - (void)didReceiveMemoryWarning

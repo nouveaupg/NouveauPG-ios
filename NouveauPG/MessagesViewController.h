@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MessagesViewController : UITableViewController
+@interface MessagesViewController : UITableViewController {
+    NSMutableArray *m_messages;
+}
 
 -(IBAction)newMessage:(id)sender;
 

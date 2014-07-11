@@ -72,6 +72,8 @@
     [m_importText insertText:pasteboard.string];
     
     [m_importText resignFirstResponder];
+    
+    [self importFromTextView:sender];
 }
 
 
