@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MessageUI/MFMailComposeViewController.h"
 
-@interface ExportViewController : UIViewController {
+@interface ExportViewController : UIViewController <MFMailComposeViewControllerDelegate> {
     IBOutlet UITextView *m_textView;
 }
 

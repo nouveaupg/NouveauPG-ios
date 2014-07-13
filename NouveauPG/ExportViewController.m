@@ -7,6 +7,7 @@
 //
 
 #import "ExportViewController.h"
+#import "MessageUI/MFMailComposeViewController.h"
 
 @interface ExportViewController () {
     NSString *m_textData;
@@ -30,7 +31,16 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    self.navigationController.toolbarHidden = FALSE;
+    
     [m_textView setText:m_textData];
+}
+
+-(void)viewDidAppear:(BOOL)animated {
+    //NSRange newSelection = NSMakeRange(0, [m_textData length]);
+    //[m_textView setSelectedRange:newSelection];
+    
+    [m_textView selectAll:self];
 }
 
 - (void)didReceiveMemoryWarning
@@ -49,7 +59,7 @@
 }
 
 -(IBAction)copyButton:(id)sender {
-    
+    [m_textView copy:sender];
 }
 
 -(IBAction)saveButton:(id)sender {
@@ -57,7 +67,15 @@
 }
 
 -(IBAction)emailButton:(id)sender{
-    
+    MFMailComposeViewController *mailComposer = [[MFMailComposeViewController alloc]init];
+    [mailComposer setSubject:@"PGP Public Key Certificate"];
+    [mailComposer setMessageBody:m_textData isHTML:FALSE];
+    mailComposer.mailComposeDelegate = self;
+    [self presentViewController:mailComposer animated:YES completion:NULL];
+}
+
+- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {
+    [self dismissModalViewControllerAnimated:YES];
 }
 
 /*
