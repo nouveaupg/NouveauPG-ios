@@ -65,7 +65,15 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Recipients" prompt="Select to compose message" id="XaM-Rf-Nf6">
-                        <barButtonItem key="leftBarButtonItem" systemItem="add" id="IwZ-zo-kJ1"/>
+                        <barButtonItem key="leftBarButtonItem" style="plain" id="yIw-We-FFk">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" id="dUM-p6-lfz">
+                                <rect key="frame" x="16" y="41" width="22" height="22"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <segue destination="uda-iu-IFn" kind="push" identifier="composeNewMessage" id="82W-pC-qvV"/>
@@ -98,15 +106,25 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <toolbarItems>
+                        <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="na1-8O-2YT"/>
                         <barButtonItem title="E-mail" id="hqX-mY-7b5">
                             <connections>
                                 <action selector="email:" destination="exc-UE-28t" id="xSn-1i-qmW"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="okr-PI-ua0"/>
-                        <barButtonItem title="Copy" id="Tpr-Bw-odn"/>
+                        <barButtonItem title="Copy" id="Tpr-Bw-odn">
+                            <connections>
+                                <action selector="copyMessage:" destination="exc-UE-28t" id="m5L-aL-Tlz"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="b0G-i6-To0"/>
-                        <barButtonItem title="Save" id="fRb-ct-HFs"/>
+                        <barButtonItem title="Save" id="fRb-ct-HFs">
+                            <connections>
+                                <action selector="saveMessage:" destination="exc-UE-28t" id="4MG-Dj-Fhy"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="urh-cW-hAV"/>
                     </toolbarItems>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
@@ -117,7 +135,7 @@
             </objects>
             <point key="canvasLocation" x="1659" y="-797"/>
         </scene>
-        <!--Compose View Controller-->
+        <!--Compose View Controller - Compose-->
         <scene sceneID="oox-Aw-rEI">
             <objects>
                 <viewController id="uda-iu-IFn" customClass="ComposeViewController" sceneMemberID="viewController">
@@ -138,8 +156,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="ZE7-TF-cdr">
-                        <nil key="title"/>
+                    <navigationItem key="navigationItem" title="Compose" id="ZE7-TF-cdr">
                         <barButtonItem key="rightBarButtonItem" style="plain" id="iUQ-EM-6dN">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="dAg-6q-jDS">
                                 <rect key="frame" x="233" y="5" width="71" height="33"/>

@@ -18,7 +18,8 @@
 
 -(void)setEncryptedMessage: (NSString *)message recipientEmail: (NSString *)email;
 
-
+-(IBAction)copyMessage:(id)sender;
+-(IBAction)saveMessage:(id)sender;
 -(IBAction)dismiss:(id)sender;
 -(IBAction)email:(id)sender;
 

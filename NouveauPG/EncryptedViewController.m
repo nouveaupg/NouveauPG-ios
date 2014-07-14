@@ -24,6 +24,10 @@
     return self;
 }
 
+-(void)viewDidAppear:(BOOL)animated {
+    [m_encryptedMessage selectAll:self];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -39,6 +43,14 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(IBAction)copyMessage:(id)sender {
+    [m_encryptedMessage copy:sender];
+}
+
+-(IBAction)saveMessage:(id)sender {
+    
 }
 
 -(IBAction)dismiss:(id)sender {

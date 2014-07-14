@@ -26,6 +26,10 @@
     return self;
 }
 
+-(void)viewDidAppear:(BOOL)animated {
+    self.navigationController.toolbarHidden = YES;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
