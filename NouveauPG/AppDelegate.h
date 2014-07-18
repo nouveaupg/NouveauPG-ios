@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate,UIAlertViewDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate,UIAlertViewDelegate> {
+    NSManagedObject *m_pendingItem;
+}
 
 @property (strong, nonatomic) UIWindow *window;
 
@@ -18,10 +20,12 @@
 
 @property (copy,nonatomic) NSArray *recipients;
 @property (copy,nonatomic) NSArray *identities;
+@property (copy,nonatomic) NSArray *messages;
 
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
 - (void)addRecipientWithCertificate:(NSString *)certData;
+- (void)addMessageToStore:(NSString *)message;
 - (void)addIdentityWithPublicCertificate: (NSString*)publicCertificate privateKeystore: (NSString *)keystore name: (NSString *)userId emailAddr:(NSString *)email keyId: (NSString *)keyid;
 
 @end

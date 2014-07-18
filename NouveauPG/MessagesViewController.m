@@ -8,6 +8,7 @@
 
 #import "MessagesViewController.h"
 #import "MessageCell.h"
+#import "AppDelegate.h"
 
 @interface MessagesViewController ()
 
@@ -26,7 +27,13 @@
 
 
 -(IBAction)newMessage:(id)sender {
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+    NSArray *paths = [NSArray arrayWithObject:indexPath];
     
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    [appDelegate addMessageToStore:@""];
+    
+    [[self tableView]insertRowsAtIndexPaths:paths withRowAnimation:UITableViewRowAnimationTop];
 }
 
 - (void)viewDidLoad
@@ -50,16 +57,13 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
-    // Return the number of sections.
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
-    // Return the number of rows in the section.
-    return 1;
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    return [appDelegate.messages count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath

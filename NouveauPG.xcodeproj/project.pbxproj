@@ -582,7 +582,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					"/Users/jack/Documents/ios-openssl/include",
+					"/Users/johnhill/Downloads/ios-openssl/include",
 				);
 				INFOPLIST_FILE = "NouveauPG/NouveauPG-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
@@ -606,7 +606,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					"/Users/jack/Documents/ios-openssl/include",
+					"/Users/johnhill/Downloads/ios-openssl/include",
 				);
 				INFOPLIST_FILE = "NouveauPG/NouveauPG-Info.plist";
 				LIBRARY_SEARCH_PATHS = (

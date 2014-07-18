@@ -17,6 +17,7 @@
 #import "UserIDPacket.h"
 #import "OpenPGPSignature.h"
 #import "Identity.h"
+#import "Message.h"
 
 @implementation AppDelegate
 
@@ -25,6 +26,7 @@
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 @synthesize recipients = _recipients;
 @synthesize identities = _identities;
+@synthesize messages = _messages;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -57,6 +59,13 @@
     if (error) {
         NSLog(@"NSError: %@",[error description]);
     }
+    
+    fetchRequest = [[NSFetchRequest alloc] init];
+    entity = [NSEntityDescription entityForName:@"Message" inManagedObjectContext:ctx];
+    
+    [fetchRequest setEntity:entity];
+    self.messages = [ctx executeFetchRequest:fetchRequest error:&error];
+    NSLog(@"Loaded %lu messages from datastore.",(unsigned long)[self.messages count]);
     
     return YES;
 }
@@ -171,6 +180,19 @@
     NSMutableArray *editable = [[NSMutableArray alloc]initWithArray:self.identities];
     [editable addObject:newIdentity];
     self.identities = editable;
+    
+    [self saveContext];
+}
+
+- (void)addMessageToStore:(NSString *)message {
+    Message *newMessage = [NSEntityDescription insertNewObjectForEntityForName:@"Message" inManagedObjectContext:[self managedObjectContext]];
+    newMessage.body = message;
+    newMessage.created = [NSDate date];
+    newMessage.edited = [NSDate date];
+    
+    NSMutableArray *editable = [[NSMutableArray alloc]initWithArray:self.messages];
+    [editable addObject:newMessage];
+    self.messages = editable;
     
     [self saveContext];
 }
