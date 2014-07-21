@@ -14,4 +14,7 @@
     IBOutlet UILabel *m_dateText;
 }
 
+-(void)setPreviewText: (NSString *)preview;
+-(void)setDate: (NSDate *)date;
+
 @end

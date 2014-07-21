@@ -9,6 +9,7 @@
 #import "MessagesViewController.h"
 #import "MessageCell.h"
 #import "AppDelegate.h"
+#import "Message.h"
 
 @interface MessagesViewController ()
 
@@ -47,6 +48,10 @@
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
+-(void)viewWillAppear:(BOOL)animated {
+    [[self tableView] reloadData];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -71,6 +76,16 @@
     MessageCell *cell = [tableView dequeueReusableCellWithIdentifier:@"messageCell" forIndexPath:indexPath];
     
     // Configure the cell...
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    Message *object = [appDelegate.messages objectAtIndex:[indexPath row]];
+    if ([object.body length] > 250) {
+        NSString *preview = [object.body substringWithRange:NSMakeRange(0, 250)];
+        [cell setPreviewText:preview];
+    }
+    else {
+        [cell setPreviewText:object.body];
+    }
+    [cell setDate:object.edited];
     
     return cell;
 }

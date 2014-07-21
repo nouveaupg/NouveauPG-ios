@@ -8,6 +8,7 @@
 
 #import "EncryptedViewController.h"
 #import "MessageUI/MFMailComposeViewController.h"
+#import "AppDelegate.h"
 
 @interface EncryptedViewController ()
 
@@ -50,7 +51,11 @@
 }
 
 -(IBAction)saveMessage:(id)sender {
+    AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    [app addMessageToStore:[m_encryptedMessage text]];
     
+    UITabBarController *tabController = self.tabBarController;
+    [tabController setSelectedIndex:2];
 }
 
 -(IBAction)dismiss:(id)sender {

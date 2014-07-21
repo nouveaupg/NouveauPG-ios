@@ -31,4 +31,13 @@
     // Configure the view for the selected state
 }
 
+-(void)setPreviewText: (NSString *)preview {
+    [m_previewText setText:preview];
+}
+
+-(void)setDate: (NSDate *)date {
+    NSString *ascDate = [date description];
+    [m_dateText setText:ascDate];
+}
+
 @end
