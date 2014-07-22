@@ -10,6 +10,9 @@
 
 @interface EditMessageViewController : UIViewController {
     IBOutlet UITextView *m_textView;
+    NSString *m_originalMessage;
 }
+
+-(void)setText:(NSString *)newText;
 
 @end

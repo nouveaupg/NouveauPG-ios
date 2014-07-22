@@ -616,6 +616,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <segue destination="qzX-pd-DtM" kind="push" identifier="editMessage" id="4gK-eE-4OO"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9fK-Up-L94" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -647,6 +650,7 @@
                     <toolbarItems>
                         <barButtonItem title="Save" id="hIK-vR-BC6"/>
                     </toolbarItems>
+                    <navigationItem key="navigationItem" id="CX2-Hp-eNo"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>

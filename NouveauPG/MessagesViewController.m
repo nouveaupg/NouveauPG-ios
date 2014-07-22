@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 John Hill. All rights reserved.
 //
 
+#import "EditMessageViewController.h"
 #import "MessagesViewController.h"
 #import "MessageCell.h"
 #import "AppDelegate.h"
@@ -90,6 +91,13 @@
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    m_selectedMessage = [appDelegate.messages objectAtIndex:[indexPath row]];
+    
+    [self performSegueWithIdentifier:@"editMessage" sender:self];
+}
 
 /*
 // Override to support conditional editing of the table view.
@@ -129,7 +137,7 @@
 }
 */
 
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -137,7 +145,10 @@
 {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    
+    EditMessageViewController *newViewController = [segue destinationViewController];
+    [newViewController setText:m_selectedMessage.body];
 }
-*/
+
 
 @end

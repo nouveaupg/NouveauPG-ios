@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Message.h"
 
 @interface MessagesViewController : UITableViewController {
     NSMutableArray *m_messages;
+    Message *m_selectedMessage;
 }
 
 -(IBAction)newMessage:(id)sender;

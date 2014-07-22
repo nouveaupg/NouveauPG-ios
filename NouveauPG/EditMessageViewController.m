@@ -26,7 +26,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    [m_textView setText:m_originalMessage];
 }
 
 - (void)didReceiveMemoryWarning
@@ -35,6 +36,9 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)setText:(NSString *)newText {
+    m_originalMessage = [[NSString alloc] initWithString:newText];
+}
 
 /*
 #pragma mark - Navigation
