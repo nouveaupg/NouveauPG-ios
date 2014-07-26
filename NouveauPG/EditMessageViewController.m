@@ -7,6 +7,7 @@
 //
 
 #import "EditMessageViewController.h"
+#import "OpenPGPMessage.h"
 
 @interface EditMessageViewController ()
 
@@ -23,11 +24,55 @@
     return self;
 }
 
+-(IBAction)rightButton:(id)sender {
+    if (m_mode == kModeEditing) {
+        m_mode = 0;
+        [m_textView setEditable:false];
+        
+        if (m_message) {
+            [m_textView setText:m_originalMessage];
+            
+            [m_rightButton setTitle:@"Done"];
+        }
+        else {
+            // save message
+            
+            NSLog(@"Saved message.");
+            
+            [m_rightButton setTitle:@"Edit"];
+        }
+    }
+    else {
+        m_mode = kModeEditing;
+        if (m_message) {
+            // attempt to decrypt
+            
+            [m_rightButton setTitle:@"Done"];
+        }
+        else {
+            [m_textView setEditable:true];
+            [m_textView becomeFirstResponder];
+            
+            [m_rightButton setTitle:@"Done"];
+        }
+    }
+    
+    
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
     [m_textView setText:m_originalMessage];
+    
+    m_message = [[OpenPGPMessage alloc]initWithArmouredText:m_originalMessage];
+    if ([m_message validChecksum]) {
+        [m_rightButton setTitle:@"Decrypt"];
+    }
+    else {
+        [m_rightButton setTitle:@"Edit"];
+    }
 }
 
 - (void)didReceiveMemoryWarning

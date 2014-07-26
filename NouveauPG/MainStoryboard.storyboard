@@ -636,7 +636,7 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OVX-D4-ALU">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OVX-D4-ALU">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -650,10 +650,17 @@
                     <toolbarItems>
                         <barButtonItem title="Save" id="hIK-vR-BC6"/>
                     </toolbarItems>
-                    <navigationItem key="navigationItem" id="CX2-Hp-eNo"/>
+                    <navigationItem key="navigationItem" id="CX2-Hp-eNo">
+                        <barButtonItem key="rightBarButtonItem" title="Decrypt" id="x7j-gV-7hD">
+                            <connections>
+                                <action selector="rightButton:" destination="qzX-pd-DtM" id="Jg1-J4-98a"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="m_rightButton" destination="x7j-gV-7hD" id="2mn-mJ-57k"/>
                         <outlet property="m_textView" destination="OVX-D4-ALU" id="XB0-v5-l2Z"/>
                     </connections>
                 </viewController>
