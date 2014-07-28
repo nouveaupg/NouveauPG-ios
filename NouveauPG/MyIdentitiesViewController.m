@@ -46,6 +46,8 @@
 
 -(void)viewDidAppear:(BOOL)animated {
     self.navigationController.toolbarHidden = YES;
+    
+    [[self tableView]reloadData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -100,6 +102,13 @@
     [cell setName:identityData.name];
     [cell setEmail:identityData.email];
     [cell setKeyMetadata:[identityData.keyId uppercaseString]];
+    
+    if ([identityData.primaryKeystore isEncrypted]) {
+        [cell setLocked:@"Locked"];
+    }
+    else {
+        [cell setLocked:@"Unlocked"];
+    }
     
     return cell;
 }
@@ -195,7 +204,8 @@
     else if( [[segue identifier] isEqualToString:@"unlockKeystore"]) {
         UnlockKeystoreViewController *nextViewController = (UnlockKeystoreViewController *)[segue destinationViewController];
         
-        [nextViewController setKeystore: [m_identityData privateKeystore]];
+        [nextViewController setPrimaryKey:m_identityData.primaryKeystore subkey:m_identityData.encryptionKeystore];
+        //[nextViewController setKeystore: [m_identityData privateKeystore]];
     }
 }
 

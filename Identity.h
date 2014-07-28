@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
-
+#import "OpenPGPPublicKey.h"
 
 @interface Identity : NSManagedObject
 
@@ -18,5 +18,8 @@
 @property (nonatomic, retain) NSDate * created;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSString * keyId;
+
+@property (nonatomic, retain) OpenPGPPublicKey *primaryKeystore;
+@property (nonatomic, retain) OpenPGPPublicKey *encryptionKeystore;
 
 @end

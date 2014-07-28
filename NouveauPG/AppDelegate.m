@@ -56,6 +56,23 @@
     self.identities = [ctx executeFetchRequest:fetchRequest error:&error];
     NSLog(@"Loaded %lu identities (private keystores) from datastore.",(unsigned long)[self.identities count]);
     
+    for( Identity *eachIdentity in self.identities ) {
+        OpenPGPMessage *keystoreMessage = [[OpenPGPMessage alloc]initWithArmouredText: eachIdentity.privateKeystore];
+        if ([keystoreMessage validChecksum]) {
+            for (OpenPGPPacket *eachPacket in [OpenPGPPacket packetsFromMessage:keystoreMessage]) {
+                OpenPGPPublicKey *newKey = [[OpenPGPPublicKey alloc]initWithEncryptedPacket:eachPacket];
+                if ([eachPacket packetTag] == 5) {
+                    NSLog(@"Loaded new primary keyid: %@ (%d-bit RSA)",newKey.keyId,newKey.publicKeySize);
+                    eachIdentity.primaryKeystore = newKey;
+                }
+                else if( [eachPacket packetTag] == 7 ) {
+                    NSLog(@"Loaded new encryption subkey keyid: %@ (%d-bit RSA)",newKey.keyId,newKey.publicKeySize);
+                    eachIdentity.encryptionKeystore = newKey;
+                }
+            }
+        }
+    }
+    
     if (error) {
         NSLog(@"NSError: %@",[error description]);
     }

@@ -8,12 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
+#import "OpenPGPPublicKey.h"
+
 @interface UnlockKeystoreViewController : UIViewController {
     NSString *m_keystoreData;
     IBOutlet UITextField *m_passwordField;
+    
+    OpenPGPPublicKey *m_primary;
+    OpenPGPPublicKey *m_subkey;
 }
 
 -(void)setKeystore:(NSString *)asciiArmouredData;
+-(void)setPrimaryKey: (OpenPGPPublicKey *)primary subkey:(OpenPGPPublicKey *)encryptionSubkey;
 -(IBAction)unlockKeystore:(id)sender;
 
 @end

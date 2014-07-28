@@ -18,4 +18,7 @@
 @dynamic name;
 @dynamic keyId;
 
+@synthesize primaryKeystore;
+@synthesize encryptionKeystore;
+
 @end

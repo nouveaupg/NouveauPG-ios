@@ -43,10 +43,28 @@
     m_keystoreData = [[NSString alloc]initWithString:asciiArmouredData];
 }
 
+-(void)setPrimaryKey: (OpenPGPPublicKey *)primary subkey:(OpenPGPPublicKey *)encryptionSubkey {
+    m_primary = primary;
+    m_subkey = encryptionSubkey;
+}
+
 -(IBAction)unlockKeystore:(id)sender {
     NSString *password = [m_passwordField text];
-    NSLog(@"%@",m_keystoreData);
     
+    if ([m_primary decryptKey:password]) {
+        if (! [m_subkey decryptKey:password] ) {
+            NSLog(@"Could not decrypt subkey with primary key passphrase.");
+        }
+       
+        [self.navigationController popToRootViewControllerAnimated:TRUE];
+    }
+    else {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Wrong password" message:@"The password you entered will not encrypt the keystore." delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles: nil];
+        [alert show];
+    }
+
+    
+    /*
     OpenPGPMessage *keystoreMessage = [[OpenPGPMessage alloc]initWithArmouredText:m_keystoreData];
     if (keystoreMessage && [keystoreMessage validChecksum]) {
         NSArray *packets = [OpenPGPPacket packetsFromMessage:keystoreMessage];
@@ -70,6 +88,7 @@
     else {
         NSLog(@"Invalid keystore OpenPGP message.");
     }
+    */
 }
 
 /*
