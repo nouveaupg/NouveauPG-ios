@@ -8,13 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
+#import "IdenticonView.h"
+
 @interface MessageCell : UITableViewCell {
     IBOutlet UILabel *m_encryptedDescriptor;
     IBOutlet UILabel *m_previewText;
     IBOutlet UILabel *m_dateText;
+    IBOutlet IdenticonView *m_identicon;
 }
 
 -(void)setPreviewText: (NSString *)preview;
 -(void)setDate: (NSDate *)date;
+-(void)setKeyId: (NSString *)keyId;
 
 @end

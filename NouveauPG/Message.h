@@ -17,4 +17,6 @@
 @property (nonatomic, retain) NSDate * edited;
 @property (nonatomic, retain) NSString * descriptor;
 
+@property (nonatomic, retain) NSString *keyId;
+
 @end

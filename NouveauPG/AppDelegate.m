@@ -62,16 +62,18 @@
             for (OpenPGPPacket *eachPacket in [OpenPGPPacket packetsFromMessage:keystoreMessage]) {
                 OpenPGPPublicKey *newKey = [[OpenPGPPublicKey alloc]initWithEncryptedPacket:eachPacket];
                 if ([eachPacket packetTag] == 5) {
-                    NSLog(@"Loaded new primary keyid: %@ (%d-bit RSA)",newKey.keyId,newKey.publicKeySize);
+                    NSLog(@"Loaded new primary keyid: %@ (%ld-bit RSA)",newKey.keyId,(long)newKey.publicKeySize);
                     eachIdentity.primaryKeystore = newKey;
                 }
                 else if( [eachPacket packetTag] == 7 ) {
-                    NSLog(@"Loaded new encryption subkey keyid: %@ (%d-bit RSA)",newKey.keyId,newKey.publicKeySize);
+                    NSLog(@"Loaded new encryption subkey keyid: %@ (%ld-bit RSA)",newKey.keyId,(long)newKey.publicKeySize);
                     eachIdentity.encryptionKeystore = newKey;
                 }
             }
         }
     }
+    
+    
     
     if (error) {
         NSLog(@"NSError: %@",[error description]);
@@ -83,6 +85,24 @@
     [fetchRequest setEntity:entity];
     self.messages = [ctx executeFetchRequest:fetchRequest error:&error];
     NSLog(@"Loaded %lu messages from datastore.",(unsigned long)[self.messages count]);
+    
+    for ( Message *eachMessage in self.messages ) {
+        OpenPGPMessage *encryptedMessage = [[OpenPGPMessage alloc]initWithArmouredText: eachMessage.body];
+        if ([encryptedMessage validChecksum]) {
+            for (OpenPGPPacket *eachPacket in [OpenPGPPacket packetsFromMessage:encryptedMessage]) {
+                if ([eachPacket packetTag] == 1) {
+                    NSLog(@"Packet Tag 1");
+                    unsigned char *ptr = (unsigned char *)[[eachPacket packetData] bytes];
+                    ptr += 3;
+                    if (*ptr == 3) {
+                        NSString *keyId = [NSString stringWithFormat:@"%02x%02x%02x%02x",*(ptr+5),*(ptr+6),*(ptr+7),*(ptr+8)];
+                        eachMessage.keyId = keyId;
+                    }
+                    
+                }
+            }
+        }
+    }
     
     return YES;
 }

@@ -16,4 +16,6 @@
 @dynamic edited;
 @dynamic descriptor;
 
+@synthesize keyId;
+
 @end

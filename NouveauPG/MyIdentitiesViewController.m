@@ -118,9 +118,16 @@
     AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     m_identityData = [app.identities objectAtIndex:[indexPath row]];
     
-    UIActionSheet *privateKeyStoreOptions = [[UIActionSheet alloc] initWithTitle:nil delegate:nil cancelButtonTitle:@"Dismiss" destructiveButtonTitle:nil otherButtonTitles:@"Export public certificate", @"Unlock keystore", nil];
-    [privateKeyStoreOptions setDelegate:self];
-    [privateKeyStoreOptions showFromTabBar:[[self tabBarController] tabBar]];
+    if (![m_identityData.primaryKeystore isEncrypted]) {
+        UIActionSheet *privateKeyStoreOptions = [[UIActionSheet alloc] initWithTitle:nil delegate:nil cancelButtonTitle:@"Dismiss" destructiveButtonTitle:@"Lock keystore" otherButtonTitles:@"Export public certificate", @"Export private keystore", nil];
+        [privateKeyStoreOptions setDelegate:self];
+        [privateKeyStoreOptions showFromTabBar:[[self tabBarController] tabBar]];
+    }
+    else {
+        UIActionSheet *privateKeyStoreOptions = [[UIActionSheet alloc] initWithTitle:nil delegate:nil cancelButtonTitle:@"Dismiss" destructiveButtonTitle:nil otherButtonTitles:@"Export public certificate", @"Unlock keystore", nil];
+        [privateKeyStoreOptions setDelegate:self];
+        [privateKeyStoreOptions showFromTabBar:[[self tabBarController] tabBar]];
+    }
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex {

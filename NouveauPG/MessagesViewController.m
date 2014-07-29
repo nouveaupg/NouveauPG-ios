@@ -86,6 +86,7 @@
     else {
         [cell setPreviewText:object.body];
     }
+    [cell setKeyId:object.keyId];
     [cell setDate:object.edited];
     
     return cell;
