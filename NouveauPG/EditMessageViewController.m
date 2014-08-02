@@ -8,6 +8,17 @@
 
 #import "EditMessageViewController.h"
 #import "OpenPGPMessage.h"
+#import "OpenPGPPacket.h"
+#import "OpenPGPPublicKey.h"
+#import "AppDelegate.h"
+#import "OpenPGPEncryptedPacket.h"
+#import "LiteralPacket.h"
+#import "Identity.h"
+
+#include <openssl/conf.h>
+#include <openssl/evp.h>
+#include <openssl/sha.h>
+#include <openssl/rsa.h>
 
 @interface EditMessageViewController ()
 
@@ -47,7 +58,12 @@
         if (m_message) {
             // attempt to decrypt
             
-            [m_rightButton setTitle:@"Done"];
+            if ([self decryptMessage]) {
+                [m_rightButton setTitle:@"Done"];
+            }
+            else {
+                m_mode = 0;
+            }
         }
         else {
             [m_textView setEditable:true];
@@ -73,6 +89,102 @@
     else {
         [m_rightButton setTitle:@"Edit"];
     }
+}
+
+-(bool)decryptMessage {
+    OpenPGPMessage *encryptedMessage = [[OpenPGPMessage alloc]initWithArmouredText:m_originalMessage];
+    AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    unsigned char *sessionKey = NULL;
+    unsigned char *ptr;
+    
+    if ([encryptedMessage validChecksum]) {
+        for (OpenPGPPacket *eachPacket in [OpenPGPPacket packetsFromMessage:encryptedMessage]) {
+            if ([eachPacket packetTag] == 1) {
+                ptr = (unsigned char *)[[eachPacket packetData] bytes];
+                
+                int buffer = 2;
+                if ([eachPacket length] > 256) {
+                    buffer = 3;
+                }
+                
+                if (*(ptr+buffer) == 3) {
+                    NSLog(@"Found tag 1 packet (encrypted session key) for Key Id: %02x%02x%02x%02x%02x%02x%02x%02x",*(ptr+4),*(ptr+5),*(ptr+6),*(ptr+7),*(ptr+8),*(ptr+9),*(ptr+10),*(ptr+11));
+                    
+                    NSString *searchingForKeyId = [NSString stringWithFormat:@"%02x%02x%02x%02x",*(ptr+8),*(ptr+9),*(ptr+10),*(ptr+11)];
+                    
+                    for(  Identity *recipient in app.identities ) {
+                        unsigned int declaredBits = (*(ptr + 13) << 8) | (*(ptr + 14) & 0xff);
+                        
+                        if ([[recipient.primaryKeystore keyId] isEqualToString:searchingForKeyId]) {
+                            NSLog(@"Key ID: %@ matches primary key.",searchingForKeyId);
+                            if (![recipient.primaryKeystore isEncrypted]) {
+                                sessionKey = [recipient.primaryKeystore decryptBytes:ptr+15 length:(declaredBits + 7) / 8];
+                            }
+                            else {
+                                NSLog(@"Need to decrypt primary key.");
+                            }
+                        }
+                        if ([[recipient.encryptionKeystore keyId] isEqualToString:searchingForKeyId]) {
+                            NSLog(@"Key ID: %@ matches encryption subkey in chain.",searchingForKeyId);
+                            
+                            if (![recipient.encryptionKeystore isEncrypted]) {
+                                sessionKey = [recipient.encryptionKeystore decryptBytes:ptr+15 length:(declaredBits + 7) / 8];
+                            }
+                            else {
+                                NSLog(@"Need to decrypt encryption subkey.");
+                            }
+                            
+                        }
+                        
+                    }
+                }
+                else {
+                    NSLog(@"Unsupported tag 1 packet version (version %d found; only version 3 supported).",*ptr);
+                }
+                
+            }
+            else if([eachPacket packetTag] == 18) {
+                if (sessionKey) {
+                    int buffer = 2;
+                    if ([eachPacket length] > 194) {
+                        buffer = 3;
+                    } else if( [eachPacket length] > 8385 ) {
+                        buffer = 6;
+                    }
+                    
+                    ptr = (unsigned char *)[[eachPacket packetData] bytes];
+                    if (*(ptr+buffer) == 1) {
+                        NSData *packetData = [[NSData alloc]initWithBytes:ptr length:[[eachPacket packetData] length]];
+                        OpenPGPEncryptedPacket *encryptedPacket = [[OpenPGPEncryptedPacket alloc]initWithData:packetData];
+                        OpenPGPPacket *resultantPacket = [encryptedPacket decryptWithSessionKey:sessionKey algo:7];
+                        LiteralPacket *newLiteral = [[LiteralPacket alloc]initWithData:[resultantPacket packetData]];
+                        if (newLiteral) {
+                            
+                            NSString *contentString = [[NSString alloc]initWithData:[newLiteral content] encoding:NSUTF8StringEncoding];
+                            
+                            [m_textView setText:contentString];
+                            
+                            return true;
+                        }
+                    }
+                }
+                else {
+                    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Could not decrypt" message:@"There is no key to decrypt the message in your Identities keychain." delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+                    [alert show];
+                    
+                    NSLog(@"Could not decrypt session key for message.");
+                }
+            }
+        }
+    }
+    else {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Invalid checksum" message:@"The OpenPGP message is invalid or corrupt." delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+        [alert show];
+        
+        NSLog(@"Invalid OpenPGP message. (checksum failed)");
+    }
+    
+    return false;
 }
 
 - (void)didReceiveMemoryWarning

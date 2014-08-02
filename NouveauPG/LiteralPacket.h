@@ -16,6 +16,6 @@
 
 @property NSTimeInterval timestamp;
 @property (copy) NSString *filename;
-@property (assign) NSData *content;
+@property (retain) NSData *content;
 
 @end

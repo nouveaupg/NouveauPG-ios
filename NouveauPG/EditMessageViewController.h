@@ -22,6 +22,7 @@
 }
 
 -(void)setText:(NSString *)newText;
+-(bool)decryptMessage;
 -(IBAction)rightButton:(id)sender;
 
 @end
