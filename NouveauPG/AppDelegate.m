@@ -96,7 +96,12 @@
                     ptr += 3;
                     if (*ptr == 3) {
                         NSString *keyId = [NSString stringWithFormat:@"%02x%02x%02x%02x",*(ptr+5),*(ptr+6),*(ptr+7),*(ptr+8)];
-                        eachMessage.keyId = keyId;
+                        
+                        for (Identity *eachIdentity in self.identities ) {
+                            if ([[eachIdentity.primaryKeystore keyId] isEqualToString:keyId] || [[eachIdentity.encryptionKeystore keyId] isEqualToString:keyId]) {
+                                eachMessage.keyId = eachIdentity.primaryKeystore.keyId;
+                            }
+                        }
                     }
                     
                 }
