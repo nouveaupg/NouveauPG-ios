@@ -43,7 +43,7 @@
         if (m_message) {
             [m_textView setText:m_originalMessage];
             
-            [m_rightButton setTitle:@"Done"];
+            [m_rightButton setTitle:@"Decrypt"];
         }
         else {
             // save message
