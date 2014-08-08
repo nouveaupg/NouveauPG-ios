@@ -35,6 +35,13 @@
     return self;
 }
 
+-(void)setDataSource: (Message *)dataSource {
+    m_dataSource = dataSource;
+    if (dataSource) {
+        m_originalMessage = [[NSString alloc] initWithString:dataSource.body];
+    }
+}
+
 -(IBAction)rightButton:(id)sender {
     if (m_mode == kModeEditing) {
         m_mode = 0;
@@ -47,6 +54,12 @@
         }
         else {
             // save message
+            AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+            
+            m_dataSource.body = [m_textView text];
+            m_dataSource.edited = [NSDate date];
+            
+            [app saveContext];
             
             NSLog(@"Saved message.");
             
@@ -191,10 +204,6 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
--(void)setText:(NSString *)newText {
-    m_originalMessage = [[NSString alloc] initWithString:newText];
 }
 
 /*

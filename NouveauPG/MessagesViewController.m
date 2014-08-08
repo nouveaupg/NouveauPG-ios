@@ -163,7 +163,7 @@
     // Pass the selected object to the new view controller.
     
     EditMessageViewController *newViewController = [segue destinationViewController];
-    [newViewController setText:m_selectedMessage.body];
+    [newViewController setDataSource:m_selectedMessage];
 }
 
 

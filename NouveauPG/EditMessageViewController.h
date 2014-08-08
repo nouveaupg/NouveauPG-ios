@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Message.h"
 #import "OpenPGPMessage.h"
 
 #define kModeEditing 1
@@ -15,14 +16,15 @@
     IBOutlet UITextView *m_textView;
     IBOutlet UIBarButtonItem *m_rightButton;
     
+    Message *m_dataSource;
     OpenPGPMessage *m_message;
     
     NSString *m_originalMessage;
     NSInteger m_mode;
 }
 
--(void)setText:(NSString *)newText;
 -(bool)decryptMessage;
+-(void)setDataSource: (Message *)dataSource;
 -(IBAction)rightButton:(id)sender;
 
 @end
