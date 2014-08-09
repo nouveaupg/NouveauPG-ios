@@ -276,7 +276,6 @@
                                     <outlet property="m_identiconView" destination="vvr-Oq-TtD" id="gmP-o5-ubU"/>
                                     <outlet property="m_keyInfo" destination="Yr0-KY-hLD" id="hNO-3x-Ki6"/>
                                     <outlet property="m_name" destination="P9H-f9-GAT" id="SDK-dj-LWX"/>
-                                    <segue destination="exc-UE-28t" kind="push" id="XW6-wb-YDW"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -286,10 +285,13 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Choose Recipient" id="FBx-Hv-suI"/>
+                    <connections>
+                        <segue destination="exc-UE-28t" kind="push" identifier="encryptMessage" id="9b6-5y-R63"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="B32-cq-YTu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2295" y="367"/>
+            <point key="canvasLocation" x="2139" y="429"/>
         </scene>
         <!--Import View Controller - Import-->
         <scene sceneID="9od-gc-4X1">
@@ -734,9 +736,9 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="m_encryptButton" destination="hIK-vR-BC6" id="HQl-Rg-Ufl"/>
                         <outlet property="m_rightButton" destination="x7j-gV-7hD" id="2mn-mJ-57k"/>
                         <outlet property="m_textView" destination="OVX-D4-ALU" id="XB0-v5-l2Z"/>
-                        <segue destination="87g-jf-50H" kind="push" id="A9h-H6-o7o"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ubv-i4-uDP" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -776,7 +778,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="a9G-bj-sdH"/>
-        <segue reference="XW6-wb-YDW"/>
+        <segue reference="9b6-5y-R63"/>
     </inferredMetricsTieBreakers>
 </document>

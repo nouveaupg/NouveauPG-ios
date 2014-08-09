@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MessageRecipientsTableViewController : UITableViewController
+@interface MessageRecipientsTableViewController : UITableViewController {
+    NSString *m_plaintextMessage;
+    NSString *m_encryptedMessage;
+    NSString *m_recipientEmail;
+}
+
+-(void)setPlaintextMessage:(NSString *)message;
 
 @end

@@ -15,6 +15,7 @@
 @interface EditMessageViewController : UIViewController {
     IBOutlet UITextView *m_textView;
     IBOutlet UIBarButtonItem *m_rightButton;
+    IBOutlet UIBarButtonItem *m_encryptButton;
     
     Message *m_dataSource;
     OpenPGPMessage *m_message;

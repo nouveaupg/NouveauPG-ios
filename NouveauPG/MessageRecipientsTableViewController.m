@@ -11,6 +11,12 @@
 #import "AppDelegate.h"
 #import "Recipient.h"
 #import "RecipientDetails.h"
+#import "OpenPGPPublicKey.h"
+#import "OpenPGPMessage.h"
+#import "OpenPGPPacket.h"
+#import "EncryptedEnvelope.h"
+#import "LiteralPacket.h"
+#import "EncryptedViewController.h"
 
 @interface MessageRecipientsTableViewController ()
 
@@ -25,6 +31,10 @@
         // Custom initialization
     }
     return self;
+}
+
+-(void)setPlaintextMessage:(NSString *)message {
+    m_plaintextMessage = [[NSString alloc]initWithString:message];
 }
 
 - (void)viewDidLoad
@@ -94,6 +104,51 @@
     return cell;
 }
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    Recipient *obj = [app.recipients objectAtIndex:[indexPath row]];
+    
+    OpenPGPMessage *message = [[OpenPGPMessage alloc]initWithArmouredText:obj.certificate];
+    if ([message validChecksum]) {
+        OpenPGPPublicKey *primaryKey = nil;
+        OpenPGPPublicKey *encryptionKey = nil;
+        for (OpenPGPPacket *eachPacket in [OpenPGPPacket packetsFromMessage:message]) {
+            if ([eachPacket packetTag] == 6) {
+                primaryKey = [[OpenPGPPublicKey alloc]initWithPacket:eachPacket];
+            }
+            else if ([eachPacket packetTag] == 14) {
+                encryptionKey = [[OpenPGPPublicKey alloc]initWithPacket:eachPacket];
+            }
+        }
+        if (primaryKey) {
+            if (encryptionKey) {
+                NSLog(@"Using encryption subkey ID: %@",encryptionKey.keyId);
+            }
+            else {
+                encryptionKey = primaryKey;
+            }
+            
+            LiteralPacket *newPacket = [[LiteralPacket alloc]initWithUTF8String:m_plaintextMessage];
+            EncryptedEnvelope *envelope = [[EncryptedEnvelope alloc]initWithLiteralPacket:newPacket publicKey:encryptionKey];
+            
+            
+            m_recipientEmail = obj.details.email;
+            
+            if (envelope) {
+                m_encryptedMessage = [[NSString alloc]initWithString:[envelope armouredMessage]];
+                [self performSegueWithIdentifier:@"encryptMessage" sender:self];
+            }
+            
+        }
+        else {
+            NSLog(@"No valid public key found.");
+        }
+    }
+    else {
+        NSLog(@"Error decoding public key certificate.");
+    }
+}
 
 /*
 // Override to support conditional editing of the table view.
@@ -133,7 +188,7 @@
 }
 */
 
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -141,7 +196,10 @@
 {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    
+    EncryptedViewController *viewController = (EncryptedViewController *)[segue destinationViewController];
+    [viewController setEncryptedMessage:m_encryptedMessage recipientEmail:m_recipientEmail];
 }
-*/
+
 
 @end

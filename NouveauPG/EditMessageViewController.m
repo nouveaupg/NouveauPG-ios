@@ -14,6 +14,7 @@
 #import "OpenPGPEncryptedPacket.h"
 #import "LiteralPacket.h"
 #import "Identity.h"
+#import "MessageRecipientsTableViewController.h"
 
 #include <openssl/conf.h>
 #include <openssl/evp.h>
@@ -87,6 +88,15 @@
     }
     
     
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    if (m_message) {
+        [m_encryptButton setEnabled:false];
+    }
+    else {
+        [m_encryptButton setEnabled:true];
+    }
 }
 
 - (void)viewDidLoad
@@ -208,7 +218,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -216,7 +226,11 @@
 {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    
+    MessageRecipientsTableViewController *viewController = [segue destinationViewController];
+    NSString *plaintext = [m_textView text];
+    [viewController setPlaintextMessage:plaintext];
 }
-*/
+
 
 @end
