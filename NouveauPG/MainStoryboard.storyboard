@@ -92,11 +92,11 @@
                         <viewControllerLayoutGuide type="bottom" id="AL0-Iw-Hyx"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="eQM-pG-g2d">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ahs-Hl-Fc8">
-                                <rect key="frame" x="0.0" y="20" width="320" height="515"/>
+                                <rect key="frame" x="0.0" y="20" width="320" height="451"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -126,6 +126,7 @@
                         </barButtonItem>
                         <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="urh-cW-hAV"/>
                     </toolbarItems>
+                    <navigationItem key="navigationItem" id="CRH-gC-udB"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="m_encryptedMessage" destination="ahs-Hl-Fc8" id="EP9-yu-xTb"/>
@@ -225,6 +226,70 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="g7k-IB-DxT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1707" y="741"/>
+        </scene>
+        <!--Message Recipients Table View Controller - Choose Recipient-->
+        <scene sceneID="60V-KS-IVY">
+            <objects>
+                <tableViewController id="87g-jf-50H" customClass="MessageRecipientsTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="78" sectionHeaderHeight="22" sectionFooterHeight="22" id="MrJ-t0-hc7">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="messageRecipientCell" rowHeight="78" id="Tqr-W1-hfy" customClass="MessageRecipientCell">
+                                <rect key="frame" x="0.0" y="22" width="320" height="78"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Tqr-W1-hfy" id="4PG-6U-l1u">
+                                    <rect key="frame" x="0.0" y="0.0" width="287" height="77"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vvr-Oq-TtD" customClass="IdenticonView">
+                                            <rect key="frame" x="9" y="7" width="64" height="64"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                        </view>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="First Last Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P9H-f9-GAT">
+                                            <rect key="frame" x="81" y="20" width="186" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="user@email.com" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9WA-dg-fEU">
+                                            <rect key="frame" x="81" y="47" width="186" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="8ABF5ADE 2048-bit RSA" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yr0-KY-hLD">
+                                            <rect key="frame" x="81" y="36" width="186" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="m_email" destination="9WA-dg-fEU" id="t5d-K2-Ub7"/>
+                                    <outlet property="m_identiconView" destination="vvr-Oq-TtD" id="gmP-o5-ubU"/>
+                                    <outlet property="m_keyInfo" destination="Yr0-KY-hLD" id="hNO-3x-Ki6"/>
+                                    <outlet property="m_name" destination="P9H-f9-GAT" id="SDK-dj-LWX"/>
+                                    <segue destination="exc-UE-28t" kind="push" id="XW6-wb-YDW"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="87g-jf-50H" id="beJ-7N-dBb"/>
+                            <outlet property="delegate" destination="87g-jf-50H" id="qPZ-Y3-ffh"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Choose Recipient" id="FBx-Hv-suI"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="B32-cq-YTu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2295" y="367"/>
         </scene>
         <!--Import View Controller - Import-->
         <scene sceneID="9od-gc-4X1">
@@ -653,7 +718,11 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <toolbarItems>
-                        <barButtonItem title="Save" id="hIK-vR-BC6"/>
+                        <barButtonItem title="Encrypt" id="hIK-vR-BC6">
+                            <connections>
+                                <segue destination="87g-jf-50H" kind="push" id="a9G-bj-sdH"/>
+                            </connections>
+                        </barButtonItem>
                     </toolbarItems>
                     <navigationItem key="navigationItem" id="CX2-Hp-eNo">
                         <barButtonItem key="rightBarButtonItem" title="Decrypt" id="x7j-gV-7hD">
@@ -667,6 +736,7 @@
                     <connections>
                         <outlet property="m_rightButton" destination="x7j-gV-7hD" id="2mn-mJ-57k"/>
                         <outlet property="m_textView" destination="OVX-D4-ALU" id="XB0-v5-l2Z"/>
+                        <segue destination="87g-jf-50H" kind="push" id="A9h-H6-o7o"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ubv-i4-uDP" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -705,4 +775,8 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="a9G-bj-sdH"/>
+        <segue reference="XW6-wb-YDW"/>
+    </inferredMetricsTieBreakers>
 </document>

@@ -95,6 +95,8 @@
     
     [m_textView setText:m_originalMessage];
     
+    self.navigationController.toolbarHidden = NO;
+    
     m_message = [[OpenPGPMessage alloc]initWithArmouredText:m_originalMessage];
     if ([m_message validChecksum]) {
         [m_rightButton setTitle:@"Decrypt"];
