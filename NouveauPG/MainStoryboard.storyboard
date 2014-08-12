@@ -23,7 +23,7 @@
                                     <subviews>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="12BC4E5F" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tNG-ZY-BiV">
                                             <rect key="frame" x="72" y="42" width="184" height="21"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
@@ -85,11 +85,11 @@
                         <viewControllerLayoutGuide type="bottom" id="AL0-Iw-Hyx"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="eQM-pG-g2d">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ahs-Hl-Fc8">
-                                <rect key="frame" x="0.0" y="20" width="320" height="451"/>
+                                <rect key="frame" x="0.0" y="20" width="320" height="515"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -127,7 +127,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9p2-wt-zbS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1659" y="-797"/>
+            <point key="canvasLocation" x="2259" y="-245"/>
         </scene>
         <!--Compose View Controller - Compose-->
         <scene sceneID="oox-Aw-rEI">
@@ -172,7 +172,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Uca-PD-ESh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1651" y="-31"/>
+            <point key="canvasLocation" x="1659" y="-655"/>
         </scene>
         <!--Export View Controller-->
         <scene sceneID="0of-oU-4Xl">
@@ -218,7 +218,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="g7k-IB-DxT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1707" y="741"/>
+            <point key="canvasLocation" x="1747" y="1681"/>
         </scene>
         <!--Message Recipients Table View Controller - Choose Recipient-->
         <scene sceneID="60V-KS-IVY">
@@ -284,7 +284,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="B32-cq-YTu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2139" y="429"/>
+            <point key="canvasLocation" x="2227" y="741"/>
         </scene>
         <!--Import View Controller - Import-->
         <scene sceneID="9od-gc-4X1">
@@ -455,11 +455,12 @@
                     <connections>
                         <segue destination="TNJ-Kk-eoM" kind="push" identifier="exportPublicKey" id="IEx-3z-qZh"/>
                         <segue destination="8q4-iB-c52" kind="push" identifier="unlockKeystore" id="O5F-nq-Ba7"/>
+                        <segue destination="8q4-iB-c52" kind="push" identifier="choosePassword" id="PRD-UU-UXt"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1nX-Xq-XFc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1160" y="759"/>
+            <point key="canvasLocation" x="880" y="823"/>
         </scene>
         <!--Unlock Keystore View Controller-->
         <scene sceneID="kA9-lq-lDO">
@@ -490,6 +491,12 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <textField hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Repeat Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="DGn-ez-d2n">
+                                <rect key="frame" x="20" y="215" width="280" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="done" secureTextEntry="YES"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -510,11 +517,15 @@
                     </navigationItem>
                     <connections>
                         <outlet property="m_passwordField" destination="lDU-ek-L4o" id="SxJ-0I-byQ"/>
+                        <outlet property="m_promptLabel" destination="5ba-Xx-ETW" id="qgR-Ep-X9h"/>
+                        <outlet property="m_repeatPasswordField" destination="DGn-ez-d2n" id="1Mc-Gd-Oqe"/>
+                        <outlet property="m_rightButton" destination="lfA-u8-ugD" id="D3Q-eI-aCK"/>
+                        <segue destination="TNJ-Kk-eoM" kind="push" identifier="exportKeystore" id="F2n-Io-IBZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ovm-yS-wcp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1151" y="1507"/>
+            <point key="canvasLocation" x="1087" y="1875"/>
         </scene>
         <!--Generate Key View Controller-->
         <scene sceneID="dm8-UD-0Pd">
@@ -590,7 +601,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8dY-g7-lSz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1695" y="1419"/>
+            <point key="canvasLocation" x="1643" y="687"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="dFo-za-PJf">
@@ -630,7 +641,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aoj-F3-ZjC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="634" y="759"/>
+            <point key="canvasLocation" x="394" y="879"/>
         </scene>
         <!--Messages View Controller - Messages-->
         <scene sceneID="9KD-3Y-oaD">
@@ -701,7 +712,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9fK-Up-L94" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1229" y="2292"/>
+            <point key="canvasLocation" x="1229" y="2636"/>
         </scene>
         <!--Edit Message View Controller-->
         <scene sceneID="FlK-C5-5q6">
@@ -750,7 +761,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ubv-i4-uDP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1747" y="2275"/>
+            <point key="canvasLocation" x="2075" y="2571"/>
         </scene>
         <!--Navigation Controller - Messages-->
         <scene sceneID="uUD-QZ-vzb">
@@ -769,7 +780,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Law-12-cKZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="607" y="2284"/>
+            <point key="canvasLocation" x="559" y="2508"/>
         </scene>
     </scenes>
     <resources>
@@ -785,6 +796,8 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="9b6-5y-R63"/>
+        <segue reference="IEx-3z-qZh"/>
+        <segue reference="fXH-ri-jsc"/>
+        <segue reference="PRD-UU-UXt"/>
     </inferredMetricsTieBreakers>
 </document>

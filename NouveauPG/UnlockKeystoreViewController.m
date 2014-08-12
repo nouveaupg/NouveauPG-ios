@@ -48,20 +48,47 @@
     m_subkey = encryptionSubkey;
 }
 
+-(void)setChangePassword: (bool)change {
+    m_changePassword = change;
+    if (change) {
+        [m_promptLabel setText:@"Enter a password to encrypt your keystore. You will need to enter this password every time you use this key."];
+        [m_repeatPasswordField setHidden:NO];
+        [m_rightButton setTitle:@"Export Keystore" forState:UIControlStateNormal];
+    }
+    else {
+        [m_promptLabel setText:@"Enter a password to decrypt and unlock your keystore."];
+        [m_repeatPasswordField setHidden:YES];
+        [m_rightButton setTitle:@"Unlock Keystore" forState:UIControlStateNormal];
+    }
+}
+
 -(IBAction)unlockKeystore:(id)sender {
     NSString *password = [m_passwordField text];
     
-    if ([m_primary decryptKey:password]) {
-        if (! [m_subkey decryptKey:password] ) {
-            NSLog(@"Could not decrypt subkey with primary key passphrase.");
+    if (m_changePassword) {
+        if ([[m_passwordField text] isEqualToString:[m_repeatPasswordField text]]) {
+            [self performSegueWithIdentifier:@"exportKeystore" sender:self];
         }
-       
-        [self.navigationController popToRootViewControllerAnimated:TRUE];
+        else {
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Passwords didn't match" message:@"You must enter the same password in each field" delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles: nil];
+            [alert show];
+        }
     }
     else {
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Wrong password" message:@"The password you entered will not encrypt the keystore." delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles: nil];
-        [alert show];
+        if ([m_primary decryptKey:password]) {
+            if (! [m_subkey decryptKey:password] ) {
+                NSLog(@"Could not decrypt subkey with primary key passphrase.");
+            }
+            
+            [self.navigationController popToRootViewControllerAnimated:TRUE];
+        }
+        else {
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Wrong password" message:@"The password you entered will not encrypt the keystore." delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles: nil];
+            [alert show];
+        }
     }
+    
+    
 
     
     /*

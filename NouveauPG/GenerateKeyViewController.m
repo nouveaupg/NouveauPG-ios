@@ -47,11 +47,15 @@
     
     NSString *publicKeyCertificate = nil;
     NSString *privateKeystore = nil;
+    NSString *password = @"";
     
     if (![[m_passwordField text] isEqualToString:[m_passwordRepeatField text]]) {
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Can't create identity" message:@"Passwords don't match!" delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
         [alert show];
         return;
+    }
+    else {
+        password = [m_passwordField text];
     }
     
     OpenPGPPublicKey *identityKey = [[OpenPGPPublicKey alloc]initWithKeyLength:2048 isSubkey:NO];
@@ -128,9 +132,9 @@
     
     // Now generating the private keystore and encrypting it for storage
 
-    [packets addObject:[identityKey exportPrivateKey:@""]];
+    [packets addObject:[identityKey exportPrivateKey:password]];
     [packets addObject:userIdPacket];
-    [packets addObject:[encryptionSubkey exportPrivateKey:@""]];
+    [packets addObject:[encryptionSubkey exportPrivateKey:password]];
     
     privateKeystore = [OpenPGPMessage privateKeystoreFromPacketChain:packets];
     

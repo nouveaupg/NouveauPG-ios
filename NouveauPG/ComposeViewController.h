@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "OpenPGPPublicKey.h"
 
-@interface ComposeViewController : UIViewController {
+@interface ComposeViewController : UIViewController <UIAlertViewDelegate> {
     IBOutlet UITextView *m_composedMessage;
     NSString *m_recipientEmail;
     OpenPGPPublicKey *m_encryptionKey;

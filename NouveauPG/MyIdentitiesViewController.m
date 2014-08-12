@@ -12,6 +12,9 @@
 #import "Identity.h"
 #import "ExportViewController.h"
 #import "UnlockKeystoreViewController.h"
+#import "OpenPGPPacket.h"
+#import "OpenPGPMessage.h"
+#import "OpenPGPPublicKey.h"
 
 @interface MyIdentitiesViewController ()
 
@@ -131,11 +134,36 @@
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex {
-    if (buttonIndex == 0) {
-        [self performSegueWithIdentifier:@"exportPublicKey" sender:self];
+    
+    if ([m_identityData.primaryKeystore isEncrypted]) {
+        if (buttonIndex == 0) {
+            [self performSegueWithIdentifier:@"exportPublicKey" sender:self];
+        }
+        else if( buttonIndex == 1 ) {
+            [self performSegueWithIdentifier:@"unlockKeystore" sender:self];
+        }
     }
-    else if( buttonIndex == 1 ) {
-        [self performSegueWithIdentifier:@"unlockKeystore" sender:self];
+    else {
+        if ( buttonIndex == 0 ) {
+            OpenPGPMessage *message = [[OpenPGPMessage alloc]initWithArmouredText:m_identityData.privateKeystore];
+            if ([message validChecksum]) {
+                for (OpenPGPPacket *eachPacket in [OpenPGPPacket packetsFromMessage:message] ) {
+                    if ( [eachPacket packetTag] == 5 ) {
+                        m_identityData.primaryKeystore = [[OpenPGPPublicKey alloc]initWithEncryptedPacket:eachPacket];
+                    }
+                    else if( [eachPacket packetTag] == 7 ) {
+                        m_identityData.encryptionKeystore = [[OpenPGPPublicKey alloc]initWithEncryptedPacket:eachPacket];
+                    }
+                }
+            }
+            [[self tableView] reloadData];
+        }
+        else if( buttonIndex == 1 ) {
+            [self performSegueWithIdentifier:@"exportPublicKey" sender:self];
+        }
+        else if( buttonIndex == 2 ) {
+            [self performSegueWithIdentifier:@"choosePassword" sender:self];
+        }
     }
 }
 
@@ -212,7 +240,13 @@
         UnlockKeystoreViewController *nextViewController = (UnlockKeystoreViewController *)[segue destinationViewController];
         
         [nextViewController setPrimaryKey:m_identityData.primaryKeystore subkey:m_identityData.encryptionKeystore];
+        [nextViewController setChangePassword:false];
         //[nextViewController setKeystore: [m_identityData privateKeystore]];
+    }
+    else if( [[segue identifier] isEqualToString:@"choosePassword"]) {
+        UnlockKeystoreViewController *nextViewController = (UnlockKeystoreViewController *)[segue destinationViewController];
+        [nextViewController setPrimaryKey:m_identityData.primaryKeystore subkey:m_identityData.encryptionKeystore];
+        [nextViewController setChangePassword:true];
     }
 }
 

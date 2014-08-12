@@ -49,7 +49,19 @@
 
 -(IBAction)encryptMessage:(id)sender
 {
-    [self performSegueWithIdentifier:@"exportEncryptedData" sender:self];
+    if ([[m_composedMessage text] length] == 0) {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Empty message" message:@"This message may be perplexing to the recipient. Do you wish to continue?" delegate:nil cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
+        [alert show];
+    }
+    else {
+        [self performSegueWithIdentifier:@"exportEncryptedData" sender:self];
+    }
+}
+
+-(void) alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1) {
+        [self performSegueWithIdentifier:@"exportEncryptedData" sender:self];
+    }
 }
 
 #pragma mark - Navigation
