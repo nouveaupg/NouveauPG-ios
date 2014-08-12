@@ -90,7 +90,7 @@
 - (NSString *)armouredMessage {
     
     NSMutableString *outputString = [[NSMutableString alloc]init];
-    [outputString appendString:@"-----BEGIN PGP MESSAGE-----\nVersion: NouveauPG 1.00beta (OS X)\nComment: http://nouveauPG.org\n\n"];
+    [outputString appendString:@"-----BEGIN PGP MESSAGE-----\nVersion: NouveauPG 1.10 (iOS)\nComment: http://nouveauPG.com\n\n"];
     
     [outputString appendString:[m_envelopeData base64EncodedString]];
     

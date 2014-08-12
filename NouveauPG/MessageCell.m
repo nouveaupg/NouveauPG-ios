@@ -36,8 +36,11 @@
 }
 
 -(void)setDate: (NSDate *)date {
-    NSString *ascDate = [date description];
-    [m_dateText setText:ascDate];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+    [formatter setTimeStyle:NSDateFormatterMediumStyle];
+    [formatter setDateStyle:NSDateFormatterMediumStyle];
+    
+    [m_dateText setText:[formatter stringFromDate:date]];
 }
 
 -(void)setKeyId: (NSString *)keyId {
