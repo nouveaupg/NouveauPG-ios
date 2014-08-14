@@ -50,6 +50,10 @@
     self.navigationController.toolbarHidden = YES;
 }
 
+-(void)viewWillAppear:(BOOL)animated {
+    self.navigationController.toolbarHidden = YES;
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

@@ -40,6 +40,11 @@
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
+-(IBAction)addRecipient:(id)sender
+{
+        
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

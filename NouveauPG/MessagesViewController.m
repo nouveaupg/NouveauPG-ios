@@ -28,14 +28,18 @@
 }
 
 
--(IBAction)newMessage:(id)sender {
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-    NSArray *paths = [NSArray arrayWithObject:indexPath];
-    
+-(IBAction)newMessage:(id)sender
+{
     AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     [appDelegate addMessageToStore:@""];
     
-    [[self tableView]insertRowsAtIndexPaths:paths withRowAnimation:UITableViewRowAnimationTop];
+    int row = [appDelegate.messages count] - 1;
+    
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:0];
+    NSArray *paths = [NSArray arrayWithObject:indexPath];
+    
+    [[self tableView]insertRowsAtIndexPaths:paths withRowAnimation:UITableViewRowAnimationAutomatic];
+    
 }
 
 - (void)viewDidLoad

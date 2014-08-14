@@ -14,4 +14,6 @@
     OpenPGPPublicKey *m_selectedEncryptionKey;
 }
 
+-(IBAction)addRecipient:(id)sender;
+
 @end
