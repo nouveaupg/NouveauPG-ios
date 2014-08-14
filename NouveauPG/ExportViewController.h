@@ -11,9 +11,13 @@
 
 @interface ExportViewController : UIViewController <MFMailComposeViewControllerDelegate> {
     IBOutlet UITextView *m_textView;
+    
+    NSString *m_textData;
+    NSString *m_emailAddress;
 }
 
 -(void)setText:(NSString *)textData;
+-(void)setEmail: (NSString *)emailAddress;
 
 -(IBAction)dismissButton:(id)sender;
 -(IBAction)copyButton:(id)sender;

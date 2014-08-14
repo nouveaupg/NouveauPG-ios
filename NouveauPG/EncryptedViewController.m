@@ -78,7 +78,9 @@
 -(void)setEncryptedMessage: (NSString *)message recipientEmail: (NSString *)email {
     
     m_armouredMessage = [[NSString alloc]initWithString:message];
-    m_recipientEmail = [[NSString alloc]initWithString:email];
+    if (email) {
+        m_recipientEmail = [[NSString alloc]initWithString:email];
+    }
 }
 
 /*

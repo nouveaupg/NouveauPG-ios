@@ -12,6 +12,8 @@
 
 @interface UnlockKeystoreViewController : UIViewController {
     NSString *m_keystoreData;
+    NSString *m_userId;
+    NSString *m_emailAddress;
     IBOutlet UILabel *m_promptLabel;
     IBOutlet UITextField *m_passwordField;
     IBOutlet UITextField *m_repeatPasswordField;

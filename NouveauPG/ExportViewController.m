@@ -9,11 +9,6 @@
 #import "ExportViewController.h"
 #import "MessageUI/MFMailComposeViewController.h"
 
-@interface ExportViewController () {
-    NSString *m_textData;
-}
-
-@end
 
 @implementation ExportViewController
 
@@ -34,6 +29,10 @@
     self.navigationController.toolbarHidden = FALSE;
     
     [m_textView setText:m_textData];
+}
+
+-(void)setEmail: (NSString *)emailAddress {
+    m_emailAddress = [[NSString alloc]initWithString:emailAddress];
 }
 
 -(void)viewDidAppear:(BOOL)animated {
@@ -70,6 +69,9 @@
     MFMailComposeViewController *mailComposer = [[MFMailComposeViewController alloc]init];
     [mailComposer setSubject:@"PGP Public Key Certificate"];
     [mailComposer setMessageBody:m_textData isHTML:FALSE];
+    if (m_emailAddress) {
+        [mailComposer setToRecipients:[NSArray arrayWithObject:m_emailAddress]];
+    }
     mailComposer.mailComposeDelegate = self;
     [self presentViewController:mailComposer animated:YES completion:NULL];
 }

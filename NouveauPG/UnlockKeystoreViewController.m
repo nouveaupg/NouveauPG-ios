@@ -10,6 +10,7 @@
 #import "OpenPGPMessage.h"
 #import "OpenPGPPacket.h"
 #import "OpenPGPPublicKey.h"
+#import "ExportViewController.h"
 
 @interface UnlockKeystoreViewController ()
 
@@ -31,6 +32,17 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [m_passwordField becomeFirstResponder];
+    
+    if (m_changePassword) {
+        [m_promptLabel setText:@"Enter a password to encrypt your keystore. You will need to enter this password every time you use this key."];
+        [m_repeatPasswordField setHidden:NO];
+        [m_rightButton setTitle:@"Export Keystore" forState:UIControlStateNormal];
+    }
+    else {
+        [m_promptLabel setText:@"Enter a password to decrypt and unlock your keystore."];
+        [m_repeatPasswordField setHidden:YES];
+        [m_rightButton setTitle:@"Unlock Keystore" forState:UIControlStateNormal];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -118,7 +130,7 @@
     */
 }
 
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -126,7 +138,14 @@
 {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    
+    if ([[segue identifier] isEqualToString:@"export"]) {
+        
+        
+        ExportViewController *viewController = (ExportViewController *)[segue destinationViewController];
+    }
+    
+    
 }
-*/
 
 @end
