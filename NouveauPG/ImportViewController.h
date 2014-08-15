@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ImportViewController : UIViewController {
+@interface ImportViewController : UIViewController <UITextViewDelegate> {
     IBOutlet UITextView *m_importText;
+    IBOutlet UIButton *m_clipboardButton;
 
 }
 

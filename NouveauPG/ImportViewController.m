@@ -28,10 +28,15 @@
     return self;
 }
 
+-(void)textViewDidBeginEditing:(UITextView *)textView {
+    [m_clipboardButton setHidden:YES];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [m_importText setDelegate:self];
 }
 
 - (void)didReceiveMemoryWarning
@@ -65,6 +70,8 @@
     [m_importText setText:@""];
     
     [m_importText resignFirstResponder];
+    
+    [m_clipboardButton setHidden:NO];
 }
 
 -(IBAction)pasteToTextView:(id)sender {
@@ -72,6 +79,8 @@
     [m_importText insertText:pasteboard.string];
     
     [m_importText resignFirstResponder];
+    
+    [m_clipboardButton setHidden:YES];
     
     [self importFromTextView:sender];
 }

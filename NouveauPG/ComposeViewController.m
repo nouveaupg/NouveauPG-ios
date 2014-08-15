@@ -71,15 +71,19 @@
 {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
-    NSString *composedText = [NSString stringWithString:[m_composedMessage text]];
-    LiteralPacket *plaintextPacket = [[LiteralPacket alloc]initWithUTF8String:composedText];
-    EncryptedEnvelope *encryptedMessage = [[EncryptedEnvelope alloc]initWithLiteralPacket:plaintextPacket publicKey:m_encryptionKey];
-    NSString *message = [encryptedMessage armouredMessage];
-    // Clear the text after it has been encrypted.
-    [m_composedMessage setText:@""];
     
-    EncryptedViewController *newController = (EncryptedViewController *)[segue destinationViewController];
-    [newController setEncryptedMessage:message recipientEmail:m_recipientEmail];
+    if ([[segue identifier] isEqualToString:@"exportEncryptedData"]) {
+        NSString *composedText = [NSString stringWithString:[m_composedMessage text]];
+        LiteralPacket *plaintextPacket = [[LiteralPacket alloc]initWithUTF8String:composedText];
+        EncryptedEnvelope *encryptedMessage = [[EncryptedEnvelope alloc]initWithLiteralPacket:plaintextPacket publicKey:m_encryptionKey];
+        NSString *message = [encryptedMessage armouredMessage];
+        // Clear the text after it has been encrypted.
+        [m_composedMessage setText:@""];
+        
+        EncryptedViewController *newController = (EncryptedViewController *)[segue destinationViewController];
+        [newController setEncryptedMessage:message recipientEmail:m_recipientEmail];
+
+    }
 }
 
 

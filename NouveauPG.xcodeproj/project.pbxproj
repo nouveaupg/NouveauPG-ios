@@ -19,6 +19,9 @@
 		0427A3251957D33F00817FD3 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0427A3241957D33F00817FD3 /* MessageUI.framework */; };
 		0427A32C1957EBA300817FD3 /* Identity.m in Sources */ = {isa = PBXBuildFile; fileRef = 0427A32B1957EBA300817FD3 /* Identity.m */; };
 		0431CADA1970156A0025A26B /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 0431CAD91970156A0025A26B /* Message.m */; };
+		0461396C199D915300B86620 /* OpenPGPEncryptedPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = 0461396A199D915300B86620 /* OpenPGPEncryptedPacket.m */; };
+		0461396F199D934F00B86620 /* MessageRecipientsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0461396D199D934F00B86620 /* MessageRecipientsTableViewController.m */; };
+		04613972199D935E00B86620 /* MessageRecipientCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04613970199D935E00B86620 /* MessageRecipientCell.m */; };
 		04B5180A194E159100CA43DB /* MyIdentitiesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B51809194E159100CA43DB /* MyIdentitiesViewController.m */; };
 		04B5180D194E3B2400CA43DB /* GenerateKeyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B5180C194E3B2400CA43DB /* GenerateKeyViewController.m */; };
 		04B51815194FDB5800CA43DB /* IdentityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B51814194FDB5800CA43DB /* IdentityCell.m */; };
@@ -87,6 +90,12 @@
 		0427A32B1957EBA300817FD3 /* Identity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Identity.m; path = ../Identity.m; sourceTree = "<group>"; };
 		0431CAD81970156A0025A26B /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
 		0431CAD91970156A0025A26B /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
+		0461396A199D915300B86620 /* OpenPGPEncryptedPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenPGPEncryptedPacket.m; sourceTree = "<group>"; };
+		0461396B199D915300B86620 /* OpenPGPEncryptedPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenPGPEncryptedPacket.h; sourceTree = "<group>"; };
+		0461396D199D934F00B86620 /* MessageRecipientsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageRecipientsTableViewController.m; sourceTree = "<group>"; };
+		0461396E199D934F00B86620 /* MessageRecipientsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageRecipientsTableViewController.h; sourceTree = "<group>"; };
+		04613970199D935E00B86620 /* MessageRecipientCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageRecipientCell.m; sourceTree = "<group>"; };
+		04613971199D935E00B86620 /* MessageRecipientCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageRecipientCell.h; sourceTree = "<group>"; };
 		04B51808194E159100CA43DB /* MyIdentitiesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyIdentitiesViewController.h; sourceTree = "<group>"; };
 		04B51809194E159100CA43DB /* MyIdentitiesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyIdentitiesViewController.m; sourceTree = "<group>"; };
 		04B5180B194E3B2400CA43DB /* GenerateKeyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenerateKeyViewController.h; sourceTree = "<group>"; };
@@ -186,6 +195,8 @@
 		04B5180E194FCBF300CA43DB /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				0461396D199D934F00B86620 /* MessageRecipientsTableViewController.m */,
+				0461396E199D934F00B86620 /* MessageRecipientsTableViewController.h */,
 				04B9D791191EF92A00D2790A /* ImportViewController.h */,
 				04B9D792191EF92A00D2790A /* ImportViewController.m */,
 				04B9D785191673E900D2790A /* RecipientsViewController.h */,
@@ -213,6 +224,8 @@
 		04B5180F194FCC3000CA43DB /* Table Cells */ = {
 			isa = PBXGroup;
 			children = (
+				04613970199D935E00B86620 /* MessageRecipientCell.m */,
+				04613971199D935E00B86620 /* MessageRecipientCell.h */,
 				04B51813194FDB5800CA43DB /* IdentityCell.h */,
 				04B51814194FDB5800CA43DB /* IdentityCell.m */,
 				04B9D78819167A3900D2790A /* RecipientCell.h */,
@@ -307,6 +320,8 @@
 		04B9D79A191EFB3000D2790A /* OpenPGP */ = {
 			isa = PBXGroup;
 			children = (
+				0461396A199D915300B86620 /* OpenPGPEncryptedPacket.m */,
+				0461396B199D915300B86620 /* OpenPGPEncryptedPacket.h */,
 				0427A3211957C7EB00817FD3 /* NSString+Base64.h */,
 				0427A3221957C7EB00817FD3 /* NSString+Base64.m */,
 				0427A31B1957C7B700817FD3 /* EncryptedEnvelope.h */,
@@ -443,6 +458,7 @@
 				04B9D78D191DAFFE00D2790A /* Recipient.m in Sources */,
 				04B9D84F193C218E00D2790A /* IdenticonView.m in Sources */,
 				04B9D787191673E900D2790A /* RecipientsViewController.m in Sources */,
+				0461396F199D934F00B86620 /* MessageRecipientsTableViewController.m in Sources */,
 				0427A3171957C29000817FD3 /* EncryptedViewController.m in Sources */,
 				04B5181B195299D300CA43DB /* ExportViewController.m in Sources */,
 				0427A3231957C7EB00817FD3 /* NSString+Base64.m in Sources */,
@@ -452,9 +468,11 @@
 				04B9D7641913421C00D2790A /* NouveauPG.xcdatamodeld in Sources */,
 				04B51815194FDB5800CA43DB /* IdentityCell.m in Sources */,
 				04B9D7A0191F000F00D2790A /* UserIDPacket.m in Sources */,
+				0461396C199D915300B86620 /* OpenPGPEncryptedPacket.m in Sources */,
 				04B9D7A5191FF5AF00D2790A /* OpenPGPPublicKey.m in Sources */,
 				0407406E196E520A001AF5E5 /* MessagesViewController.m in Sources */,
 				04B5180A194E159100CA43DB /* MyIdentitiesViewController.m in Sources */,
+				04613972199D935E00B86620 /* MessageRecipientCell.m in Sources */,
 				0427A31F1957C7B700817FD3 /* EncryptedEnvelope.m in Sources */,
 				0427A31A1957C44800817FD3 /* ComposeViewController.m in Sources */,
 				0427A32C1957EBA300817FD3 /* Identity.m in Sources */,
@@ -582,7 +600,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					"/Users/johnhill/Downloads/ios-openssl/include",
+					"/Users/jack/Documents/ios-openssl/include",
 				);
 				INFOPLIST_FILE = "NouveauPG/NouveauPG-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
@@ -606,7 +624,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					"/Users/johnhill/Downloads/ios-openssl/include",
+					"/Users/jack/Documents/ios-openssl/include",
 				);
 				INFOPLIST_FILE = "NouveauPG/NouveauPG-Info.plist";
 				LIBRARY_SEARCH_PATHS = (

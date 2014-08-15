@@ -87,7 +87,7 @@
     
     NSInteger newIdenticonCode = 0;
     
-    NSString *keyId = identityData.keyId;
+    NSString *keyId = [identityData.keyId uppercaseString];
     for (int i = 0; i < 8; i++) {
         unichar c = [keyId characterAtIndex:i];
         if ((int)c < 58) {
