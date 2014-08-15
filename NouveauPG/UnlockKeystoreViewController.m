@@ -27,6 +27,11 @@
     return self;
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [m_passwordField setText:@""];
+    [m_repeatPasswordField setText:@""];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -79,6 +84,7 @@
     
     if (m_changePassword) {
         if ([[m_passwordField text] isEqualToString:[m_repeatPasswordField text]]) {
+            m_password = [m_passwordField text];
             [self performSegueWithIdentifier:@"exportKeystore" sender:self];
         }
         else {
@@ -130,6 +136,11 @@
     */
 }
 
+-(void)setUserId:(NSString *)userId
+{
+    m_userId = userId;
+}
+
 
 #pragma mark - Navigation
 
@@ -139,10 +150,19 @@
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
     
-    if ([[segue identifier] isEqualToString:@"export"]) {
+    if ([[segue identifier] isEqualToString:@"exportKeystore"]) {
+        NSMutableArray *packets = [[NSMutableArray alloc]initWithCapacity:3];
         
+        [packets addObject:[m_primary exportPrivateKey:m_password]];
+        NSData *userIdData = [NSData dataWithBytes:[m_userId UTF8String] length:[m_userId length]];
+        OpenPGPPacket *userIdPacket = [[OpenPGPPacket alloc]initWithPacketBody:userIdData tag:13 oldFormat:YES];
+        [packets addObject:userIdPacket];
+        [packets addObject:[m_subkey exportPrivateKey:m_password]];
+        
+        NSString *asciiArmouredData = [OpenPGPMessage privateKeystoreFromPacketChain:packets];
         
         ExportViewController *viewController = (ExportViewController *)[segue destinationViewController];
+        [viewController setText:asciiArmouredData];
     }
     
     

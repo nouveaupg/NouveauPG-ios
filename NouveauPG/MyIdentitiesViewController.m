@@ -246,6 +246,15 @@
     else if( [[segue identifier] isEqualToString:@"choosePassword"]) {
         UnlockKeystoreViewController *nextViewController = (UnlockKeystoreViewController *)[segue destinationViewController];
         [nextViewController setPrimaryKey:m_identityData.primaryKeystore subkey:m_identityData.encryptionKeystore];
+        NSString *userId;
+        if (m_identityData.email) {
+            userId = [NSString stringWithFormat:@"%@ <%@>",m_identityData.name,m_identityData.email];
+        }
+        else {
+            userId = [NSString stringWithFormat:@"%@",m_identityData.name];
+        }
+        
+        [nextViewController setUserId: userId];
         [nextViewController setChangePassword:true];
     }
 }

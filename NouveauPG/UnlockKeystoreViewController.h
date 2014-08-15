@@ -18,6 +18,7 @@
     IBOutlet UITextField *m_passwordField;
     IBOutlet UITextField *m_repeatPasswordField;
     IBOutlet UIButton *m_rightButton;
+    NSString *m_password;
     
     bool m_changePassword;
     
@@ -28,6 +29,7 @@
 -(void)setKeystore:(NSString *)asciiArmouredData;
 -(void)setPrimaryKey: (OpenPGPPublicKey *)primary subkey:(OpenPGPPublicKey *)encryptionSubkey;
 -(void)setChangePassword: (bool)change;
+-(void)setUserId:(NSString *)userId;
 -(IBAction)unlockKeystore:(id)sender;
 
 @end
