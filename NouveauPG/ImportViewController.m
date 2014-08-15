@@ -53,7 +53,7 @@
                 NSLog(@"Found UserId: %@", [userIdPacket stringValue]);
             }
             if ([eachPacket packetTag] == 6) {
-                AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+                AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
                 [appDelegate addRecipientWithCertificate:[openPGPMessage originalArmouredText]];
             }
         }

@@ -9,6 +9,9 @@
 #import "RecipientsViewController.h"
 #import "AppDelegate.h"
 
+#import "OpenPGPMessage.h"
+#import "OpenPGPPacket.h"
+#import "OpenPGPPublicKey.h"
 #import "ComposeViewController.h"
 #import "Recipient.h"
 #import "RecipientDetails.h"
@@ -40,9 +43,53 @@
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
+-(void)viewWillAppear:(BOOL)animated {
+    [[self tableView]reloadData];
+}
+
 -(IBAction)addRecipient:(id)sender
 {
-        
+    UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+    NSString *pasteboardContents = pasteboard.string;
+    OpenPGPMessage *message = [[OpenPGPMessage alloc]initWithArmouredText:pasteboardContents];
+    if ([message validChecksum]) {
+        OpenPGPPublicKey *found = nil;
+        for (OpenPGPPacket *eachPacket in [OpenPGPPacket packetsFromMessage:message]) {
+            if ([eachPacket packetTag] == 6) {
+                found = [[OpenPGPPublicKey alloc]initWithPacket:eachPacket];
+            }
+        }
+        if (found) {
+            AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+            bool collision = false;
+            for (Recipient *eachRecipient in app.recipients) {
+                if ([eachRecipient.details.keyId isEqualToString:found.keyId]) {
+                    collision = true;
+                }
+            }
+            
+            if (!collision) {
+                [app addRecipientWithCertificate:pasteboardContents];
+                int row = [app.recipients count]-1;
+                NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:0];
+                
+                [[self tableView]insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            }
+            else {
+                UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Public key exists" message:[NSString stringWithFormat:@"A public key with Key ID: %@ already exists on the recipients list.",found.keyId] delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+                [alert show];
+            }
+            
+        }
+        else {
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Public key not found" message:@"A public key was not found in the OpenPGP message, make sure you have a PUBLIC KEY BLOCK message on your clipboard." delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles: nil];
+            [alert show];
+        }
+    }
+    else {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Not found" message:@"A valid OpenPGP message was not found on your clipboard." delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+        [alert show];
+    }
 }
 
 - (void)didReceiveMemoryWarning

@@ -200,11 +200,24 @@
             // If the UserID doesn't conform to RFC 2822, we don't attempt to pull out the e-mail address
             details.userName = [userId stringValue];
         }
+        
+        NSMutableArray *editable = [[NSMutableArray alloc]initWithArray:self.recipients];
+        
+        [editable addObject:newRecipient];
+        
+        self.recipients = editable;
+        
+        [self saveContext];
+        
+        /*
         NSString *alertText = [NSString stringWithFormat:@"Do you wish to add the public key certificate for User ID \"%@\" to your recipient list?",[userId stringValue]];
+        
+        m_pendingItem = newRecipient;
         
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Add recipient?" message:alertText delegate:nil cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
         [alert setDelegate:self];
         [alert show];
+         */
     }
 }
 
@@ -245,6 +258,18 @@
         NSError *error;
         if([[self managedObjectContext] save:&error]) {
             NSLog(@"Stored certificate.");
+            
+            AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+            NSMutableArray *editable = [[NSMutableArray alloc]initWithArray:app.recipients];
+            
+            Recipient *pendingRecipient = (Recipient *)m_pendingItem;
+            [editable addObject:pendingRecipient];
+            
+            app.recipients = editable;
+            
+            UITabBarController *tabController = (UITabBarController *)self.window.rootViewController;
+            [tabController setSelectedIndex:0];
+            
         }
         else {
             NSLog(@"%@", [error description]);
