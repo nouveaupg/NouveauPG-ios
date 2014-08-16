@@ -235,6 +235,7 @@
         ExportViewController *nextViewController = (ExportViewController *)[segue destinationViewController];
         
         [nextViewController setText:[m_identityData publicCertificate]];
+        [nextViewController setEmail:[m_identityData email]];
     }
     else if( [[segue identifier] isEqualToString:@"unlockKeystore"]) {
         UnlockKeystoreViewController *nextViewController = (UnlockKeystoreViewController *)[segue destinationViewController];

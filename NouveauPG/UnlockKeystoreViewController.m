@@ -154,6 +154,12 @@
         NSMutableArray *packets = [[NSMutableArray alloc]initWithCapacity:3];
         
         [packets addObject:[m_primary exportPrivateKey:m_password]];
+        
+        NSRange emailRange = [m_userId rangeOfCharacterFromSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
+        NSString *remainder = [m_userId substringFromIndex:emailRange.location+1];
+        NSRange emailEndMark = [remainder rangeOfCharacterFromSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
+        NSString *emailAddress = [remainder substringToIndex:emailEndMark.location];
+        
         NSData *userIdData = [NSData dataWithBytes:[m_userId UTF8String] length:[m_userId length]];
         OpenPGPPacket *userIdPacket = [[OpenPGPPacket alloc]initWithPacketBody:userIdData tag:13 oldFormat:YES];
         [packets addObject:userIdPacket];
@@ -163,6 +169,8 @@
         
         ExportViewController *viewController = (ExportViewController *)[segue destinationViewController];
         [viewController setText:asciiArmouredData];
+        [viewController setEmail:emailAddress];
+        
     }
     
     
