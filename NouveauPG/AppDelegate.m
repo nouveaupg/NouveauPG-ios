@@ -19,6 +19,8 @@
 #import "Identity.h"
 #import "Message.h"
 
+#import "NSString+Base64.h"
+
 @implementation AppDelegate
 
 @synthesize managedObjectContext = _managedObjectContext;
@@ -250,6 +252,125 @@
     self.messages = editable;
     
     [self saveContext];
+}
+
+- (bool)addIdentityWithKeystore: (NSString *)privateKeystore password: (NSString *)passwd; {
+    
+    Identity *newIdentity = [NSEntityDescription insertNewObjectForEntityForName:@"Identity" inManagedObjectContext:[self managedObjectContext]];
+    newIdentity.privateKeystore = [[NSString alloc]initWithString:privateKeystore];
+    newIdentity.created = [NSDate date];
+    
+    OpenPGPMessage *message = [[OpenPGPMessage alloc]initWithArmouredText:privateKeystore];
+    
+    if ([message validChecksum]) {
+        UserIDPacket *userIdPacket;
+        for (OpenPGPPacket *eachPack in [OpenPGPPacket packetsFromMessage:message] ) {
+            switch ([eachPack packetTag]) {
+                case 5:
+                    newIdentity.primaryKeystore = [[OpenPGPPublicKey alloc]initWithEncryptedPacket:eachPack];
+                    break;
+                case 7:
+                    newIdentity.encryptionKeystore = [[OpenPGPPublicKey alloc]initWithEncryptedPacket:eachPack];
+                    break;
+                case 13:
+                    userIdPacket = [[UserIDPacket alloc]initWithPacket:eachPack];
+                    break;
+                    
+                default:
+                    break;
+            }
+        }
+        
+        if (newIdentity.primaryKeystore) {
+            if(![newIdentity.primaryKeystore decryptKey:passwd]) {
+                NSLog(@"Import identity - Could not decrypt primary key with password: %@",passwd);
+                return false;
+            }
+        }
+        else {
+            NSLog(@"Import identity - Primary key not found.");
+            return false;
+        }
+        
+        if (newIdentity.encryptionKeystore) {
+            if(![newIdentity.encryptionKeystore decryptKey:passwd]) {
+                NSLog(@"Import identity - Could not decrypt encryption subkey with password: %@",passwd);
+                return false;
+            }
+        }
+        else {
+            NSLog(@"Import identity - Encryption subkey not found.");
+            return false;
+        }
+        
+        NSRange emailRange = [[userIdPacket stringValue] rangeOfCharacterFromSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
+        NSString *remainder = [[userIdPacket stringValue]substringFromIndex:emailRange.location+1];
+        NSRange emailEndMark = [remainder rangeOfCharacterFromSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
+        
+        newIdentity.name = [[userIdPacket stringValue]substringToIndex:emailRange.location];
+        newIdentity.email = [remainder substringToIndex:emailEndMark.location];
+        newIdentity.keyId = [[newIdentity.primaryKeystore keyId] uppercaseString];
+        
+        NSLog(@"Username: %@",newIdentity.name);
+        NSLog(@"E-mail: %@",newIdentity.email);
+        
+        OpenPGPPacket *publicKeyPacket = [newIdentity.primaryKeystore exportPublicKey];
+        OpenPGPPacket *publicSubkeyPacket = [newIdentity.encryptionKeystore exportPublicKey];
+        
+        NSMutableArray *packets = [[NSMutableArray alloc]initWithCapacity:5];
+        [packets addObject:publicKeyPacket];
+        [packets addObject:userIdPacket];
+        [packets addObject:publicSubkeyPacket];
+        
+        OpenPGPPacket *userIdSig = [OpenPGPSignature signUserId:[userIdPacket stringValue] withPublicKey:newIdentity.primaryKeystore];
+        [packets addObject:userIdSig];
+        
+        OpenPGPPacket *subkeySig = [OpenPGPSignature signSubkey:newIdentity.encryptionKeystore withPrivateKey:newIdentity.primaryKeystore];
+        [packets addObject:subkeySig];
+        
+        NSMutableData *certificateData = [[NSMutableData alloc]initWithCapacity:2000];
+        for (OpenPGPPacket *eachPacket in packets) {
+            [certificateData appendData:[eachPacket packetData]];
+        }
+        
+        unsigned char *ptr = (unsigned char *)[certificateData bytes];
+        
+        // RFC 4880
+        
+        long crc = 0xB704CEL;
+        for (int i = 0; i < [certificateData length]; i++) {
+            crc ^= (*(ptr+i)) << 16;
+            for (int j = 0; j < 8; j++) {
+                crc <<= 1;
+                if (crc & 0x1000000) {
+                    crc ^= 0x1864CFBL;
+                }
+            }
+        }
+        crc &= 0xFFFFFFL;
+        
+        char data[3];
+        data[0] = ( crc >> 16 ) & 0xff;
+        data[1] = ( crc >> 8 ) & 0xff;
+        data[2] = crc & 0xff;
+        
+        NSData *crcData = [NSData dataWithBytes:data length:3];
+        NSMutableString *stringBuilder = [[NSMutableString alloc]initWithFormat:@"-----BEGIN PGP PUBLIC KEY BLOCK-----\nVersion: %@\n\n",kVersionString];
+        [stringBuilder appendString:[certificateData base64EncodedString]];
+        [stringBuilder appendFormat:@"\n=%@\n-----END PGP PUBLIC KEY BLOCK-----",[crcData base64EncodedString]];
+        
+        newIdentity.publicCertificate = [[NSString alloc]initWithString:stringBuilder];
+        
+        AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        NSMutableArray *editable = [[NSMutableArray alloc]initWithArray:app.identities];
+        [editable addObject:newIdentity];
+        app.identities = editable;
+        
+        [self saveContext];
+        
+        return true;
+    }
+    return false;
 }
 
 

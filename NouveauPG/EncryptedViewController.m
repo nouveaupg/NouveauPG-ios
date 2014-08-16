@@ -55,7 +55,13 @@
     [app addMessageToStore:[m_encryptedMessage text]];
     
     UITabBarController *tabController = self.tabBarController;
-    [tabController setSelectedIndex:2];
+    
+    if ([tabController selectedIndex] == 2) {
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }
+    else {
+        [tabController setSelectedIndex:2];
+    }
 }
 
 -(IBAction)dismiss:(id)sender {

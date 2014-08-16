@@ -13,8 +13,6 @@
 
 #import "NSString+Base64.h"
 
-#define kVersionString @"NouveauPG 1.10 (iOS)"
-
 @interface GenerateKeyViewController ()
 
 @end
