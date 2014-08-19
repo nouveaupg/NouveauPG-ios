@@ -7,10 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "OpenPGPPublicKey.h"
 
 @interface ImportViewController : UIViewController <UITextViewDelegate> {
     IBOutlet UITextView *m_importText;
     IBOutlet UIButton *m_clipboardButton;
+    NSString *m_importData;
+    
+    OpenPGPPublicKey *m_primary;
+    OpenPGPPublicKey *m_subkey;
 
 }
 

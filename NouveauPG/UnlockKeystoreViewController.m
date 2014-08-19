@@ -10,6 +10,7 @@
 #import "OpenPGPMessage.h"
 #import "OpenPGPPacket.h"
 #import "OpenPGPPublicKey.h"
+#import "AppDelegate.h"
 #import "ExportViewController.h"
 
 @interface UnlockKeystoreViewController ()
@@ -96,6 +97,17 @@
         if ([m_primary decryptKey:password]) {
             if (! [m_subkey decryptKey:password] ) {
                 NSLog(@"Could not decrypt subkey with primary key passphrase.");
+            }
+            
+            if (m_keystoreData) {
+                AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+                if([app addIdentityWithKeystore:m_keystoreData password:password]) {
+                    [self.navigationController.tabBarController setSelectedIndex:1];
+                }
+                else {
+                    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Can't import" message:@"Cannot import the private key. Currently NouveauPG can only import keys that were generated and exported by the same." delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+                    [alert show];
+                }
             }
             
             [self.navigationController popToRootViewControllerAnimated:TRUE];

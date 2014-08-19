@@ -77,7 +77,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Id1-DJ-V9Y" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1166" y="-31"/>
+            <point key="canvasLocation" x="1422" y="-575"/>
         </scene>
         <!--Encrypted View Controller-->
         <scene sceneID="eKv-Z8-eFC">
@@ -130,7 +130,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9p2-wt-zbS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2259" y="-245"/>
+            <point key="canvasLocation" x="2785" y="-245"/>
         </scene>
         <!--Compose View Controller - Compose-->
         <scene sceneID="oox-Aw-rEI">
@@ -175,7 +175,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Uca-PD-ESh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1659" y="-655"/>
+            <point key="canvasLocation" x="2185" y="-655"/>
         </scene>
         <!--Export View Controller-->
         <scene sceneID="0of-oU-4Xl">
@@ -221,7 +221,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="g7k-IB-DxT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1747" y="1681"/>
+            <point key="canvasLocation" x="1891" y="1801"/>
         </scene>
         <!--Message Recipients Table View Controller - Choose Recipient-->
         <scene sceneID="60V-KS-IVY">
@@ -289,7 +289,7 @@
             </objects>
             <point key="canvasLocation" x="2227" y="741"/>
         </scene>
-        <!--Import View Controller - Import-->
+        <!--Import View Controller-->
         <scene sceneID="9od-gc-4X1">
             <objects>
                 <viewController id="uXf-8X-buI" customClass="ImportViewController" sceneMemberID="viewController">
@@ -306,46 +306,6 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
                             </textView>
-                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="b8Y-Dn-P87">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <items>
-                                    <navigationItem id="bEK-Q5-u1Y">
-                                        <nil key="title"/>
-                                        <barButtonItem key="leftBarButtonItem" style="plain" id="HKo-Ai-ch5">
-                                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="DCs-FQ-oIC">
-                                                <rect key="frame" x="16" y="7" width="39" height="30"/>
-                                                <state key="normal" title="Paste">
-                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="pasteToTextView:" destination="uXf-8X-buI" eventType="touchUpInside" id="b8H-hZ-dFc"/>
-                                                </connections>
-                                            </button>
-                                        </barButtonItem>
-                                        <button key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="62e-nt-ze6">
-                                            <rect key="frame" x="138" y="7" width="45" height="30"/>
-                                            <state key="normal" title="Import">
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                            <connections>
-                                                <action selector="importFromTextView:" destination="uXf-8X-buI" eventType="touchUpInside" id="u8d-25-cHh"/>
-                                            </connections>
-                                        </button>
-                                        <barButtonItem key="rightBarButtonItem" style="plain" id="TPg-UV-weS">
-                                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="4fU-Bz-chh">
-                                                <rect key="frame" x="267" y="7" width="37" height="30"/>
-                                                <state key="normal" title="Clear">
-                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="clearTextView:" destination="uXf-8X-buI" eventType="touchUpInside" id="vTv-Sw-iB0"/>
-                                                </connections>
-                                            </button>
-                                        </barButtonItem>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vNx-HT-Z3j">
                                 <rect key="frame" x="13" y="102" width="295" height="363"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -359,17 +319,53 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Import" image="Import" id="B1N-lR-ZX0"/>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="NcU-v3-po2">
+                        <nil key="title"/>
+                        <barButtonItem key="leftBarButtonItem" style="plain" id="wuh-qL-B2o">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="hco-Xn-3gF">
+                                <rect key="frame" x="16" y="7" width="37" height="30"/>
+                                <state key="normal" title="Clear">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="clearTextView:" destination="uXf-8X-buI" eventType="touchUpInside" id="qpp-gG-8B4"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
+                        <button key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="62e-nt-ze6">
+                            <rect key="frame" x="138" y="7" width="45" height="30"/>
+                            <state key="normal" title="Import">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="importFromTextView:" destination="uXf-8X-buI" eventType="touchUpInside" id="u8d-25-cHh"/>
+                            </connections>
+                        </button>
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="HKo-Ai-ch5">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="DCs-FQ-oIC">
+                                <rect key="frame" x="265" y="7" width="39" height="30"/>
+                                <state key="normal" title="Paste">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="pasteToTextView:" destination="uXf-8X-buI" eventType="touchUpInside" id="b8H-hZ-dFc"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
-                    <nil key="simulatedTopBarMetrics"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="m_clipboardButton" destination="vNx-HT-Z3j" id="ia2-v0-HjM"/>
                         <outlet property="m_importText" destination="CUq-wQ-Za1" id="VK0-Yq-st4"/>
+                        <segue destination="8q4-iB-c52" kind="push" identifier="unlockImport" id="ygw-7H-Pr6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gsk-8F-hOm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="640" y="-843"/>
+            <point key="canvasLocation" x="1110" y="131"/>
         </scene>
         <!--Navigation Controller - Recipients-->
         <scene sceneID="6a2-gU-daT">
@@ -473,7 +469,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1nX-Xq-XFc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="880" y="823"/>
+            <point key="canvasLocation" x="576" y="735"/>
         </scene>
         <!--Unlock Keystore View Controller-->
         <scene sceneID="kA9-lq-lDO">
@@ -538,7 +534,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ovm-yS-wcp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1087" y="1875"/>
+            <point key="canvasLocation" x="1603" y="741"/>
         </scene>
         <!--Generate Key View Controller-->
         <scene sceneID="dm8-UD-0Pd">
@@ -615,7 +611,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8dY-g7-lSz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1643" y="687"/>
+            <point key="canvasLocation" x="955" y="1767"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="dFo-za-PJf">
@@ -631,7 +627,7 @@
                         <segue destination="o7P-3a-2e0" kind="relationship" relationship="viewControllers" id="hHF-nK-Ze9"/>
                         <segue destination="P6Q-2b-c5X" kind="relationship" relationship="viewControllers" id="Oli-An-Vu9"/>
                         <segue destination="wZS-V7-id2" kind="relationship" relationship="viewControllers" id="0La-5M-aqg"/>
-                        <segue destination="uXf-8X-buI" kind="relationship" relationship="viewControllers" id="ECS-IM-4vm"/>
+                        <segue destination="Fs6-G3-slk" kind="relationship" relationship="viewControllers" id="ECS-IM-4vm"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="z8v-mY-z3x" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -655,7 +651,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aoj-F3-ZjC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="394" y="879"/>
+            <point key="canvasLocation" x="106" y="1287"/>
         </scene>
         <!--Messages View Controller - Messages-->
         <scene sceneID="9KD-3Y-oaD">
@@ -794,7 +790,26 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Law-12-cKZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="559" y="2508"/>
+            <point key="canvasLocation" x="-161" y="2116"/>
+        </scene>
+        <!--Navigation Controller - Import-->
+        <scene sceneID="fl5-Tu-5rd">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Fs6-G3-slk" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Import" image="Import" id="B1N-lR-ZX0"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="DJI-o4-mKT">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="uXf-8X-buI" kind="relationship" relationship="rootViewController" id="SPN-uo-1m0"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zvE-Dk-KAq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="640" y="-843"/>
         </scene>
     </scenes>
     <resources>
@@ -812,7 +827,7 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="fXH-ri-jsc"/>
-        <segue reference="O5F-nq-Ba7"/>
-        <segue reference="F2n-Io-IBZ"/>
+        <segue reference="ygw-7H-Pr6"/>
+        <segue reference="IEx-3z-qZh"/>
     </inferredMetricsTieBreakers>
 </document>
