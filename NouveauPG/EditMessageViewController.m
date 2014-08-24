@@ -60,6 +60,28 @@
             m_dataSource.body = [m_textView text];
             m_dataSource.edited = [NSDate date];
             
+            OpenPGPMessage *encryptedMessage = [[OpenPGPMessage alloc]initWithArmouredText: m_dataSource.body];
+            if ([encryptedMessage validChecksum]) {
+                for (OpenPGPPacket *eachPacket in [OpenPGPPacket packetsFromMessage:encryptedMessage]) {
+                    if ([eachPacket packetTag] == 1) {
+                        NSLog(@"Packet Tag 1");
+                        unsigned char *ptr = (unsigned char *)[[eachPacket packetData] bytes];
+                        ptr += 3;
+                        if (*ptr == 3) {
+                            NSString *keyId = [NSString stringWithFormat:@"%02x%02x%02x%02x",*(ptr+5),*(ptr+6),*(ptr+7),*(ptr+8)];
+                            
+                            for (Identity *eachIdentity in app.identities ) {
+                                if ([[eachIdentity.primaryKeystore keyId] isEqualToString:keyId] || [[eachIdentity.encryptionKeystore keyId] isEqualToString:keyId]) {
+                                    m_dataSource.keyId = eachIdentity.primaryKeystore.keyId;
+                                }
+                            }
+                        }
+                        
+                    }
+                }
+            }
+
+            
             [app saveContext];
             
             NSLog(@"Saved message.");
@@ -147,6 +169,10 @@
                             }
                             else {
                                 NSLog(@"Need to decrypt primary key.");
+                                
+                                UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Identity locked" message:[NSString stringWithFormat:@"You must unlock the identity \"%@\" to decrypt this message.",recipient.name] delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+                                [alert show];
+                                [[[self navigationController] tabBarController] setSelectedIndex:1];
                             }
                         }
                         if ([[recipient.encryptionKeystore keyId] isEqualToString:searchingForKeyId]) {
@@ -157,6 +183,12 @@
                             }
                             else {
                                 NSLog(@"Need to decrypt encryption subkey.");
+                                
+                                UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Identity locked" message:[NSString stringWithFormat:@"You must unlock the identity %@ to decrypt this message.",recipient.name] delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+                                [alert show];
+                                [[[self navigationController] tabBarController] setSelectedIndex:1];
+                                
+                                return false;
                             }
                             
                         }
