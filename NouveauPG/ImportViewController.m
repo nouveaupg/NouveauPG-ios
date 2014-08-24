@@ -63,6 +63,8 @@
             }
             if ([eachPacket packetTag] == 6) {
                 [appDelegate addRecipientWithCertificate:[openPGPMessage originalArmouredText]];
+                // now show the recipients tab
+                [[[self navigationController] tabBarController] setSelectedIndex:0];
             }
         }
         if (m_primary) {

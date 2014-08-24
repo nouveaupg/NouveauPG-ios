@@ -228,6 +228,28 @@
 
 #pragma mark - Navigation
 
+-(IBAction)addIdentity:(id)sender {
+    NSString *certificateData = [[UIPasteboard generalPasteboard] string];
+    OpenPGPMessage *message = [[OpenPGPMessage alloc]initWithArmouredText:certificateData];
+    AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    
+    if ([message validChecksum]) {
+        for (OpenPGPPacket *eachPacket in [OpenPGPPacket packetsFromMessage:message] ) {
+            if ([eachPacket packetTag] == 5) {
+                m_primary = [[OpenPGPPublicKey alloc]initWithEncryptedPacket:eachPacket];
+            }
+        }
+        
+        if (m_primary) {
+            m_clipboardData = [[NSString alloc]initWithString:certificateData];
+            
+            [self performSegueWithIdentifier:@"unlockKeystore" sender:self];
+            return;
+        }
+    }
+    [self performSegueWithIdentifier:@"generateIdentity" sender:self];
+}
+
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
@@ -240,8 +262,14 @@
     else if( [[segue identifier] isEqualToString:@"unlockKeystore"]) {
         UnlockKeystoreViewController *nextViewController = (UnlockKeystoreViewController *)[segue destinationViewController];
         
-        [nextViewController setPrimaryKey:m_identityData.primaryKeystore subkey:m_identityData.encryptionKeystore];
-        [nextViewController setChangePassword:false];
+        if (m_primary) {
+            [nextViewController setPrimaryKey:m_primary subkey:nil];
+            [nextViewController setKeystore:m_clipboardData];
+        }
+        else {
+            [nextViewController setPrimaryKey:m_identityData.primaryKeystore subkey:m_identityData.encryptionKeystore];
+            [nextViewController setChangePassword:false];
+        }
         //[nextViewController setKeystore: [m_identityData privateKeystore]];
     }
     else if( [[segue identifier] isEqualToString:@"choosePassword"]) {

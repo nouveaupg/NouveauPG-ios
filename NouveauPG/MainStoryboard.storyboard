@@ -456,7 +456,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="CQe-3g-zM3" kind="push" id="4Nf-u4-c2z"/>
+                                    <action selector="addIdentity:" destination="CZ9-sB-9sN" eventType="touchUpInside" id="7d1-Zo-Nte"/>
                                 </connections>
                             </button>
                         </barButtonItem>
@@ -465,6 +465,7 @@
                         <segue destination="TNJ-Kk-eoM" kind="push" identifier="exportPublicKey" id="IEx-3z-qZh"/>
                         <segue destination="8q4-iB-c52" kind="push" identifier="unlockKeystore" id="O5F-nq-Ba7"/>
                         <segue destination="8q4-iB-c52" kind="push" identifier="choosePassword" id="PRD-UU-UXt"/>
+                        <segue destination="CQe-3g-zM3" kind="push" identifier="generateIdentity" id="kIS-SC-Fh0"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1nX-Xq-XFc" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -487,7 +488,7 @@
                                 <rect key="frame" x="0.0" y="64" width="320" height="455"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lDU-ek-L4o">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="lDU-ek-L4o">
                                 <rect key="frame" x="20" y="177" width="280" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -500,7 +501,7 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Repeat Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="DGn-ez-d2n">
+                            <textField hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Repeat Password" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="DGn-ez-d2n">
                                 <rect key="frame" x="20" y="215" width="280" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -826,8 +827,8 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="O5F-nq-Ba7"/>
+        <segue reference="F2n-Io-IBZ"/>
         <segue reference="fXH-ri-jsc"/>
-        <segue reference="ygw-7H-Pr6"/>
-        <segue reference="IEx-3z-qZh"/>
     </inferredMetricsTieBreakers>
 </document>
