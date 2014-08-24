@@ -247,6 +247,28 @@
     newMessage.created = [NSDate date];
     newMessage.edited = [NSDate date];
     
+    OpenPGPMessage *encryptedMessage = [[OpenPGPMessage alloc]initWithArmouredText: newMessage.body];
+    if ([encryptedMessage validChecksum]) {
+        for (OpenPGPPacket *eachPacket in [OpenPGPPacket packetsFromMessage:encryptedMessage]) {
+            if ([eachPacket packetTag] == 1) {
+                NSLog(@"Packet Tag 1");
+                unsigned char *ptr = (unsigned char *)[[eachPacket packetData] bytes];
+                ptr += 3;
+                if (*ptr == 3) {
+                    NSString *keyId = [NSString stringWithFormat:@"%02x%02x%02x%02x",*(ptr+5),*(ptr+6),*(ptr+7),*(ptr+8)];
+                    
+                    for (Identity *eachIdentity in self.identities ) {
+                        if ([[eachIdentity.primaryKeystore keyId] isEqualToString:keyId] || [[eachIdentity.encryptionKeystore keyId] isEqualToString:keyId]) {
+                            newMessage.keyId = eachIdentity.primaryKeystore.keyId;
+                        }
+                    }
+                }
+                
+            }
+        }
+    }
+
+    
     NSMutableArray *editable = [[NSMutableArray alloc]initWithArray:self.messages];
     [editable addObject:newMessage];
     self.messages = editable;
