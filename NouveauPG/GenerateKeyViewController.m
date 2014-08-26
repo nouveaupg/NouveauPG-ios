@@ -24,6 +24,8 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        m_threadDone = false;
+        m_threadStarted = false;
     }
     return self;
 }
@@ -41,8 +43,7 @@
     // Dispose of any resources that can be recreated.
 }
 
--(IBAction)generateKey:(id)sender {
-    
+-(void)generateKeypair {
     NSString *publicKeyCertificate = nil;
     NSString *privateKeystore = nil;
     NSString *password = @"";
@@ -55,6 +56,8 @@
     else {
         password = [m_passwordField text];
     }
+    
+    
     
     OpenPGPPublicKey *identityKey = [[OpenPGPPublicKey alloc]initWithKeyLength:2048 isSubkey:NO];
     OpenPGPPublicKey *encryptionSubkey = [[OpenPGPPublicKey alloc]initWithKeyLength:2048 isSubkey:YES];
@@ -123,13 +126,13 @@
     NSMutableString *stringBuilder = [[NSMutableString alloc]initWithFormat:@"-----BEGIN PGP PUBLIC KEY BLOCK-----\nVersion: %@\n\n",kVersionString];
     [stringBuilder appendString:[publicKeyCertificateData base64EncodedString]];
     [stringBuilder appendFormat:@"\n=%@\n-----END PGP PUBLIC KEY BLOCK-----",[crcData base64EncodedString]];
-
+    
     publicKeyCertificate = [[NSString alloc]initWithString:stringBuilder];
     
     [packets removeAllObjects];
     
     // Now generating the private keystore and encrypting it for storage
-
+    
     [packets addObject:[identityKey exportPrivateKey:password]];
     [packets addObject:userIdPacket];
     [packets addObject:[encryptionSubkey exportPrivateKey:password]];
@@ -139,7 +142,26 @@
     AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     [app addIdentityWithPublicCertificate:publicKeyCertificate privateKeystore:privateKeystore name:[m_nameField text] emailAddr:[m_emailField text] keyId:identityKey.keyId];
     
-    [[self navigationController] popViewControllerAnimated:YES];
+    m_threadDone = true;
+    
+    m_threadStarted = false;
+}
+
+-(void)checkThread:(id)sender {
+    if (m_threadDone) {
+        NSTimer *timer = (NSTimer *)sender;
+        [timer invalidate];
+        
+        [[self navigationController] popViewControllerAnimated:YES];
+    }
+}
+
+-(IBAction)generateKey:(id)sender {
+    if (!m_threadStarted) {
+        m_threadStarted = true;
+        [NSThread detachNewThreadSelector:@selector(generateKeypair) toTarget:self withObject:nil];
+        [NSTimer scheduledTimerWithTimeInterval:.5 target:self selector:@selector(checkThread:) userInfo:nil repeats:YES];
+    }
 }
 
 /*

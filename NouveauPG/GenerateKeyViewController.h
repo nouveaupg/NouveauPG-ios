@@ -13,8 +13,13 @@
     IBOutlet UITextField *m_emailField;
     IBOutlet UITextField *m_passwordField;
     IBOutlet UITextField *m_passwordRepeatField;
+    
+    bool m_threadDone;
+    bool m_threadStarted;
 }
 
 -(IBAction)generateKey:(id)sender;
+-(void)checkThread:(id)sender;
+-(void)generateKeypair;
 
 @end
