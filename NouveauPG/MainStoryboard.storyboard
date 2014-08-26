@@ -155,7 +155,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Compose" id="ZE7-TF-cdr">
                         <barButtonItem key="rightBarButtonItem" style="plain" id="iUQ-EM-6dN">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="dAg-6q-jDS">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="dAg-6q-jDS">
                                 <rect key="frame" x="233" y="5" width="71" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -512,7 +512,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="iJe-9n-dBA">
                         <barButtonItem key="rightBarButtonItem" style="plain" id="vmb-kf-vte">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="lfA-u8-ugD">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="lfA-u8-ugD">
                                 <rect key="frame" x="191" y="5" width="113" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -588,8 +588,8 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="U0K-ov-QIy">
-                        <barButtonItem key="rightBarButtonItem" style="plain" id="VVe-mP-uIa">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="yXs-Cr-Rtz">
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="Lej-lC-RKq">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="qSZ-5T-jhw">
                                 <rect key="frame" x="233" y="5" width="71" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -597,7 +597,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="generateKey:" destination="CQe-3g-zM3" eventType="touchUpInside" id="b1e-ay-6nN"/>
+                                    <action selector="generateKey:" destination="CQe-3g-zM3" eventType="touchUpInside" id="0gX-n1-HAo"/>
                                 </connections>
                             </button>
                         </barButtonItem>
@@ -605,6 +605,7 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="m_emailField" destination="Be9-v2-w6J" id="JuM-VG-a5N"/>
+                        <outlet property="m_generateButton" destination="qSZ-5T-jhw" id="kdl-Jx-gZ1"/>
                         <outlet property="m_nameField" destination="gXp-JQ-kYQ" id="tep-0H-xtC"/>
                         <outlet property="m_passwordField" destination="Mvg-q9-oac" id="vY8-dH-1Kh"/>
                         <outlet property="m_passwordRepeatField" destination="biO-0C-YPl" id="iP5-qe-ru5"/>

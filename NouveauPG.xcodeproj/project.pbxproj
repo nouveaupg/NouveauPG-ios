@@ -22,6 +22,7 @@
 		0461396C199D915300B86620 /* OpenPGPEncryptedPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = 0461396A199D915300B86620 /* OpenPGPEncryptedPacket.m */; };
 		0461396F199D934F00B86620 /* MessageRecipientsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0461396D199D934F00B86620 /* MessageRecipientsTableViewController.m */; };
 		04613972199D935E00B86620 /* MessageRecipientCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04613970199D935E00B86620 /* MessageRecipientCell.m */; };
+		04997D7719AC07C000D9121F /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 04997D7619AC07C000D9121F /* MBProgressHUD.m */; };
 		04B5180A194E159100CA43DB /* MyIdentitiesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B51809194E159100CA43DB /* MyIdentitiesViewController.m */; };
 		04B5180D194E3B2400CA43DB /* GenerateKeyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B5180C194E3B2400CA43DB /* GenerateKeyViewController.m */; };
 		04B51815194FDB5800CA43DB /* IdentityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B51814194FDB5800CA43DB /* IdentityCell.m */; };
@@ -96,6 +97,8 @@
 		0461396E199D934F00B86620 /* MessageRecipientsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageRecipientsTableViewController.h; sourceTree = "<group>"; };
 		04613970199D935E00B86620 /* MessageRecipientCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageRecipientCell.m; sourceTree = "<group>"; };
 		04613971199D935E00B86620 /* MessageRecipientCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageRecipientCell.h; sourceTree = "<group>"; };
+		04997D7519AC07C000D9121F /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		04997D7619AC07C000D9121F /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		04B51808194E159100CA43DB /* MyIdentitiesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyIdentitiesViewController.h; sourceTree = "<group>"; };
 		04B51809194E159100CA43DB /* MyIdentitiesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyIdentitiesViewController.m; sourceTree = "<group>"; };
 		04B5180B194E3B2400CA43DB /* GenerateKeyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenerateKeyViewController.h; sourceTree = "<group>"; };
@@ -290,6 +293,8 @@
 		04B9D7571913421C00D2790A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				04997D7519AC07C000D9121F /* MBProgressHUD.h */,
+				04997D7619AC07C000D9121F /* MBProgressHUD.m */,
 				04B9D7F51923044D00D2790A /* lib */,
 				04B9D7581913421C00D2790A /* NouveauPG-Info.plist */,
 				04B9D7591913421C00D2790A /* InfoPlist.strings */,
@@ -451,6 +456,7 @@
 				04B9D7611913421C00D2790A /* AppDelegate.m in Sources */,
 				04B9D75D1913421C00D2790A /* main.m in Sources */,
 				0427A3141957BF1A00817FD3 /* UnlockKeystoreViewController.m in Sources */,
+				04997D7719AC07C000D9121F /* MBProgressHUD.m in Sources */,
 				04B9D78A19167A3900D2790A /* RecipientCell.m in Sources */,
 				0427A3201957C7B700817FD3 /* LiteralPacket.m in Sources */,
 				04B9D79D191EFEA400D2790A /* OpenPGPPacket.m in Sources */,

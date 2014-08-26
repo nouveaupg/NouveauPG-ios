@@ -159,8 +159,24 @@
 -(IBAction)generateKey:(id)sender {
     if (!m_threadStarted) {
         m_threadStarted = true;
-        [NSThread detachNewThreadSelector:@selector(generateKeypair) toTarget:self withObject:nil];
-        [NSTimer scheduledTimerWithTimeInterval:.5 target:self selector:@selector(checkThread:) userInfo:nil repeats:YES];
+        
+        [m_generateButton setEnabled:FALSE];
+        
+        m_progressIndicator = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
+        [self.navigationController.view addSubview:m_progressIndicator];
+        
+        m_progressIndicator.delegate = self;
+        m_progressIndicator.labelText = @"Generating Keypair";
+        
+        [m_nameField resignFirstResponder];
+        [m_emailField resignFirstResponder];
+        [m_passwordField resignFirstResponder];
+        [m_passwordRepeatField resignFirstResponder];
+        
+        [m_progressIndicator showWhileExecuting:@selector(generateKeypair) onTarget:self withObject:nil animated:YES];
+        
+        //[NSThread detachNewThreadSelector:@selector(generateKeypair) toTarget:self withObject:nil];
+        [NSTimer scheduledTimerWithTimeInterval:.25 target:self selector:@selector(checkThread:) userInfo:nil repeats:YES];
     }
 }
 

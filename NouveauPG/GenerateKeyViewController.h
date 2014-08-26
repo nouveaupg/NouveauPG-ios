@@ -8,11 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+#import "MBProgressHUD.h"
+
 @interface GenerateKeyViewController : UIViewController {
     IBOutlet UITextField *m_nameField;
     IBOutlet UITextField *m_emailField;
     IBOutlet UITextField *m_passwordField;
     IBOutlet UITextField *m_passwordRepeatField;
+    IBOutlet UIButton *m_generateButton;
+    
+    MBProgressHUD *m_progressIndicator;
     
     bool m_threadDone;
     bool m_threadStarted;
