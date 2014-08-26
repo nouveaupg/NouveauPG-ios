@@ -234,6 +234,18 @@
     newIdentity.publicCertificate = publicCertificate;
     newIdentity.created = [NSDate date];
     
+    OpenPGPMessage *message = [[OpenPGPMessage alloc]initWithArmouredText: keystore];
+    if ([message validChecksum]) {
+        for (OpenPGPPacket *eachPacket in [OpenPGPPacket packetsFromMessage:message]) {
+            if ([eachPacket packetTag] == 5) {
+                newIdentity.primaryKeystore = [[OpenPGPPublicKey alloc]initWithEncryptedPacket:eachPacket];
+            }
+            if ([eachPacket packetTag] == 7) {
+                newIdentity.encryptionKeystore = [[OpenPGPPublicKey alloc]initWithEncryptedPacket:eachPacket];
+            }
+        }
+    }
+    
     NSMutableArray *editable = [[NSMutableArray alloc]initWithArray:self.identities];
     [editable addObject:newIdentity];
     self.identities = editable;

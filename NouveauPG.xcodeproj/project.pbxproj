@@ -403,6 +403,9 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "___FULLUSERNAME___";
 				TargetAttributes = {
+					04B9D74A1913421C00D2790A = {
+						DevelopmentTeam = H5F2Z4B73D;
+					};
 					04B9D76A1913421C00D2790A = {
 						TestTargetID = 04B9D74A1913421C00D2790A;
 					};
@@ -601,6 +604,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NouveauPG/NouveauPG-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -625,6 +629,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NouveauPG/NouveauPG-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
