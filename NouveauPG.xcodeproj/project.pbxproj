@@ -55,7 +55,7 @@
 		04B9D7A6191FF5AF00D2790A /* OpenPGPSignature.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B9D7A4191FF5AF00D2790A /* OpenPGPSignature.m */; };
 		04B9D7F81923044D00D2790A /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04B9D7F61923044D00D2790A /* libcrypto.a */; };
 		04B9D84F193C218E00D2790A /* IdenticonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B9D84E193C218E00D2790A /* IdenticonView.m */; };
-		04C9636619CFBDD300A2446C /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C9636519CFBDD300A2446C /* CloudKit.framework */; };
+		04F17B6619D352B700B17752 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F17B6519D352B700B17752 /* SettingsViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -152,7 +152,8 @@
 		04B9D84D193C218E00D2790A /* IdenticonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IdenticonView.h; sourceTree = "<group>"; };
 		04B9D84E193C218E00D2790A /* IdenticonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IdenticonView.m; sourceTree = "<group>"; };
 		04C9636419CF14CB00A2446C /* NouveauPG.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = NouveauPG.entitlements; sourceTree = "<group>"; };
-		04C9636519CFBDD300A2446C /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		04F17B6419D352B700B17752 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
+		04F17B6519D352B700B17752 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -160,7 +161,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04C9636619CFBDD300A2446C /* CloudKit.framework in Frameworks */,
 				0427A3251957D33F00817FD3 /* MessageUI.framework in Frameworks */,
 				04B9D7511913421C00D2790A /* CoreGraphics.framework in Frameworks */,
 				04B9D7F81923044D00D2790A /* libcrypto.a in Frameworks */,
@@ -224,6 +224,8 @@
 				0407406D196E520A001AF5E5 /* MessagesViewController.m */,
 				0407406F196E522D001AF5E5 /* EditMessageViewController.h */,
 				04074070196E522D001AF5E5 /* EditMessageViewController.m */,
+				04F17B6419D352B700B17752 /* SettingsViewController.h */,
+				04F17B6519D352B700B17752 /* SettingsViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -265,7 +267,6 @@
 		04B9D74D1913421C00D2790A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				04C9636519CFBDD300A2446C /* CloudKit.framework */,
 				0427A3241957D33F00817FD3 /* MessageUI.framework */,
 				04B9D74E1913421C00D2790A /* Foundation.framework */,
 				04B9D7501913421C00D2790A /* CoreGraphics.framework */,
@@ -413,7 +414,7 @@
 						DevelopmentTeam = U275QAVXQX;
 						SystemCapabilities = {
 							com.apple.iCloud = {
-								enabled = 1;
+								enabled = 0;
 							};
 						};
 					};
@@ -475,6 +476,7 @@
 				0427A3201957C7B700817FD3 /* LiteralPacket.m in Sources */,
 				04B9D79D191EFEA400D2790A /* OpenPGPPacket.m in Sources */,
 				04B9D793191EF92A00D2790A /* ImportViewController.m in Sources */,
+				04F17B6619D352B700B17752 /* SettingsViewController.m in Sources */,
 				04B9D78D191DAFFE00D2790A /* Recipient.m in Sources */,
 				04B9D84F193C218E00D2790A /* IdenticonView.m in Sources */,
 				04B9D787191673E900D2790A /* RecipientsViewController.m in Sources */,
@@ -615,7 +617,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_ENTITLEMENTS = NouveauPG/NouveauPG.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -643,7 +644,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_ENTITLEMENTS = NouveauPG/NouveauPG.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;

@@ -478,7 +478,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="background" translatesAutoresizingMaskIntoConstraints="NO" id="hS7-Oa-rq7">
-                                <rect key="frame" x="0.0" y="64" width="320" height="455"/>
+                                <rect key="frame" x="0.0" y="64" width="329" height="511"/>
                             </imageView>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="lDU-ek-L4o">
                                 <rect key="frame" x="20" y="177" width="280" height="30"/>
@@ -628,7 +628,7 @@
         <!--Settings-->
         <scene sceneID="Mx5-pb-6FL">
             <objects>
-                <viewController title="Settings" id="kJE-GF-nEW" sceneMemberID="viewController">
+                <viewController title="Settings" id="kJE-GF-nEW" customClass="SettingsViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="TBt-mA-E1d"/>
                         <viewControllerLayoutGuide type="bottom" id="HHe-QF-TdU"/>
@@ -638,29 +638,32 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="PaC-An-HIu">
-                                <rect key="frame" x="31" y="196" width="259" height="29"/>
+                                <rect key="frame" x="25" y="196" width="265" height="29"/>
                                 <segments>
                                     <segment title="2048-bit RSA"/>
                                     <segment title="4096-bit RSA"/>
                                 </segments>
+                                <connections>
+                                    <action selector="changeSetting:" destination="kJE-GF-nEW" eventType="valueChanged" id="HRR-g6-8du"/>
+                                </connections>
                             </segmentedControl>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Srd-yQ-het">
-                                <rect key="frame" x="241" y="108" width="51" height="31"/>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Srd-yQ-het">
+                                <rect key="frame" x="241" y="103" width="51" height="31"/>
+                                <connections>
+                                    <action selector="changeSetting:" destination="kJE-GF-nEW" eventType="valueChanged" id="hyH-GY-rJR"/>
+                                </connections>
                             </switch>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Enable TouchID" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ToI-in-Zg7">
-                                <rect key="frame" x="25" y="113" width="120" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Enable iCloud" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yx2-My-7a8">
-                                <rect key="frame" x="25" y="50" width="107" height="21"/>
+                                <rect key="frame" x="25" y="108" width="120" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HhI-6o-0oa">
-                                <rect key="frame" x="241" y="45" width="51" height="31"/>
+                                <rect key="frame" x="241" y="57" width="51" height="31"/>
+                                <connections>
+                                    <action selector="changeSetting:" destination="kJE-GF-nEW" eventType="valueChanged" id="rfH-Ra-mMC"/>
+                                </connections>
                             </switch>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Public Key Algorithm" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OQ5-7U-ugc">
                                 <rect key="frame" x="25" y="167" width="161" height="21"/>
@@ -674,31 +677,33 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Encryption Algorithm" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7CT-mO-J2Q">
-                                <rect key="frame" x="25" y="306" width="161" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="W5k-MD-wWY">
-                                <rect key="frame" x="31" y="335" width="259" height="29"/>
-                                <segments>
-                                    <segment title="128-bit AES"/>
-                                    <segment title="256-bit AES"/>
-                                </segments>
-                            </segmentedControl>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="z0P-UE-M6f">
-                                <rect key="frame" x="31" y="270" width="259" height="29"/>
+                                <rect key="frame" x="25" y="270" width="265" height="29"/>
                                 <segments>
                                     <segment title="SHA-1"/>
                                     <segment title="SHA-256"/>
                                     <segment title="SHA-512"/>
                                 </segments>
+                                <connections>
+                                    <action selector="changeSetting:" destination="kJE-GF-nEW" eventType="valueChanged" id="nnP-ld-11N"/>
+                                </connections>
                             </segmentedControl>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Enable Keychain" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yx2-My-7a8">
+                                <rect key="frame" x="25" y="62" width="128" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Settings" image="Import" id="JRo-ra-diw"/>
+                    <connections>
+                        <outlet property="m_enableKeychainSwitch" destination="HhI-6o-0oa" id="wHx-aQ-See"/>
+                        <outlet property="m_enableTouchIdSwitch" destination="Srd-yQ-het" id="Ymh-wI-AVx"/>
+                        <outlet property="m_hashAlgoControl" destination="z0P-UE-M6f" id="x9t-Ix-RWf"/>
+                        <outlet property="m_rsaKeySizeControl" destination="PaC-An-HIu" id="Gz2-w3-MkE"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Syc-eG-jIa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
