@@ -55,6 +55,7 @@
 		04B9D7A6191FF5AF00D2790A /* OpenPGPSignature.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B9D7A4191FF5AF00D2790A /* OpenPGPSignature.m */; };
 		04B9D7F81923044D00D2790A /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04B9D7F61923044D00D2790A /* libcrypto.a */; };
 		04B9D84F193C218E00D2790A /* IdenticonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B9D84E193C218E00D2790A /* IdenticonView.m */; };
+		04C9636619CFBDD300A2446C /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C9636519CFBDD300A2446C /* CloudKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -150,6 +151,8 @@
 		04B9D7F71923044D00D2790A /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libssl.a; sourceTree = "<group>"; };
 		04B9D84D193C218E00D2790A /* IdenticonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IdenticonView.h; sourceTree = "<group>"; };
 		04B9D84E193C218E00D2790A /* IdenticonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IdenticonView.m; sourceTree = "<group>"; };
+		04C9636419CF14CB00A2446C /* NouveauPG.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = NouveauPG.entitlements; sourceTree = "<group>"; };
+		04C9636519CFBDD300A2446C /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,6 +160,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04C9636619CFBDD300A2446C /* CloudKit.framework in Frameworks */,
 				0427A3251957D33F00817FD3 /* MessageUI.framework in Frameworks */,
 				04B9D7511913421C00D2790A /* CoreGraphics.framework in Frameworks */,
 				04B9D7F81923044D00D2790A /* libcrypto.a in Frameworks */,
@@ -261,6 +265,7 @@
 		04B9D74D1913421C00D2790A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				04C9636519CFBDD300A2446C /* CloudKit.framework */,
 				0427A3241957D33F00817FD3 /* MessageUI.framework */,
 				04B9D74E1913421C00D2790A /* Foundation.framework */,
 				04B9D7501913421C00D2790A /* CoreGraphics.framework */,
@@ -274,6 +279,7 @@
 		04B9D7561913421C00D2790A /* NouveauPG */ = {
 			isa = PBXGroup;
 			children = (
+				04C9636419CF14CB00A2446C /* NouveauPG.entitlements */,
 				04B5180F194FCC3000CA43DB /* Table Cells */,
 				04B5180E194FCBF300CA43DB /* View Controllers */,
 				04B9D79A191EFB3000D2790A /* OpenPGP */,
@@ -404,7 +410,12 @@
 				ORGANIZATIONNAME = "___FULLUSERNAME___";
 				TargetAttributes = {
 					04B9D74A1913421C00D2790A = {
-						DevelopmentTeam = H5F2Z4B73D;
+						DevelopmentTeam = U275QAVXQX;
+						SystemCapabilities = {
+							com.apple.iCloud = {
+								enabled = 1;
+							};
+						};
 					};
 					04B9D76A1913421C00D2790A = {
 						TestTargetID = 04B9D74A1913421C00D2790A;
@@ -604,7 +615,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = NouveauPG/NouveauPG.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NouveauPG/NouveauPG-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -619,6 +632,7 @@
 					"$(PROJECT_DIR)/NouveauPG/lib",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;
 			};
@@ -629,7 +643,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = NouveauPG/NouveauPG.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NouveauPG/NouveauPG-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -644,6 +660,7 @@
 					"$(PROJECT_DIR)/NouveauPG/lib",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;
 			};
