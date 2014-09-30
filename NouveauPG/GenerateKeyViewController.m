@@ -57,10 +57,14 @@
         password = [m_passwordField text];
     }
     
+    int keySize = 2048;
     
+    if ([[NSUserDefaults standardUserDefaults] integerForKey:@"rsaKeySize"] == 1) {
+        keySize = 4096;
+    }
     
-    OpenPGPPublicKey *identityKey = [[OpenPGPPublicKey alloc]initWithKeyLength:2048 isSubkey:NO];
-    OpenPGPPublicKey *encryptionSubkey = [[OpenPGPPublicKey alloc]initWithKeyLength:2048 isSubkey:YES];
+    OpenPGPPublicKey *identityKey = [[OpenPGPPublicKey alloc]initWithKeyLength:keySize isSubkey:NO];
+    OpenPGPPublicKey *encryptionSubkey = [[OpenPGPPublicKey alloc]initWithKeyLength:keySize isSubkey:YES];
     
     OpenPGPPacket *identityPublicKeyPacket = [identityKey exportPublicKey];
     OpenPGPPacket *encryptionPublicKeyPacket = [encryptionSubkey exportPublicKey];
@@ -85,7 +89,8 @@
     messageSize += [[userIdPacket packetData] length];
     [packets addObject:userIdPacket];
     
-    OpenPGPPacket *userIdSig = [OpenPGPSignature signUserId:userId withPublicKey:identityKey];
+    //OpenPGPPacket *userIdSig = [OpenPGPSignature signUserId:userId withPublicKey:identityKey];
+    OpenPGPPacket *userIdSig = [OpenPGPSignature signString:userId withKey:identityKey using:2];
     [packets addObject:userIdSig];
     messageSize += [[userIdSig packetData] length];
     
@@ -93,6 +98,7 @@
     messageSize += [[encryptionPublicKeyPacket packetData] length];
     
     OpenPGPPacket *subkeySig = [OpenPGPSignature signSubkey:encryptionSubkey withPrivateKey:identityKey];
+    //OpenPGPPacket *subkeySig = [OpenPGPSignature signSubkey:encryptionSubkey withPrimaryKey:identityKey using:2];
     [packets addObject:subkeySig];
     messageSize += [[subkeySig packetData] length];
     
