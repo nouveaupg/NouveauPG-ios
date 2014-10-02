@@ -18,6 +18,8 @@
     IBOutlet UITextField *m_passwordField;
     IBOutlet UITextField *m_repeatPasswordField;
     IBOutlet UIButton *m_rightButton;
+    IBOutlet UISwitch *m_keychainSwitch;
+    IBOutlet UILabel *m_keychainLabel;
     NSString *m_password;
     
     bool m_changePassword;

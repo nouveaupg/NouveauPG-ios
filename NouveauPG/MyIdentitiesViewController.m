@@ -16,6 +16,8 @@
 #import "OpenPGPMessage.h"
 #import "OpenPGPPublicKey.h"
 
+#import <Security/Security.h>
+
 @interface MyIdentitiesViewController ()
 
 @end
@@ -140,6 +142,51 @@
             [self performSegueWithIdentifier:@"exportPublicKey" sender:self];
         }
         else if( buttonIndex == 1 ) {
+            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"enableKeychain"]) {
+                NSMutableDictionary *genericPasswordQuery = [[NSMutableDictionary alloc]init];
+                //NSMutableDictionary *keychainData;
+                NSString *keychainItemIdentifier = [NSString stringWithFormat:@"com.nouveaupg.key.%@",m_identityData.primaryKeystore.keyId];
+                NSLog(@"Searching for keychain item with identifier: %@",keychainItemIdentifier);
+                OSStatus keychainErr = noErr;
+                
+                [genericPasswordQuery setObject:(__bridge id)kSecClassGenericPassword
+                                         forKey:(__bridge id)kSecClass];
+                // The kSecAttrGeneric attribute is used to store a unique string that is used
+                // to easily identify and find this keychain item. The string is first
+                // converted to an NSData object:
+                NSData *keychainItemID = [NSData dataWithBytes:[keychainItemIdentifier UTF8String]
+                                                        length:[keychainItemIdentifier length]];
+                [genericPasswordQuery setObject:keychainItemID forKey:(__bridge id)kSecAttrGeneric];
+                // Return the attributes of the first match only:
+                [genericPasswordQuery setObject:(__bridge id)kSecMatchLimitOne forKey:(__bridge id)kSecMatchLimit];
+                // Return the attributes of the keychain item (the password is
+                //  acquired in the secItemFormatToDictionary: method):
+                [genericPasswordQuery setObject:(__bridge id)kCFBooleanTrue
+                                         forKey:(__bridge id)kSecReturnAttributes];
+                
+                //Initialize the dictionary used to hold return data from the keychain:
+                CFMutableDictionaryRef outDictionary = nil;
+                // If the keychain item exists, return the attributes of the item:
+                keychainErr = SecItemCopyMatching((__bridge CFDictionaryRef)genericPasswordQuery,
+                                                  (CFTypeRef *)&outDictionary);
+                
+                if (keychainErr == noErr) {
+                    NSLog(@"Keychain item found!");
+                    if (outDictionary) CFRelease(outDictionary);
+                }
+                else if (keychainErr == errSecItemNotFound) {
+                    // Put default values into the keychain if no matching
+                    // keychain item is found:
+                    NSLog(@"Keychain item not found.");
+                    if (outDictionary) CFRelease(outDictionary);
+                } else {
+                    // Any other error is unexpected.
+                    NSAssert(NO, @"Serious error.\n");
+                    if (outDictionary) CFRelease(outDictionary);
+                }
+                
+            }
+            
             [self performSegueWithIdentifier:@"unlockKeystore" sender:self];
         }
     }
