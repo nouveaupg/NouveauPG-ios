@@ -8,7 +8,12 @@
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "recipients2x.png"
+      "filename" : "recipients_2x.png"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x",
+      "filename" : "recipients_3x.png"
     }
   ],
   "info" : {

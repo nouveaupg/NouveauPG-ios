@@ -29,6 +29,15 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    if ([[NSUserDefaults standardUserDefaults]boolForKey:@"enableKeychain"]) {
+        [m_keychainLabel setHidden:NO];
+        [m_keychainSwitch setHidden:NO];
+    }
+    else {
+        [m_keychainLabel setHidden:YES];
+        [m_keychainSwitch setHidden:YES];
+    }
+    
     [m_passwordField setText:@""];
     [m_repeatPasswordField setText:@""];
 }
@@ -95,6 +104,56 @@
     }
     else {
         if ([m_primary decryptKey:password]) {
+            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"enableKeychain"] && m_keychainSwitch.on ) {
+                CFDictionaryRef attributes = nil;
+                NSMutableDictionary *updateItem = nil;
+                NSMutableDictionary *genericPasswordQuery;
+                NSString *keychainItemIdentifier = [NSString stringWithFormat:@"com.nouveaupg.key.%@",m_primary.keyId];
+                NSMutableDictionary *keychainData;
+                
+                // If the keychain item already exists, modify it:
+                if (SecItemCopyMatching((__bridge CFDictionaryRef)genericPasswordQuery,
+                                        (CFTypeRef *)&attributes) == noErr)
+                {
+                    // First, get the attributes returned from the keychain and add them to the
+                    // dictionary that controls the update:
+                    updateItem = [NSMutableDictionary dictionaryWithDictionary:(__bridge_transfer NSDictionary *)attributes];
+                    
+                    // Second, get the class value from the generic password query dictionary and
+                    // add it to the updateItem dictionary:
+                    [updateItem setObject:[genericPasswordQuery objectForKey:(__bridge id)kSecClass]
+                                   forKey:(__bridge id)kSecClass];
+                    
+                    // Finally, set up the dictionary that contains new values for the attributes:
+                    
+                    keychainData = [[NSMutableDictionary alloc]init];
+                    [keychainData setObject:keychainItemIdentifier forKey:(__bridge id)kSecAttrGeneric];
+                    [keychainData setObject:(__bridge id)kSecClassGenericPassword forKey:(__bridge id)kSecClass];
+                    
+                    NSMutableDictionary *tempCheck = keychainData;
+                    //Remove the class--it's not a keychain attribute:
+                    [tempCheck removeObjectForKey:(__bridge id)kSecClass];
+                    
+                    // You can update only a single keychain item at a time.
+                    OSStatus errorcode = SecItemUpdate(
+                                                       (__bridge CFDictionaryRef)updateItem,
+                                                       (__bridge CFDictionaryRef)tempCheck);
+                    NSAssert(errorcode == noErr, @"Couldn't update the Keychain Item." );
+                }
+                else
+                {
+                    // No previous item found; add the new item.
+                    // The new value was added to the keychainData dictionary in the mySetObject routine,
+                    // and the other values were added to the keychainData dictionary previously.
+                    // No pointer to the newly-added items is needed, so pass NULL for the second parameter:
+                    OSStatus errorcode = SecItemAdd(
+                                                    (__bridge CFDictionaryRef)keychainData,
+                                                    NULL);
+                    NSAssert(errorcode == noErr, @"Couldn't add the Keychain Item." );
+                    if (attributes) CFRelease(attributes);
+                }
+            }
+            
             if (! [m_subkey decryptKey:password] ) {
                 NSLog(@"Could not decrypt subkey with primary key passphrase.");
             }

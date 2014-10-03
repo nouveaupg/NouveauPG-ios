@@ -8,7 +8,12 @@
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "import2x.png"
+      "filename" : "import_2x.png"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x",
+      "filename" : "import_3x.png"
     }
   ],
   "info" : {

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="8hU-xQ-uyj">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="8hU-xQ-uyj">
     <dependencies>
         <deployment defaultVersion="1808" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
@@ -648,16 +648,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="PaC-An-HIu">
-                                <rect key="frame" x="25" y="196" width="265" height="29"/>
-                                <segments>
-                                    <segment title="2048-bit RSA"/>
-                                    <segment title="4096-bit RSA"/>
-                                </segments>
-                                <connections>
-                                    <action selector="changeSetting:" destination="kJE-GF-nEW" eventType="valueChanged" id="HRR-g6-8du"/>
-                                </connections>
-                            </segmentedControl>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Srd-yQ-het">
                                 <rect key="frame" x="241" y="103" width="51" height="31"/>
                                 <connections>
@@ -682,37 +672,29 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Signature Algorithm" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uMz-kg-DOz">
-                                <rect key="frame" x="25" y="238" width="161" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="z0P-UE-M6f">
-                                <rect key="frame" x="25" y="270" width="265" height="29"/>
-                                <segments>
-                                    <segment title="SHA-1"/>
-                                    <segment title="SHA-256"/>
-                                    <segment title="SHA-512"/>
-                                </segments>
-                                <connections>
-                                    <action selector="changeSetting:" destination="kJE-GF-nEW" eventType="valueChanged" id="nnP-ld-11N"/>
-                                </connections>
-                            </segmentedControl>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Enable Keychain" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yx2-My-7a8">
                                 <rect key="frame" x="25" y="62" width="128" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="PaC-An-HIu">
+                                <rect key="frame" x="25" y="203" width="265" height="29"/>
+                                <segments>
+                                    <segment title="2048-bit RSA"/>
+                                    <segment title="4096-bit RSA"/>
+                                </segments>
+                                <connections>
+                                    <action selector="changeSetting:" destination="kJE-GF-nEW" eventType="valueChanged" id="HRR-g6-8du"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Settings" image="Import" id="JRo-ra-diw"/>
+                    <tabBarItem key="tabBarItem" title="Settings" image="settings" id="JRo-ra-diw"/>
                     <connections>
                         <outlet property="m_enableKeychainSwitch" destination="HhI-6o-0oa" id="wHx-aQ-See"/>
                         <outlet property="m_enableTouchIdSwitch" destination="Srd-yQ-het" id="Ymh-wI-AVx"/>
-                        <outlet property="m_hashAlgoControl" destination="z0P-UE-M6f" id="x9t-Ix-RWf"/>
                         <outlet property="m_rsaKeySizeControl" destination="PaC-An-HIu" id="Gz2-w3-MkE"/>
                     </connections>
                 </viewController>
@@ -894,12 +876,13 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Import" width="20" height="20"/>
-        <image name="Messages" width="20" height="20"/>
-        <image name="MyIdentities" width="20" height="20"/>
-        <image name="Recipients" width="20" height="20"/>
+        <image name="Import" width="25" height="25"/>
+        <image name="Messages" width="25" height="25"/>
+        <image name="MyIdentities" width="25" height="25"/>
+        <image name="Recipients" width="25" height="25"/>
         <image name="background" width="640" height="942"/>
         <image name="g39654" width="300" height="384"/>
+        <image name="settings" width="23" height="23"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
