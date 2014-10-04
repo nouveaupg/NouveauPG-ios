@@ -143,46 +143,32 @@
         }
         else if( buttonIndex == 1 ) {
             if ([[NSUserDefaults standardUserDefaults] boolForKey:@"enableKeychain"]) {
-                NSMutableDictionary *genericPasswordQuery = [[NSMutableDictionary alloc]init];
-                //NSMutableDictionary *keychainData;
-                NSString *keychainItemIdentifier = [NSString stringWithFormat:@"com.nouveaupg.key.%@",m_identityData.primaryKeystore.keyId];
-                NSLog(@"Searching for keychain item with identifier: %@",keychainItemIdentifier);
-                OSStatus keychainErr = noErr;
+                NSLog(@"Try to find password in keychain.");
                 
-                [genericPasswordQuery setObject:(__bridge id)kSecClassGenericPassword
-                                         forKey:(__bridge id)kSecClass];
-                // The kSecAttrGeneric attribute is used to store a unique string that is used
-                // to easily identify and find this keychain item. The string is first
-                // converted to an NSData object:
-                NSData *keychainItemID = [NSData dataWithBytes:[keychainItemIdentifier UTF8String]
-                                                        length:[keychainItemIdentifier length]];
-                [genericPasswordQuery setObject:keychainItemID forKey:(__bridge id)kSecAttrGeneric];
-                // Return the attributes of the first match only:
-                [genericPasswordQuery setObject:(__bridge id)kSecMatchLimitOne forKey:(__bridge id)kSecMatchLimit];
-                // Return the attributes of the keychain item (the password is
-                //  acquired in the secItemFormatToDictionary: method):
-                [genericPasswordQuery setObject:(__bridge id)kCFBooleanTrue
-                                         forKey:(__bridge id)kSecReturnAttributes];
+                NSString *account = [NSString stringWithString:[m_identityData.primaryKeystore.keyId uppercaseString]];
                 
-                //Initialize the dictionary used to hold return data from the keychain:
-                CFMutableDictionaryRef outDictionary = nil;
-                // If the keychain item exists, return the attributes of the item:
-                keychainErr = SecItemCopyMatching((__bridge CFDictionaryRef)genericPasswordQuery,
-                                                  (CFTypeRef *)&outDictionary);
+                NSDictionary *query = @{(__bridge id)kSecClass:(__bridge id)kSecClassGenericPassword,
+                                        (__bridge id)kSecAttrService:@"NouveauPG",
+                                        (__bridge id)kSecAttrAccount:account,
+                                        (__bridge id)kSecReturnData:@YES};
+                NSData *data = nil;
+                OSStatus err = SecItemCopyMatching((__bridge CFDictionaryRef)query, (CFTypeRef)&data);
                 
-                if (keychainErr == noErr) {
-                    NSLog(@"Keychain item found!");
-                    if (outDictionary) CFRelease(outDictionary);
-                }
-                else if (keychainErr == errSecItemNotFound) {
-                    // Put default values into the keychain if no matching
-                    // keychain item is found:
-                    NSLog(@"Keychain item not found.");
-                    if (outDictionary) CFRelease(outDictionary);
-                } else {
-                    // Any other error is unexpected.
-                    NSAssert(NO, @"Serious error.\n");
-                    if (outDictionary) CFRelease(outDictionary);
+                if (err == noErr) {
+                    NSString *passwordString = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+                    bool result = [m_identityData.primaryKeystore decryptKey:passwordString] && [m_identityData.encryptionKeystore decryptKey:passwordString];
+                    
+                    if (result) {
+                        NSLog(@"Unlocked key with keychain password.");
+                        
+                        [[self tableView] reloadData];
+                        return;
+                    }
+                    else {
+                        NSLog(@"Could not unlock key with stored password.");
+                    }
+                    
+                    
                 }
                 
             }

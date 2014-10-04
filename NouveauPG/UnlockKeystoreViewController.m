@@ -105,53 +105,22 @@
     else {
         if ([m_primary decryptKey:password]) {
             if ([[NSUserDefaults standardUserDefaults] boolForKey:@"enableKeychain"] && m_keychainSwitch.on ) {
-                CFDictionaryRef attributes = nil;
-                NSMutableDictionary *updateItem = nil;
-                NSMutableDictionary *genericPasswordQuery;
-                NSString *keychainItemIdentifier = [NSString stringWithFormat:@"com.nouveaupg.key.%@",m_primary.keyId];
-                NSMutableDictionary *keychainData;
+                NSLog(@"Save password.");
                 
-                // If the keychain item already exists, modify it:
-                if (SecItemCopyMatching((__bridge CFDictionaryRef)genericPasswordQuery,
-                                        (CFTypeRef *)&attributes) == noErr)
-                {
-                    // First, get the attributes returned from the keychain and add them to the
-                    // dictionary that controls the update:
-                    updateItem = [NSMutableDictionary dictionaryWithDictionary:(__bridge_transfer NSDictionary *)attributes];
-                    
-                    // Second, get the class value from the generic password query dictionary and
-                    // add it to the updateItem dictionary:
-                    [updateItem setObject:[genericPasswordQuery objectForKey:(__bridge id)kSecClass]
-                                   forKey:(__bridge id)kSecClass];
-                    
-                    // Finally, set up the dictionary that contains new values for the attributes:
-                    
-                    keychainData = [[NSMutableDictionary alloc]init];
-                    [keychainData setObject:keychainItemIdentifier forKey:(__bridge id)kSecAttrGeneric];
-                    [keychainData setObject:(__bridge id)kSecClassGenericPassword forKey:(__bridge id)kSecClass];
-                    
-                    NSMutableDictionary *tempCheck = keychainData;
-                    //Remove the class--it's not a keychain attribute:
-                    [tempCheck removeObjectForKey:(__bridge id)kSecClass];
-                    
-                    // You can update only a single keychain item at a time.
-                    OSStatus errorcode = SecItemUpdate(
-                                                       (__bridge CFDictionaryRef)updateItem,
-                                                       (__bridge CFDictionaryRef)tempCheck);
-                    NSAssert(errorcode == noErr, @"Couldn't update the Keychain Item." );
+                NSString *account = [NSString stringWithString:[m_primary.keyId uppercaseString]];
+                
+                NSData *passwordData = [NSData dataWithBytes:[password UTF8String] length:[password length]];
+                NSDictionary *attributes = @{(__bridge id)kSecClass:(__bridge id)kSecClassGenericPassword,
+                                             (__bridge id)kSecAttrService:@"NouveauPG",
+                                             (__bridge id)kSecAttrAccount:account,
+                                             (__bridge id)kSecValueData:passwordData
+                };
+                
+                OSStatus status = SecItemAdd((__bridge CFDictionaryRef)attributes, NULL);
+                if (status == noErr) {
+                    NSLog(@"Added password to keychain.");
                 }
-                else
-                {
-                    // No previous item found; add the new item.
-                    // The new value was added to the keychainData dictionary in the mySetObject routine,
-                    // and the other values were added to the keychainData dictionary previously.
-                    // No pointer to the newly-added items is needed, so pass NULL for the second parameter:
-                    OSStatus errorcode = SecItemAdd(
-                                                    (__bridge CFDictionaryRef)keychainData,
-                                                    NULL);
-                    NSAssert(errorcode == noErr, @"Couldn't add the Keychain Item." );
-                    if (attributes) CFRelease(attributes);
-                }
+                
             }
             
             if (! [m_subkey decryptKey:password] ) {
