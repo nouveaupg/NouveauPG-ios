@@ -150,7 +150,8 @@
                 NSDictionary *query = @{(__bridge id)kSecClass:(__bridge id)kSecClassGenericPassword,
                                         (__bridge id)kSecAttrService:@"NouveauPG",
                                         (__bridge id)kSecAttrAccount:account,
-                                        (__bridge id)kSecReturnData:@YES};
+                                        (__bridge id)kSecReturnData:@YES,
+                                        (__bridge id)kSecUseOperationPrompt:@"Authenticate to unlock identity"};
                 NSData *data = nil;
                 OSStatus err = SecItemCopyMatching((__bridge CFDictionaryRef)query, (CFTypeRef)&data);
                 
@@ -262,6 +263,7 @@
 #pragma mark - Navigation
 
 -(IBAction)addIdentity:(id)sender {
+    /*
     NSString *certificateData = [[UIPasteboard generalPasteboard] string];
     OpenPGPMessage *message = [[OpenPGPMessage alloc]initWithArmouredText:certificateData];
     AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -279,7 +281,7 @@
             [self performSegueWithIdentifier:@"unlockKeystore" sender:self];
             return;
         }
-    }
+    }*/
     [self performSegueWithIdentifier:@"generateIdentity" sender:self];
 }
 

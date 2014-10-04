@@ -29,7 +29,7 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    if ([[NSUserDefaults standardUserDefaults]boolForKey:@"enableKeychain"]) {
+    if ([[NSUserDefaults standardUserDefaults]boolForKey:@"enableKeychain"] && !m_changePassword) {
         [m_keychainLabel setHidden:NO];
         [m_keychainSwitch setHidden:NO];
     }
@@ -52,11 +52,15 @@
         [m_promptLabel setText:@"Enter a password to encrypt your keystore. You will need to enter this password every time you use this key."];
         [m_repeatPasswordField setHidden:NO];
         [m_rightButton setTitle:@"Export Keystore" forState:UIControlStateNormal];
+        [m_keychainSwitch setHidden:YES];
+        [m_keychainLabel setHidden:YES];
     }
     else {
         [m_promptLabel setText:@"Enter a password to decrypt and unlock your keystore."];
         [m_repeatPasswordField setHidden:YES];
         [m_rightButton setTitle:@"Unlock Keystore" forState:UIControlStateNormal];
+        [m_keychainSwitch setHidden:NO];
+        [m_keychainLabel setHidden:NO];
     }
 }
 
@@ -107,20 +111,57 @@
             if ([[NSUserDefaults standardUserDefaults] boolForKey:@"enableKeychain"] && m_keychainSwitch.on ) {
                 NSLog(@"Save password.");
                 
+                CFErrorRef error = NULL;
+                
+                SecAccessControlRef sac = SecAccessControlCreateWithFlags(kCFAllocatorDefault, kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly, kSecAccessControlUserPresence, &error);
+                
+                if (error) {
+                    NSLog(@"SAC Error: %@", CFErrorCopyDescription(error));
+                }
+                
+                 NSData *passwordData = [NSData dataWithBytes:[password UTF8String] length:[password length]];
+                
                 NSString *account = [NSString stringWithString:[m_primary.keyId uppercaseString]];
                 
-                NSData *passwordData = [NSData dataWithBytes:[password UTF8String] length:[password length]];
+                NSDictionary *query = @{(__bridge id)kSecClass:(__bridge id)kSecClassGenericPassword,
+                                        (__bridge id)kSecAttrService:@"NouveauPG",
+                                        (__bridge id)kSecAttrAccount:account,
+                                        (__bridge id)kSecReturnData:@YES};
+                
                 NSDictionary *attributes = @{(__bridge id)kSecClass:(__bridge id)kSecClassGenericPassword,
                                              (__bridge id)kSecAttrService:@"NouveauPG",
                                              (__bridge id)kSecAttrAccount:account,
-                                             (__bridge id)kSecValueData:passwordData
-                };
+                                             (__bridge id)kSecValueData:passwordData,
+                                             (__bridge id)kSecAttrAccessControl:(__bridge id)sac
+                                             };
                 
-                OSStatus status = SecItemAdd((__bridge CFDictionaryRef)attributes, NULL);
-                if (status == noErr) {
-                    NSLog(@"Added password to keychain.");
+                NSDictionary *returnDict = nil;
+                OSStatus err = SecItemCopyMatching((__bridge CFDictionaryRef)query, (CFTypeRef)&returnDict);
+                
+                if (err == noErr) {
+                    NSDictionary *newData = @{(__bridge id)kSecValueData:passwordData,
+                                              (__bridge id)kSecAttrAccessible:(__bridge id)kSecAttrAccessibleWhenUnlockedThisDeviceOnly};
+                    OSStatus status = SecItemUpdate((__bridge CFDictionaryRef)query, (__bridge CFDictionaryRef)newData);
+                    
+                    if (status == noErr) {
+                        NSLog(@"Password updated in keychain.");
+                    }
+                    else {
+                        NSLog(@"Error updating password in keychain.");
+                    }
                 }
-                
+                else if( err ==  errSecItemNotFound ) {
+                    
+                    
+                    OSStatus status = SecItemAdd((__bridge CFDictionaryRef)attributes, NULL);
+                    if (status == noErr) {
+                        NSLog(@"Added password to keychain.");
+                    }
+
+                }
+                else {
+                    NSLog(@"Undefined keychain error code: %d",err);
+                }
             }
             
             if (! [m_subkey decryptKey:password] ) {

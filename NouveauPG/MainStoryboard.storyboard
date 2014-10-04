@@ -553,7 +553,7 @@
                                 <rect key="frame" x="-12" y="-10" width="332" height="514"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="background" translatesAutoresizingMaskIntoConstraints="NO" id="usj-q0-DB5">
-                                        <rect key="frame" x="0.0" y="0.0" width="340" height="514"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="340" height="521"/>
                                     </imageView>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Identity Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gXp-JQ-kYQ">
                                         <rect key="frame" x="32" y="20" width="280" height="30"/>
@@ -890,8 +890,8 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="O5F-nq-Ba7"/>
-        <segue reference="F2n-Io-IBZ"/>
         <segue reference="fXH-ri-jsc"/>
+        <segue reference="IEx-3z-qZh"/>
+        <segue reference="O5F-nq-Ba7"/>
     </inferredMetricsTieBreakers>
 </document>
