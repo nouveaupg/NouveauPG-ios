@@ -16,6 +16,7 @@
     IBOutlet UILabel *m_name;
     IBOutlet UILabel *m_email;
     IBOutlet IdenticonView *m_indenticonView;
+    IBOutlet UIImageView *m_warningImage;
 }
 
 - (void) setPublicKeyAlgo:(NSString *)publicKeyAlgo;
@@ -23,5 +24,6 @@
 - (void) setName:(NSString *)name;
 - (void) setEmail:(NSString *)email;
 - (void) setIdenticonCode: (NSInteger)newIdenticonCode;
+- (void) showWarning: (NSString *)warning;
 
 @end

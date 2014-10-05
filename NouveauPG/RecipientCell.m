@@ -51,4 +51,20 @@
     [m_indenticonView setIdenticonCode:newIdenticonCode];
 }
 
+- (void) showWarning: (NSString *)warning {
+    if (warning) {
+        [m_indenticonView setHidden:YES];
+        [m_warningImage setHidden:NO];
+        
+        [m_email setText:warning];
+        [m_email setTextColor:[UIColor redColor]];
+    }
+    else {
+        [m_warningImage setHidden:YES];
+        [m_warningImage setHidden:YES];
+        
+        [m_email setTextColor:[UIColor grayColor]];
+    }
+}
+
 @end

@@ -120,7 +120,7 @@
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
     
     // Lock all the keys
-    
+    /*
     for (Identity *eachIdentity in _identities) {
         OpenPGPMessage *message = [[OpenPGPMessage alloc]initWithArmouredText:eachIdentity.privateKeystore];
         for (OpenPGPPacket *eachPacket in [OpenPGPPacket packetsFromMessage:message]) {
@@ -132,6 +132,7 @@
             }
         }
     }
+    */
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application

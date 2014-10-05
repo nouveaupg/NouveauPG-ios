@@ -162,6 +162,23 @@
     }
 }
 
+-(BOOL)textFieldShouldReturn:(UITextField*)textField;
+{
+    if (textField == m_nameField) {
+        [m_emailField becomeFirstResponder];
+    }
+    else if( textField == m_emailField ) {
+        [m_passwordField becomeFirstResponder];
+    }
+    else if( textField == m_passwordField ) {
+        [m_passwordRepeatField becomeFirstResponder];
+    }
+    else {
+        [self generateKey:textField];
+    }
+    return NO;
+}
+
 -(IBAction)generateKey:(id)sender {
     if (!m_threadStarted) {
         m_threadStarted = true;

@@ -42,6 +42,9 @@
                                             <rect key="frame" x="14" y="7" width="50" height="50"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                         </view>
+                                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="warning" translatesAutoresizingMaskIntoConstraints="NO" id="aGF-Ma-D8T">
+                                            <rect key="frame" x="14" y="8" width="50" height="50"/>
+                                        </imageView>
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
@@ -49,6 +52,7 @@
                                     <outlet property="m_indenticonView" destination="GUM-oG-1IA" id="K6O-xy-KGM"/>
                                     <outlet property="m_keyId" destination="tNG-ZY-BiV" id="LB5-2n-RVO"/>
                                     <outlet property="m_name" destination="cZi-Cm-pe1" id="wbv-MN-80n"/>
+                                    <outlet property="m_warningImage" destination="aGF-Ma-D8T" id="WB2-K3-ngF"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -559,21 +563,33 @@
                                         <rect key="frame" x="32" y="20" width="280" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" returnKeyType="next"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="CQe-3g-zM3" id="X5b-7M-f1h"/>
+                                        </connections>
                                     </textField>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password (repeat)" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="biO-0C-YPl">
                                         <rect key="frame" x="32" y="176" width="280" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="done" secureTextEntry="YES"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="CQe-3g-zM3" id="f1M-03-tRt"/>
+                                        </connections>
                                     </textField>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Mvg-q9-oac">
                                         <rect key="frame" x="32" y="138" width="280" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="next" secureTextEntry="YES"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="CQe-3g-zM3" id="azC-d2-FDi"/>
+                                        </connections>
                                     </textField>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="E-mail (optional)" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Be9-v2-w6J">
                                         <rect key="frame" x="32" y="58" width="280" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" keyboardType="emailAddress" returnKeyType="next"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="CQe-3g-zM3" id="m7X-1o-NIS"/>
+                                        </connections>
                                     </textField>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="To prevent confusion, please omit the e-mail address rather than enter an invalid one." lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="263" translatesAutoresizingMaskIntoConstraints="NO" id="ttW-2W-U9H">
                                         <rect key="frame" x="35" y="90" width="263" height="40"/>
@@ -883,6 +899,7 @@
         <image name="background" width="640" height="942"/>
         <image name="g39654" width="300" height="384"/>
         <image name="settings" width="23" height="23"/>
+        <image name="warning" width="50" height="50"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

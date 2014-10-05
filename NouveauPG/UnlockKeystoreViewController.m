@@ -128,19 +128,29 @@
                                         (__bridge id)kSecAttrAccount:account,
                                         (__bridge id)kSecReturnData:@YES};
                 
-                NSDictionary *attributes = @{(__bridge id)kSecClass:(__bridge id)kSecClassGenericPassword,
-                                             (__bridge id)kSecAttrService:@"NouveauPG",
-                                             (__bridge id)kSecAttrAccount:account,
-                                             (__bridge id)kSecValueData:passwordData,
-                                             (__bridge id)kSecAttrAccessControl:(__bridge id)sac
-                                             };
+                NSDictionary *attributes;
+                if ([[NSUserDefaults standardUserDefaults]boolForKey:@"enableTouchId"]) {
+                    attributes = @{(__bridge id)kSecClass:(__bridge id)kSecClassGenericPassword,
+                                     (__bridge id)kSecAttrService:@"NouveauPG",
+                                     (__bridge id)kSecAttrAccount:account,
+                                     (__bridge id)kSecValueData:passwordData,
+                                     (__bridge id)kSecAttrAccessControl:(__bridge id)sac};
+                }
+                else {
+                   attributes = @{(__bridge id)kSecClass:(__bridge id)kSecClassGenericPassword,
+                        (__bridge id)kSecAttrService:@"NouveauPG",
+                        (__bridge id)kSecAttrAccount:account,
+                        (__bridge id)kSecValueData:passwordData};
+                }
+                
                 
                 NSDictionary *returnDict = nil;
                 OSStatus err = SecItemCopyMatching((__bridge CFDictionaryRef)query, (CFTypeRef)&returnDict);
                 
                 if (err == noErr) {
                     NSDictionary *newData = @{(__bridge id)kSecValueData:passwordData,
-                                              (__bridge id)kSecAttrAccessible:(__bridge id)kSecAttrAccessibleWhenUnlockedThisDeviceOnly};
+                                              (__bridge id)kSecAttrAccessible:(__bridge id)kSecAttrAccessibleWhenUnlocked
+                                              };
                     OSStatus status = SecItemUpdate((__bridge CFDictionaryRef)query, (__bridge CFDictionaryRef)newData);
                     
                     if (status == noErr) {
