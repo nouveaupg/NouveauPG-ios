@@ -106,7 +106,9 @@
     [cell setIdenticonCode:newIdenticonCode];
     [cell setName:identityData.name];
     [cell setEmail:identityData.email];
-    [cell setKeyMetadata:[identityData.keyId uppercaseString]];
+    NSString *metadata = [NSString stringWithFormat:@"%@ (%d-bit RSA)",[identityData.keyId uppercaseString], [m_identityData.primaryKeystore publicKeySize]];
+    
+    [cell setKeyMetadata:metadata];
     
     if ([identityData.primaryKeystore isEncrypted]) {
         [cell setLocked:@"Locked"];
