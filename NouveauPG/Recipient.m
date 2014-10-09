@@ -16,4 +16,6 @@
 @dynamic added;
 @dynamic details;
 
+@synthesize warning;
+
 @end

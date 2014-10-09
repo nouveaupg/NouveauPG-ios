@@ -58,6 +58,7 @@
         
         [m_email setText:warning];
         [m_email setTextColor:[UIColor redColor]];
+        [m_keyId setText:@""];
     }
     else {
         [m_warningImage setHidden:YES];

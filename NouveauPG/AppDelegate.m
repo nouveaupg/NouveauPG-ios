@@ -51,6 +51,63 @@
         NSLog(@"NSError: %@",[error description]);
     }
     
+    for (Recipient *eachRecipient in self.recipients) {
+        OpenPGPMessage *message = [[OpenPGPMessage alloc]initWithArmouredText:eachRecipient.certificate];
+        eachRecipient.warning = 0;
+        
+        // inspect each public key certificate for problems
+        
+        if ([message validChecksum]) {
+            OpenPGPPublicKey *primaryKey;
+            OpenPGPPublicKey *subkey;
+            UserIDPacket *userIdPkt;
+            OpenPGPSignature *userIdSig;
+            OpenPGPSignature *subkeySig;
+            for (OpenPGPPacket *eachPacket in [OpenPGPPacket packetsFromMessage:message]) {
+                if ([eachPacket packetTag] == 6) {
+                    primaryKey = [[OpenPGPPublicKey alloc]initWithPacket:eachPacket];
+                    if(primaryKey.publicKeyType == - 1) {
+                        eachRecipient.warning = -1;
+                    }
+                }
+                else if ([eachPacket packetTag] == 13) {
+                    userIdPkt = [[UserIDPacket alloc]initWithPacket:eachPacket];
+                }
+                else if ([eachPacket packetTag] == 14) {
+                    subkey = [[OpenPGPPublicKey alloc]initWithPacket:eachPacket];
+                }
+                else if ([eachPacket packetTag] == 2) {
+                    OpenPGPSignature *sig = [[OpenPGPSignature alloc]initWithPacket:eachPacket];
+                    if (sig.signatureType >= 0x10 && sig.signatureType <= 0x13 ) {
+                        userIdSig = sig;
+                    }
+                    else if( sig.signatureType == 0x18) {
+                        subkeySig = sig;
+                    }
+                    
+                }
+                
+            }
+            
+            if (primaryKey.publicKeyType != -1 && subkey.publicKeyType != -1) {
+                bool valid = [userIdSig validateWithPublicKey:primaryKey userId:[userIdPkt stringValue]];
+                
+                if (!valid) {
+                    NSLog(@"Could not validate UserId.");
+                }
+                
+                valid = [subkeySig validateSubkey:subkey withSigningKey:primaryKey];
+                if (!valid) {
+                    NSLog(@"Could not validate subkey!");
+                }
+            }
+            else {
+                NSLog(@"Unsupported public key algorithm... skipping signature check.");
+            }
+            
+        }
+    }
+    
     fetchRequest = [[NSFetchRequest alloc] init];
     entity = [NSEntityDescription entityForName:@"Identity"
                                               inManagedObjectContext:ctx];

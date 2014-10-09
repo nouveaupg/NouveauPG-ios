@@ -17,4 +17,6 @@
 @property (nonatomic, retain) NSDate * added;
 @property (nonatomic, retain) RecipientDetails *details;
 
+@property (nonatomic, assign) NSInteger warning;
+
 @end

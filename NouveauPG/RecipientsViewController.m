@@ -127,26 +127,44 @@
     
     [cell setName:current.details.userName];
     [cell setEmail:current.details.email];
-    [cell setKeyId:current.details.keyId];
-    [cell setPublicKeyAlgo:current.details.publicKeyAlgo];
     
-    NSInteger newIdenticonCode = 0;
-    
-    NSString *keyId = current.details.keyId;
-    for (int i = 0; i < 8; i++) {
-        unichar c = [keyId characterAtIndex:i];
-        if ((int)c < 58) {
-            newIdenticonCode |=  ((int)c-48);
-        }
-        else {
-            newIdenticonCode |= ((int)c-55);
-        }
-        if (i < 7) {
-            newIdenticonCode <<= 4;
+    if (current.warning < 0) {
+        switch (current.warning) {
+            case -1:
+                [cell showWarning:@"Unsupported public key algorithm"];
+                break;
+                
+            default:
+                [cell showWarning:@"Public key certificate error"];
+                break;
         }
     }
+    else {
+        [cell setKeyId:[NSString stringWithFormat:@"%@ (%@)",current.details.keyId,current.details.publicKeyAlgo]];
+        
+        
+        //[cell setPublicKeyAlgo:current.details.publicKeyAlgo];
+        
+        NSInteger newIdenticonCode = 0;
+        
+        NSString *keyId = current.details.keyId;
+        for (int i = 0; i < 8; i++) {
+            unichar c = [keyId characterAtIndex:i];
+            if ((int)c < 58) {
+                newIdenticonCode |=  ((int)c-48);
+            }
+            else {
+                newIdenticonCode |= ((int)c-55);
+            }
+            if (i < 7) {
+                newIdenticonCode <<= 4;
+            }
+        }
+        
+        [cell setIdenticonCode:newIdenticonCode];
+    }
     
-    [cell setIdenticonCode:newIdenticonCode];
+    
     
     
     return cell;
@@ -159,6 +177,21 @@
     AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     Recipient *object = [app.recipients objectAtIndex:[indexPath row]];
     RecipientDetails *details = object.details;
+    
+    if(object.warning < 0) {
+        UIAlertView *alert;
+        switch (object.warning) {
+            case -1:
+                alert = [[UIAlertView alloc]initWithTitle:@"Certificate Problem" message:@"NouveauPG only supports RSA encryption and signing certificates." delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles: nil];
+                break;
+                
+            default:
+                alert = [[UIAlertView alloc]initWithTitle:@"Certificate Problem" message:@"There is a problem with this certificate. Either it has been tampered with or was generated with unsupported options." delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles: nil];
+                break;
+        }
+        [alert show];
+        return;
+    }
     
     OpenPGPMessage *certificate = [[OpenPGPMessage alloc]initWithArmouredText:object.certificate];
     if ([certificate validChecksum]) {
