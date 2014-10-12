@@ -37,6 +37,8 @@
     
     //self.window.backgroundColor = [UIColor whiteColor];
     //[self.window makeKeyAndVisible];
+    [[NSUserDefaults standardUserDefaults]registerDefaults:[NSDictionary dictionaryWithObject:[NSNumber numberWithBool:true] forKey:@"enableKeychain"]];
+    
     NSManagedObjectContext *ctx = [self managedObjectContext];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"Recipient"
