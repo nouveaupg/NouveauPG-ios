@@ -93,11 +93,13 @@
                 bool valid = [userIdSig validateWithPublicKey:primaryKey userId:[userIdPkt stringValue]];
                 
                 if (!valid) {
+                    eachRecipient.warning = -2;
                     NSLog(@"Could not validate UserId.");
                 }
                 
                 valid = [subkeySig validateSubkey:subkey withSigningKey:primaryKey];
                 if (!valid) {
+                    eachRecipient.warning = -3;
                     NSLog(@"Could not validate subkey!");
                 }
             }

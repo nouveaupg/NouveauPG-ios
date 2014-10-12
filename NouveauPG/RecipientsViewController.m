@@ -16,6 +16,8 @@
 #import "Recipient.h"
 #import "RecipientDetails.h"
 #import "RecipientCell.h"
+#import "OpenPGPSignature.h"
+#import "UserIDPacket.h"
 
 @interface RecipientsViewController ()
 
@@ -52,13 +54,56 @@
     UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
     NSString *pasteboardContents = pasteboard.string;
     OpenPGPMessage *message = [[OpenPGPMessage alloc]initWithArmouredText:pasteboardContents];
+    NSInteger warning = 0;
     if ([message validChecksum]) {
         OpenPGPPublicKey *found = nil;
+        OpenPGPPublicKey *subkey = nil;
+        OpenPGPSignature *userIdSig = nil;
+        OpenPGPSignature *subkeySig = nil;
+        UserIDPacket *userIdPkt = nil;
+        
         for (OpenPGPPacket *eachPacket in [OpenPGPPacket packetsFromMessage:message]) {
             if ([eachPacket packetTag] == 6) {
                 found = [[OpenPGPPublicKey alloc]initWithPacket:eachPacket];
             }
+            else if( [eachPacket packetTag] == 13 ) {
+                userIdPkt = [[UserIDPacket alloc]initWithPacket:eachPacket];
+            }
+            else if([eachPacket packetTag] == 14) {
+                subkey = [[OpenPGPPublicKey alloc]initWithPacket:eachPacket];
+            }
+            else if([eachPacket packetTag] == 2) {
+                OpenPGPSignature *sig = [[OpenPGPSignature alloc]initWithPacket:eachPacket];
+                if (sig.signatureType >= 0x10 && sig.signatureType <= 0x13) {
+                    userIdSig = sig;
+                }
+                else if(sig.signatureType == 0x18 ) {
+                    subkeySig = sig;
+                }
+            }
         }
+        
+        // check the public key algo
+        
+        bool correctAlgo = [found publicKeyType] == 1 && [subkey publicKeyType] == 1;
+        if (correctAlgo) {
+            // check user id sig
+            bool valid = [userIdSig validateWithPublicKey:found userId:[userIdPkt stringValue]];
+            if (valid) {
+                // check the subkey sig
+                valid = [subkeySig validateSubkey:subkey withSigningKey:found];
+                if (!valid) {
+                    warning = -3;
+                }
+            }
+            else {
+                warning = -2;
+            }
+        }
+        else {
+            warning = -1;
+        }
+        
         if (found) {
             AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
             bool collision = false;
@@ -70,6 +115,9 @@
             
             if (!collision) {
                 [app addRecipientWithCertificate:pasteboardContents];
+                Recipient *lastRecipient = [app.recipients lastObject];
+                lastRecipient.warning = warning;
+                
                 int row = [app.recipients count]-1;
                 NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:0];
                 
@@ -132,6 +180,12 @@
         switch (current.warning) {
             case -1:
                 [cell showWarning:@"Unsupported public key algorithm"];
+                break;
+            case -2:
+                [cell showWarning:@"Invalid UserId signature"];
+                break;
+            case -3:
+                [cell showWarning:@"Invalid subkey signature"];
                 break;
                 
             default:
