@@ -105,6 +105,26 @@
     [recipientCell setKeyInfo:[keyId uppercaseString]];
     [recipientCell setIdenticonCode:newIdenticonCode];
     
+    if (obj.warning < 0) {
+        switch (obj.warning) {
+            case -1:
+                [recipientCell showWarning:@"Unsupported public key algorithm"];
+                break;
+            case -2:
+                [recipientCell showWarning:@"Invalid UserId signature"];
+                break;
+            case -3:
+                [recipientCell showWarning:@"Invalid subkey signature"];
+                break;
+                
+            default:
+                [recipientCell showWarning:@"Public key certificate error"];
+                break;
+
+        }
+        
+    }
+    
     return cell;
 }
 
@@ -114,6 +134,13 @@
     Recipient *obj = [app.recipients objectAtIndex:[indexPath row]];
     
     OpenPGPMessage *message = [[OpenPGPMessage alloc]initWithArmouredText:obj.certificate];
+    
+    if (obj.warning < 0) {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Certificate Problem" message:@"Cannot encrypt a message with this certificate because there is a problem with it." delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+        [alert show];
+        return;
+    }
+    
     if ([message validChecksum]) {
         OpenPGPPublicKey *primaryKey = nil;
         OpenPGPPublicKey *encryptionKey = nil;

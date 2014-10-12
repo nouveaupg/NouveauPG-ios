@@ -14,12 +14,14 @@
     IBOutlet UILabel *m_keyInfo;
     IBOutlet UILabel *m_email;
     IBOutlet IdenticonView *m_identiconView;
+    IBOutlet UIImageView *m_warningImage;
 }
 
 -(void)setName:(NSString *)name;
 -(void)setEmail:(NSString *)email;
 -(void)setKeyInfo:(NSString *)keyInfo;
 -(void)setIdenticonCode:(NSInteger)identiconCode;
+-(void)showWarning: (NSString *)warning;
 
 
 @end

@@ -39,6 +39,23 @@
     [m_identiconView setIdenticonCode:identiconCode];
 }
 
+- (void) showWarning: (NSString *)warning {
+    if (warning) {
+        [m_identiconView setHidden:YES];
+        [m_warningImage setHidden:NO];
+        
+        [m_email setText:warning];
+        [m_email setTextColor:[UIColor redColor]];
+        [m_keyInfo setText:@""];
+    }
+    else {
+        [m_warningImage setHidden:YES];
+        [m_warningImage setHidden:YES];
+        
+        [m_email setTextColor:[UIColor grayColor]];
+    }
+}
+
 - (void)awakeFromNib
 {
     // Initialization code
