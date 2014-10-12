@@ -106,7 +106,7 @@
     [cell setIdenticonCode:newIdenticonCode];
     [cell setName:identityData.name];
     [cell setEmail:identityData.email];
-    NSString *metadata = [NSString stringWithFormat:@"%@ (%d-bit RSA)",[identityData.keyId uppercaseString], [m_identityData.primaryKeystore publicKeySize]];
+    NSString *metadata = [NSString stringWithFormat:@"%@ (%ld-bit RSA)",[identityData.keyId uppercaseString], (long)[identityData.primaryKeystore publicKeySize]];
     
     [cell setKeyMetadata:metadata];
     
