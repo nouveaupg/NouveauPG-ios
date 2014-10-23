@@ -930,8 +930,8 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OVX-D4-ALU">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OVX-D4-ALU">
+                                <rect key="frame" x="0.0" y="-60" width="320" height="564"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -939,6 +939,12 @@
                             </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="OVX-D4-ALU" secondAttribute="trailing" constant="-16" id="2gN-F7-JZg"/>
+                            <constraint firstItem="OVX-D4-ALU" firstAttribute="top" secondItem="Omc-hc-3Dp" secondAttribute="bottom" constant="-60" id="WoY-mK-R6D"/>
+                            <constraint firstItem="OVX-D4-ALU" firstAttribute="bottom" secondItem="xwd-6a-i9Z" secondAttribute="bottomMargin" id="dlB-A9-cUZ"/>
+                            <constraint firstItem="OVX-D4-ALU" firstAttribute="leading" secondItem="xwd-6a-i9Z" secondAttribute="leadingMargin" constant="-16" id="zxc-TJ-r3H"/>
+                        </constraints>
                     </view>
                     <toolbarItems>
                         <barButtonItem title="Encrypt" id="hIK-vR-BC6">
