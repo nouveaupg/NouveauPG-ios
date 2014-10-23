@@ -71,7 +71,11 @@
 -(IBAction)email:(id)sender {
     MFMailComposeViewController *mailComposer = [[MFMailComposeViewController alloc]init];
     [mailComposer setSubject:@"Encrypted PGP Message"];
-    [mailComposer setToRecipients:[NSArray arrayWithObject:m_recipientEmail]];
+    
+    if ([m_recipientEmail length] > 5) {
+        [mailComposer setToRecipients:[NSArray arrayWithObject:m_recipientEmail]];
+    }
+    
     [mailComposer setMessageBody:m_armouredMessage isHTML:FALSE];
     mailComposer.mailComposeDelegate = self;
     [self presentViewController:mailComposer animated:YES completion:NULL];
