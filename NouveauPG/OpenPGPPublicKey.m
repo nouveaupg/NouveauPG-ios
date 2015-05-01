@@ -130,6 +130,85 @@
     return FALSE;
 }
 
+-(OpenPGPPacket *)exportPrivateKeyUnencrypted {
+    OpenPGPPacket *privateKeyPacket = nil;
+    int modulusBytes = (BN_num_bits(m_rsaKey->n)+7)/8;
+    int exponentBytes = (BN_num_bits(m_rsaKey->e)+7)/8;
+    int secretExponentBytes = (BN_num_bits(m_rsaKey->d)+7)/8;
+    int secretPrimeP = (BN_num_bits(m_rsaKey->p)+7)/8;
+    int secretPrimeQ = (BN_num_bits(m_rsaKey->q)+7)/8;
+    int secretInvQModP = (BN_num_bits(m_rsaKey->iqmp)+7)/8;
+    
+    // 10 = version byte + 4 timestamp bytes + public algo byte + lengths for n and e MPI's
+    size_t packetLen = 10 + modulusBytes + exponentBytes;
+    // 11 = s2k byte + lengths for 4 MPI's (8 bytes) + 2 checksum bytes
+    packetLen += 11 + secretExponentBytes + secretPrimeP + secretPrimeQ + secretInvQModP;
+    size_t offset = 0;
+    unsigned char *packetBody = malloc(packetLen);
+    if (packetBody) {
+        packetBody[0] = 4;
+        packetBody[1] = m_generatedTimestamp >> 24;
+        packetBody[2] = (m_generatedTimestamp >> 16) & 0xff;
+        packetBody[3] = (m_generatedTimestamp >> 8) & 0xff;
+        packetBody[4] = m_generatedTimestamp & 0xff;
+        packetBody[5] = 1;
+        packetBody[6] = BN_num_bits(m_rsaKey->n) >> 8;
+        packetBody[7] = BN_num_bits(m_rsaKey->n) & 0xff;
+        BN_bn2bin(m_rsaKey->n, (packetBody + 8));
+        offset += modulusBytes;
+        packetBody[8+offset] = BN_num_bits(m_rsaKey->e) >> 8;
+        packetBody[9+offset] = BN_num_bits(m_rsaKey->e) & 0xff;
+        offset += 10;
+        BN_bn2bin(m_rsaKey->e, (packetBody + offset));
+        offset += (BN_num_bits(m_rsaKey->e) + 7)/8;
+        
+        // secret section
+        
+        packetBody[offset++] = 0;
+        
+        size_t secretOffset = offset;
+        
+        packetBody[offset++] = BN_num_bits(m_rsaKey->d) >> 8;
+        packetBody[offset++] = BN_num_bits(m_rsaKey->d) & 0xff;
+        BN_bn2bin(m_rsaKey->d, (packetBody + offset));
+        offset +=  secretExponentBytes;
+        
+        packetBody[offset++] = BN_num_bits(m_rsaKey->p) >> 8;
+        packetBody[offset++] = BN_num_bits(m_rsaKey->p) & 0xff;
+        BN_bn2bin(m_rsaKey->p, (packetBody + offset));
+        offset += secretPrimeP;
+        
+        packetBody[offset++] = BN_num_bits(m_rsaKey->q) >> 8;
+        packetBody[offset++] = BN_num_bits(m_rsaKey->q) & 0xff;
+        BN_bn2bin(m_rsaKey->q, (packetBody + offset));
+        offset += secretPrimeQ;
+        
+        packetBody[offset++] = BN_num_bits(m_rsaKey->iqmp) >> 8;
+        packetBody[offset++] = BN_num_bits(m_rsaKey->iqmp) & 0xff;
+        BN_bn2bin(m_rsaKey->iqmp, (packetBody + offset));
+        offset += secretInvQModP;
+        
+        // 8 = 2 byte length field for each MPI (8 bytes total)
+        unsigned long long checksum = 0;
+        size_t secretLen = secretExponentBytes + secretInvQModP + secretPrimeP + secretPrimeQ + 8;
+        for (size_t x = secretOffset; x < offset; x++) {
+            checksum += packetBody[x];
+        }
+        unsigned int chkvalue = checksum % 65536;
+        packetBody[offset++] = (chkvalue >> 8) & 0xff;
+        packetBody[offset++] = chkvalue & 0xff;
+        
+        if (m_subkey) {
+            privateKeyPacket = [[OpenPGPPacket alloc]initWithPacketBody:[NSData dataWithBytes:packetBody length:packetLen] tag:7 oldFormat:YES];
+        }
+        else {
+            privateKeyPacket = [[OpenPGPPacket alloc]initWithPacketBody:[NSData dataWithBytes:packetBody length:packetLen] tag:5 oldFormat:YES];
+        }
+    }
+    
+    return privateKeyPacket;
+}
+
 -(OpenPGPPacket *)exportPrivateKey: (NSString *)passphrase {
     OpenPGPPacket *privateKeyPacket = nil;
     int modulusBytes = (BN_num_bits(m_rsaKey->n)+7)/8;
@@ -280,8 +359,11 @@
     
     unsigned char *output = malloc([encryptedSig length]);
     int result = RSA_public_decrypt([encryptedSig length], [encryptedSig bytes], output, m_rsaKey, RSA_NO_PADDING);
-    if (result == [encryptedSig length]) {
+    if (result != -1) {
         retValue = [[NSData alloc]initWithBytes:output length:result];
+    }
+    else {
+        NSLog(@"OpenSSL returned error for RSA_public_decrypt");
     }
     free(output);
     
@@ -364,15 +446,80 @@
                         ptr+= 10;
                         memcpy(m_iv, ptr, 16);
                         offset += 28;
+                        
+                        unsigned char *encryptedBuffer;
+                        size_t encryptedBufferLen = [[keyPacket packetData]length] - offset;
+                        encryptedBuffer = malloc(encryptedBufferLen);
+                        if (encryptedBuffer) {
+                            memcpy(encryptedBuffer, (unsigned char *)([[keyPacket packetData] bytes]+offset), encryptedBufferLen);
+                            m_encryptedKey = [[NSData alloc]initWithBytes:encryptedBuffer length:encryptedBufferLen];
+                            free(encryptedBuffer);
+                        }
                     }
-                    unsigned char *encryptedBuffer;
-                    size_t encryptedBufferLen = [[keyPacket packetData]length] - offset;
-                    encryptedBuffer = malloc(encryptedBufferLen);
-                    if (encryptedBuffer) {
-                        memcpy(encryptedBuffer, (unsigned char *)([[keyPacket packetData] bytes]+offset), encryptedBufferLen);
-                        m_encryptedKey = [[NSData alloc]initWithBytes:encryptedBuffer length:encryptedBufferLen];
-                        free(encryptedBuffer);
+                    else if( *ptr == 0 ) {
+                        // unencrypted key
+                        // secret exponent d
+                        int secretExponentBits = 0;
+                        ptr++;
+                        
+                        secretExponentBits = *ptr;
+                        secretExponentBits <<= 8;
+                        ptr++;
+                        secretExponentBits |= *ptr;
+                        ptr++;
+                        
+                        BIGNUM *bn = BN_new();
+                        mpi_len = (secretExponentBits + 7) / 8;
+                        BN_bin2bn(ptr, mpi_len, bn);
+                        m_rsaKey->d = bn;
+                        
+                        ptr += mpi_len;
+                        // secret prime P
+                        bn = BN_new();
+                        int secretPrimePBits = *ptr;
+                        secretPrimePBits <<= 8;
+                        ptr++;
+                        secretPrimePBits |= *ptr;
+                        ptr++;
+                        
+                        mpi_len = (secretPrimePBits + 7) / 8;
+                        BN_bin2bn(ptr, mpi_len, bn);
+                       
+                        m_rsaKey->p = bn;
+                        ptr += mpi_len;
+                        bn = BN_new();
+                        // secret prime Q
+                        int secretPrimeQBits = *ptr;
+                        secretPrimeQBits <<= 8;
+                        ptr++;
+                        secretPrimeQBits |= *ptr;
+                        ptr++;
+                        
+                        mpi_len = (secretPrimeQBits + 7) / 8;
+                        BN_bin2bn(ptr, mpi_len, bn);
+                        m_rsaKey->q = bn;
+                        
+                         //NSLog(@"BN_num_bits (q): %d",BN_num_bits(m_rsaKey->q));
+                        //assert(BN_num_bits(m_rsaKey->q) == secretPrimeQBits);
+                        
+                        ptr += mpi_len;
+                        bn = BN_new();
+                        // inverse of p % q
+                        int inverseBits = *ptr;
+                        inverseBits <<= 8;
+                        ptr++;
+                        inverseBits |= *ptr;
+                        ptr++;
+                        
+                        mpi_len = (inverseBits + 7) / 8;
+                        BN_bin2bn(ptr, mpi_len, bn);
+                        m_rsaKey->iqmp = bn;
+                        
+                        //NSLog(@"BN_num_bits (q): %d",BN_num_bits(m_rsaKey->iqmp));
+                        //assert(BN_num_bits(m_rsaKey->iqmp) == inverseBits);
+                        
                     }
+                    
                     
                     OpenPGPPacket *publicKeyPacket = [self exportPublicKey];
                     
@@ -392,7 +539,13 @@
                     
                     
                     keyId = [[NSString stringWithFormat:@"%02x%02x%02x%02x",digest[16],digest[17],digest[18],digest[19]] copy];
-                    NSLog(@"KeyID: %@",keyId);
+                    
+                    if(m_encryptedKey) {
+                        NSLog(@"Initialized encrypted RSA Key ID: %@",keyId);
+                    }
+                    else {
+                        NSLog(@"Initialized unencrypted RSA Key ID: %@",keyId);
+                    }
 
                     
                 }
@@ -427,8 +580,14 @@
         offset++;
         output = malloc(16);
         memcpy(output, unencryptedBuffer+offset, 16);
+        memset(unencryptedBuffer, len, 0x0);
+        free(unencryptedBuffer);
         return output;
     }
+    else {
+        NSLog(@"Unsupported symmetric algorithm: %d",unencryptedBuffer[offset]);
+    }
+    free(unencryptedBuffer);
     return NULL;
 }
 
@@ -485,7 +644,7 @@
                     memcpy(m_fingerprint, digest, 20);
                     
                     self.keyId = [NSString stringWithFormat:@"%02x%02x%02x%02x",digest[16],digest[17],digest[18],digest[19]];
-                    NSLog(@"KeyID: %@",keyId);
+                    NSLog(@"Initialized RSA Key ID: %@",keyId);
                 }
                 else {
                     publicKeyType = - 1;
@@ -636,6 +795,10 @@
                     NSData *outputData = [NSData dataWithBytes:output length:frameSize];
                     free(output);
                     return outputData;
+                }
+                else {
+                    NSLog(@"Error: could not encrypt");
+                    free(output);
                 }
             }
             else {

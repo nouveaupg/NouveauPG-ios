@@ -14,6 +14,9 @@
     NSData *m_hashedSubpacketData;
     NSData *m_unhashedSubpacketData;
     NSData *m_signature;
+    
+    NSTimeInterval m_creationTime;
+    NSTimeInterval m_expiryTime;
 }
 
 @property NSInteger signatureVersion;
@@ -22,7 +25,6 @@
 @property NSInteger hashAlgo;
 
 - (id) initWithPacket: (OpenPGPPacket *)packet;
-+(OpenPGPPacket *)signWithUserId:(NSString *)userId publicKey: (OpenPGPPublicKey *)key;
 +(OpenPGPPacket *)signSubkey: (OpenPGPPublicKey *)subkey withPrivateKey:(OpenPGPPublicKey *)signingKey;
 +(OpenPGPPacket *)signUserId: (NSString *)userId withPublicKey: (OpenPGPPublicKey *)key;
 
@@ -33,5 +35,7 @@
 
 -(bool) validateWithPublicKey: (OpenPGPPublicKey *)signingKey userId: (NSString *)uid;
 -(bool) validateSubkey: (OpenPGPPublicKey *)subkey withSigningKey: (OpenPGPPublicKey *)signingKey;
+-(NSDate *)dateSigned;
+-(NSDate *)dateExpires;
 
 @end
