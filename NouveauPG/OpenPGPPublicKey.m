@@ -539,14 +539,14 @@
                     
                     
                     keyId = [[NSString stringWithFormat:@"%02x%02x%02x%02x",digest[16],digest[17],digest[18],digest[19]] copy];
-                    
+                    /*
                     if(m_encryptedKey) {
                         NSLog(@"Initialized encrypted RSA Key ID: %@",keyId);
                     }
                     else {
                         NSLog(@"Initialized unencrypted RSA Key ID: %@",keyId);
                     }
-
+                     */
                     
                 }
                 else {
@@ -644,7 +644,7 @@
                     memcpy(m_fingerprint, digest, 20);
                     
                     self.keyId = [NSString stringWithFormat:@"%02x%02x%02x%02x",digest[16],digest[17],digest[18],digest[19]];
-                    NSLog(@"Initialized RSA Key ID: %@",keyId);
+                    //NSLog(@"Initialized RSA Key ID: %@",keyId);
                 }
                 else {
                     publicKeyType = - 1;

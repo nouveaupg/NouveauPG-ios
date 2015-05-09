@@ -19,6 +19,7 @@
 		0427A3251957D33F00817FD3 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0427A3241957D33F00817FD3 /* MessageUI.framework */; };
 		0427A32C1957EBA300817FD3 /* Identity.m in Sources */ = {isa = PBXBuildFile; fileRef = 0427A32B1957EBA300817FD3 /* Identity.m */; };
 		0431CADA1970156A0025A26B /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 0431CAD91970156A0025A26B /* Message.m */; };
+		0431CE241AF6EC24003711F2 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0431CE231AF6EC24003711F2 /* CloudKit.framework */; };
 		0461396C199D915300B86620 /* OpenPGPEncryptedPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = 0461396A199D915300B86620 /* OpenPGPEncryptedPacket.m */; };
 		0461396F199D934F00B86620 /* MessageRecipientsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0461396D199D934F00B86620 /* MessageRecipientsTableViewController.m */; };
 		04613972199D935E00B86620 /* MessageRecipientCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04613970199D935E00B86620 /* MessageRecipientCell.m */; };
@@ -92,6 +93,7 @@
 		0427A32B1957EBA300817FD3 /* Identity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Identity.m; path = ../Identity.m; sourceTree = "<group>"; };
 		0431CAD81970156A0025A26B /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
 		0431CAD91970156A0025A26B /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
+		0431CE231AF6EC24003711F2 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		0461396A199D915300B86620 /* OpenPGPEncryptedPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenPGPEncryptedPacket.m; sourceTree = "<group>"; };
 		0461396B199D915300B86620 /* OpenPGPEncryptedPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenPGPEncryptedPacket.h; sourceTree = "<group>"; };
 		0461396D199D934F00B86620 /* MessageRecipientsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageRecipientsTableViewController.m; sourceTree = "<group>"; };
@@ -161,6 +163,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0431CE241AF6EC24003711F2 /* CloudKit.framework in Frameworks */,
 				0427A3251957D33F00817FD3 /* MessageUI.framework in Frameworks */,
 				04B9D7511913421C00D2790A /* CoreGraphics.framework in Frameworks */,
 				04B9D7F81923044D00D2790A /* libcrypto.a in Frameworks */,
@@ -267,6 +270,7 @@
 		04B9D74D1913421C00D2790A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0431CE231AF6EC24003711F2 /* CloudKit.framework */,
 				0427A3241957D33F00817FD3 /* MessageUI.framework */,
 				04B9D74E1913421C00D2790A /* Foundation.framework */,
 				04B9D7501913421C00D2790A /* CoreGraphics.framework */,
@@ -414,7 +418,7 @@
 						DevelopmentTeam = U275QAVXQX;
 						SystemCapabilities = {
 							com.apple.iCloud = {
-								enabled = 0;
+								enabled = 1;
 							};
 						};
 					};
@@ -617,6 +621,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = NouveauPG/NouveauPG.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -627,6 +632,7 @@
 					"/Users/jack/Documents/ios-openssl/include",
 				);
 				INFOPLIST_FILE = "NouveauPG/NouveauPG-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -644,6 +650,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = NouveauPG/NouveauPG.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -654,6 +661,7 @@
 					"/Users/jack/Documents/ios-openssl/include",
 				);
 				INFOPLIST_FILE = "NouveauPG/NouveauPG-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",

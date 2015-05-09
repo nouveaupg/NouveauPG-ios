@@ -13,6 +13,7 @@
     IBOutlet UISegmentedControl *m_rsaKeySizeControl;
     IBOutlet UISwitch *m_enableKeychainSwitch;
     IBOutlet UISwitch *m_enableTouchIdSwitch;
+    IBOutlet UISwitch *m_enableiCloudSync;
 }
 
 - (IBAction)changeSetting:(id)sender;
@@ -34,6 +35,9 @@
     else if( sender == m_rsaKeySizeControl ) {
         [[NSUserDefaults standardUserDefaults] setInteger:m_rsaKeySizeControl.selectedSegmentIndex forKey:@"rsaKeySize"];
     }
+    else if( sender == m_enableiCloudSync ) {
+        [[NSUserDefaults standardUserDefaults] setBool:m_enableiCloudSync.on forKey:@"iCloudSyncEnabled"];
+    }
 }
 
 - (void)viewDidLoad {
@@ -44,6 +48,7 @@
     m_enableTouchIdSwitch.on = [[NSUserDefaults standardUserDefaults]boolForKey:@"enableTouchId"];
     m_hashAlgoControl.selectedSegmentIndex = [[NSUserDefaults standardUserDefaults]integerForKey:@"hashAlgo"];
     m_rsaKeySizeControl.selectedSegmentIndex = [[NSUserDefaults standardUserDefaults]integerForKey:@"rsaKeySize"];
+    m_enableiCloudSync.on = [[NSUserDefaults standardUserDefaults]boolForKey:@"iCloudSyncEnabled"];
 }
 
 - (void)didReceiveMemoryWarning {

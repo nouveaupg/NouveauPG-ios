@@ -23,6 +23,8 @@
 
 @implementation AppDelegate
 
+@import CloudKit;
+
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize managedObjectModel = _managedObjectModel;
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
@@ -172,6 +174,9 @@
         }
     }
     
+    // if cloud sync is enabled
+    [self startSyncFromCloud];
+    
     return YES;
 }
 
@@ -285,6 +290,11 @@
         
         self.recipients = editable;
         
+        // propogate to cloud
+        if ([[NSUserDefaults standardUserDefaults]boolForKey:@"iCloudSyncEnabled"]) {
+            [self saveObjectToCloud:newRecipient];
+        }
+        
         [self saveContext];
         
         /*
@@ -297,6 +307,81 @@
         [alert show];
          */
     }
+}
+
+-(bool)saveObjectToCloud: (NSManagedObject *)object {
+    
+    CKRecord *newRecord = [[CKRecord alloc]initWithRecordType:@"Identities"];
+    //CKContainer *myContainer = [CKContainer defaultContainer];
+    CKContainer *myContainer = [CKContainer containerWithIdentifier:@"iCloud.com.nouveaupg.nouveaupg"];
+    CKDatabase *privateDatabase = [myContainer privateCloudDatabase];
+    
+    if ([[[object entity] name] isEqualToString:@"Recipient"]) {
+        Recipient *recipient = (Recipient *)object;
+        OpenPGPMessage *recipientMessage = [[OpenPGPMessage alloc]initWithArmouredText:recipient.certificate];
+    
+        NSString *keyId;
+        NSString *fingerprintString;
+        
+        for (OpenPGPPacket *eachPacket in [OpenPGPPacket packetsFromMessage:recipientMessage]) {
+            if ([eachPacket packetTag] == 6) {
+                OpenPGPPublicKey *primaryKey = [[OpenPGPPublicKey alloc]initWithPacket:eachPacket];
+                keyId = primaryKey.keyId;
+                
+                unsigned char *fingerprint = [primaryKey fingerprintBytes];
+                unsigned int d1,d2,d3,d4,d5;
+                d1 = fingerprint[0] << 24 | fingerprint[1] << 16 | fingerprint[2] << 8 | fingerprint[3];
+                d2 = fingerprint[4] << 24 | fingerprint[5] << 16 | fingerprint[6] << 8 | fingerprint[7];
+                d3 = fingerprint[8] << 24 | fingerprint[9] << 16 | fingerprint[10] << 8 | fingerprint[11];
+                d4 = fingerprint[12] << 24 | fingerprint[13] << 16 | fingerprint[14] << 8 | fingerprint[15];
+                d5 = fingerprint[16] << 24 | fingerprint[17] << 16 | fingerprint[18] << 8 | fingerprint[19];
+                
+                fingerprintString = [[NSString stringWithFormat:@"%08x%08x%08x%08x%08x",d1,d2,d3,d4,d5] uppercaseString];
+                
+            }
+            if ([eachPacket packetTag] == 13) {
+                UserIDPacket *userIdPkt = [[UserIDPacket alloc]initWithPacket:eachPacket];
+                NSRange firstBracket = [[userIdPkt stringValue] rangeOfString:@"<"];
+                if (firstBracket.location != NSNotFound) {
+                    NSString *nameOnly = [[userIdPkt stringValue]substringToIndex:firstBracket.location];
+                    NSRange secondBracket =[[userIdPkt stringValue] rangeOfString:@">"];
+                    NSUInteger len = secondBracket.location - firstBracket.location - 1;
+                    NSString *emailOnly = [[userIdPkt stringValue]substringWithRange:NSMakeRange(firstBracket.location+1, len)];
+                    
+                    [newRecord setObject:nameOnly forKey:@"Name"];
+                    [newRecord setObject:emailOnly forKey:@"Email"];
+                }
+                else {
+                    // If the UserID doesn't conform to RFC 2822, we don't attempt to pull out the e-mail address
+                
+                    [newRecord setObject:[userIdPkt stringValue] forKey:@"Name"];
+                }
+            }
+        }
+        [newRecord setObject:recipient.certificate forKey:@"PublicCertificate"];
+        [newRecord setObject:recipient.added forKey:@"Created"];
+        [newRecord setObject:keyId forKey:@"KeyId"];
+        [newRecord setObject:fingerprintString forKey:@"Fingerprint"];
+    }
+    
+    [privateDatabase saveRecord:newRecord completionHandler:^(CKRecord *identityRecord, NSError *error){
+        if (!error) {
+            // Insert successfully saved record code
+            NSLog(@"Record saved.");
+        }
+        else {
+            // Insert error handling
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"iCloud Sync Failed" message:@"NouveauPG was unable to add an object to its iCloud store. Please make sure you are connected to the internet and signed into iCloud, then re-enable iCloud Sync." delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+            [alert show];
+            
+            [[NSUserDefaults standardUserDefaults]setBool:false forKey:@"iCloudSyncEnabled"];
+            
+            NSLog(@"Error saving CloudKit record: %@",[error description]);
+        }
+    }];
+    
+    
+    return true;
 }
 
 - (void)addIdentityWithPublicCertificate: (NSString*)publicCertificate privateKeystore: (NSString *)keystore name: (NSString *)userId emailAddr:(NSString *)email keyId: (NSString *)keyid {
@@ -596,6 +681,53 @@
     }    
     
     return _persistentStoreCoordinator;
+}
+
+- (void)startSyncFromCloud {
+    CKContainer *myContainer = [CKContainer containerWithIdentifier:@"iCloud.com.nouveaupg.nouveaupg"];
+    CKDatabase *privateDatabase = [myContainer privateCloudDatabase];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"Created > %@",[NSDate dateWithTimeIntervalSince1970:0]];
+    CKQuery *query = [[CKQuery alloc] initWithRecordType:@"Identities" predicate:predicate];
+    [privateDatabase performQuery:query inZoneWithID:nil completionHandler:^(NSArray *results, NSError *error) {
+        if (error) {
+            NSLog(@"CloudKit error: %@",[error description]);
+            // Error handling for failed fetch from public database
+        }
+        else {
+            // Sync with local database...
+            
+            for( CKRecord *each in results ) {
+                if( ![each objectForKey:@"PrivateKeystore"] ) {
+                    // if it doesn't have a private keystore, it's a public key
+                    NSDate *localDate = nil;
+                    // see if it's already in the recipient list
+                    bool found = false;
+                    for( Recipient *eachRecipient in self.recipients ) {
+                        OpenPGPMessage *recipientMessage = [[OpenPGPMessage alloc]initWithArmouredText:eachRecipient.certificate];
+                        
+                        for( OpenPGPPacket *eachPacket in [OpenPGPPacket packetsFromMessage:recipientMessage]) {
+                            if ([eachPacket packetTag] == 6) {
+                                OpenPGPPublicKey *primaryKey = [[OpenPGPPublicKey alloc]initWithPacket:eachPacket];
+                                NSString *keyToMatch = [each objectForKey:@"KeyId"];
+                                if ([[[primaryKey keyId] uppercaseString] isEqualToString:keyToMatch]) {
+                                    found = true;
+                                    localDate = eachRecipient.added;
+                                }
+                            }
+                            break;
+                        }
+                        
+                    }
+                    if (!found) {
+                        // if we didn't find an incoming recipient in the local database, we add it
+                        [self addRecipientWithCertificate:[each objectForKey:@"PublicCertificate"]];
+                        NSLog(@"Adding public certificate %@ (%@) from iCloud",[each objectForKey:@"Name"],[each objectForKey:@"KeyId"]);
+                    }
+                }
+            }
+        }
+    }];
+
 }
 
 #pragma mark - Application's Documents directory
