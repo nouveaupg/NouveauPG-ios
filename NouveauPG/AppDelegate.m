@@ -21,9 +21,9 @@
 
 #import "NSString+Base64.h"
 
-@implementation AppDelegate
-
 @import CloudKit;
+
+@implementation AppDelegate
 
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize managedObjectModel = _managedObjectModel;
@@ -725,6 +725,7 @@
                     }
                 }
             }
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"flushTables" object:@"recipients"];
         }
     }];
 

@@ -42,7 +42,13 @@
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+    
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
+    [[NSNotificationCenter defaultCenter]addObserverForName:@"flushTables" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+        NSLog(@"Reloading recipients table...");
+        [[self tableView] reloadData];
+    }];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
