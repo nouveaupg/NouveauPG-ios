@@ -121,8 +121,14 @@
             
             if (!collision) {
                 [app addRecipientWithCertificate:pasteboardContents];
+                
                 Recipient *lastRecipient = [app.recipients lastObject];
                 lastRecipient.warning = warning;
+                
+                // propogate to cloud
+                if ([[NSUserDefaults standardUserDefaults]boolForKey:@"iCloudSyncEnabled"]) {
+                    [app saveObjectToCloud:lastRecipient];
+                }
                 
                 int row = [app.recipients count]-1;
                 NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:0];
@@ -312,6 +318,8 @@
         
         Recipient *ptr = [app.recipients objectAtIndex:[indexPath row]];
         
+        NSString *keyId = [[NSString alloc]initWithString:ptr.details.keyId];
+        
         NSError *error;
         NSManagedObjectContext *context = [app managedObjectContext];
         [context deleteObject:ptr];
@@ -319,6 +327,10 @@
         
         if (error) {
             NSLog(@"CoreData Error: %@",[error description]);
+        }
+        else if([[NSUserDefaults standardUserDefaults] boolForKey:@"iCloudSyncEnabled"]) {
+            // Commit change to iCloud
+            [app deleteCloudObject:[keyId lowercaseString] recordType:@"Recipient"];
         }
         
         [editable removeObjectAtIndex:[indexPath row]];

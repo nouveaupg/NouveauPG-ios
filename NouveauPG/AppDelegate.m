@@ -223,7 +223,7 @@
     [self saveContext];
 }
 
-- (void)addRecipientWithCertificate:(NSString *)certData {
+- (Recipient *)addRecipientWithCertificate:(NSString *)certData {
     
     OpenPGPMessage *certMessage = [[OpenPGPMessage alloc] initWithArmouredText:certData];
     if ([certMessage validChecksum]) {
@@ -290,12 +290,10 @@
         
         self.recipients = editable;
         
-        // propogate to cloud
-        if ([[NSUserDefaults standardUserDefaults]boolForKey:@"iCloudSyncEnabled"]) {
-            [self saveObjectToCloud:newRecipient];
-        }
         
         [self saveContext];
+        
+        return newRecipient;
         
         /*
         NSString *alertText = [NSString stringWithFormat:@"Do you wish to add the public key certificate for User ID \"%@\" to your recipient list?",[userId stringValue]];
@@ -307,6 +305,29 @@
         [alert show];
          */
     }
+    return nil;
+}
+
+- (void)deleteCloudObject: (NSString *)keyId recordType:(NSString *)type {
+    CKRecord *newRecord = [[CKRecord alloc]initWithRecordType:@"Identities"];
+    //CKContainer *myContainer = [CKContainer defaultContainer];
+    CKContainer *myContainer = [CKContainer containerWithIdentifier:@"iCloud.com.nouveaupg.nouveaupg"];
+    CKDatabase *privateDatabase = [myContainer privateCloudDatabase];
+    
+    NSPredicate *predicate;
+    
+    if ([type isEqualToString:@"Recipient"]) {
+        predicate = [NSPredicate predicateWithFormat:@"KeyId == %@",[keyId uppercaseString]];
+    }
+    
+    CKQuery *query = [[CKQuery alloc] initWithRecordType:@"Identities" predicate:predicate];
+    [privateDatabase performQuery:query inZoneWithID:nil completionHandler:^(NSArray *results, NSError *error) {
+        for (CKRecord *each in results) {
+            [privateDatabase deleteRecordWithID:each.recordID completionHandler:^(CKRecordID *recordID, NSError *error) {
+                NSLog(@"Record deleted.");
+            }];
+        }
+    }];
 }
 
 -(bool)saveObjectToCloud: (NSManagedObject *)object {
@@ -358,8 +379,9 @@
                 }
             }
         }
+        
         [newRecord setObject:recipient.certificate forKey:@"PublicCertificate"];
-        [newRecord setObject:recipient.added forKey:@"Created"];
+        [newRecord setObject:[NSDate date] forKey:@"Created"];
         [newRecord setObject:keyId forKey:@"KeyId"];
         [newRecord setObject:fingerprintString forKey:@"Fingerprint"];
     }
@@ -367,7 +389,7 @@
     [privateDatabase saveRecord:newRecord completionHandler:^(CKRecord *identityRecord, NSError *error){
         if (!error) {
             // Insert successfully saved record code
-            NSLog(@"Record saved.");
+            NSLog(@"Record saved: %@ (%@)",[identityRecord objectForKey:@"Name"],[identityRecord objectForKey:@"KeyId"]);
         }
         else {
             // Insert error handling
@@ -723,6 +745,9 @@
                         [self addRecipientWithCertificate:[each objectForKey:@"PublicCertificate"]];
                         NSLog(@"Adding public certificate %@ (%@) from iCloud",[each objectForKey:@"Name"],[each objectForKey:@"KeyId"]);
                     }
+                }
+                else {
+                    NSLog(@"Public certificate %@ (%@) from iCloud",[each objectForKey:@"Name"],[each objectForKey:@"KeyId"]);
                 }
             }
             [[NSNotificationCenter defaultCenter] postNotificationName:@"flushTables" object:@"recipients"];

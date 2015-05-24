@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+#import "Recipient.h"
+
 @interface AppDelegate : UIResponder <UIApplicationDelegate,UIAlertViewDelegate> {
     NSManagedObject *m_pendingItem;
 }
@@ -24,8 +26,10 @@
 
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
-- (void)addRecipientWithCertificate:(NSString *)certData;
+- (Recipient *)addRecipientWithCertificate:(NSString *)certData;
 - (void)addMessageToStore:(NSString *)message;
+- (bool)saveObjectToCloud: (NSManagedObject *)object;
+- (void)deleteCloudObject: (NSString *)keyId recordType:(NSString *)type;
 - (bool)addIdentityWithKeystore: (NSString *)privateKeystore password: (NSString *)passwd;
 - (void)addIdentityWithPublicCertificate: (NSString*)publicCertificate privateKeystore: (NSString *)keystore name: (NSString *)userId emailAddr:(NSString *)email keyId: (NSString *)keyid;
 
