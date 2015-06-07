@@ -39,6 +39,15 @@
     
     //self.window.backgroundColor = [UIColor whiteColor];
     //[self.window makeKeyAndVisible];
+    
+    // register for CloudKit errors
+    
+    [[NSNotificationCenter defaultCenter]addObserverForName:@"cloudKitError" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note){
+        NSError *error = [note object];
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"iCloud Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+        [alert show];
+    }];
+    
     [[NSUserDefaults standardUserDefaults]registerDefaults:[NSDictionary dictionaryWithObject:[NSNumber numberWithBool:true] forKey:@"enableKeychain"]];
     
     NSManagedObjectContext *ctx = [self managedObjectContext];
@@ -317,15 +326,20 @@
     NSPredicate *predicate;
     
     if ([type isEqualToString:@"Recipient"]) {
-        predicate = [NSPredicate predicateWithFormat:@"KeyId == %@",[keyId uppercaseString]];
+        predicate = [NSPredicate predicateWithFormat:@"KeyId == %@",keyId];
     }
     
     CKQuery *query = [[CKQuery alloc] initWithRecordType:@"Identities" predicate:predicate];
     [privateDatabase performQuery:query inZoneWithID:nil completionHandler:^(NSArray *results, NSError *error) {
-        for (CKRecord *each in results) {
-            [privateDatabase deleteRecordWithID:each.recordID completionHandler:^(CKRecordID *recordID, NSError *error) {
-                NSLog(@"Record deleted.");
-            }];
+        if (error) {
+            [[NSNotificationCenter defaultCenter]postNotificationName:@"cloudKitError" object:error];
+        }
+        else {
+            for (CKRecord *each in results) {
+                [privateDatabase deleteRecordWithID:each.recordID completionHandler:^(CKRecordID *recordID, NSError *error) {
+                    NSLog(@"Record deleted.");
+                }];
+            }
         }
     }];
 }
@@ -393,9 +407,7 @@
         }
         else {
             // Insert error handling
-            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"iCloud Sync Failed" message:@"NouveauPG was unable to add an object to its iCloud store. Please make sure you are connected to the internet and signed into iCloud, then re-enable iCloud Sync." delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
-            [alert show];
-            
+            [[NSNotificationCenter defaultCenter]postNotificationName:@"cloudKitError" object:error];
             [[NSUserDefaults standardUserDefaults]setBool:false forKey:@"iCloudSyncEnabled"];
             
             NSLog(@"Error saving CloudKit record: %@",[error description]);
@@ -714,6 +726,8 @@
         if (error) {
             NSLog(@"CloudKit error: %@",[error description]);
             // Error handling for failed fetch from public database
+            
+            [[NSNotificationCenter defaultCenter]postNotificationName:@"cloudKitError" object:error];
         }
         else {
             // Sync with local database...
