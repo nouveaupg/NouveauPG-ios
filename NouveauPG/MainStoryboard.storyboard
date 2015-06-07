@@ -243,7 +243,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="g7k-IB-DxT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1891" y="1801"/>
+            <point key="canvasLocation" x="1177" y="1230"/>
         </scene>
         <!--Choose Recipient-->
         <scene sceneID="60V-KS-IVY">
@@ -494,6 +494,7 @@
                         <segue destination="8q4-iB-c52" kind="push" identifier="unlockKeystore" id="O5F-nq-Ba7"/>
                         <segue destination="8q4-iB-c52" kind="push" identifier="choosePassword" id="PRD-UU-UXt"/>
                         <segue destination="CQe-3g-zM3" kind="push" identifier="generateIdentity" id="kIS-SC-Fh0"/>
+                        <segue destination="TNJ-Kk-eoM" kind="push" identifier="exportUnencryptedKeystore" id="Bp5-By-qk7"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1nX-Xq-XFc" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1048,7 +1049,7 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="fXH-ri-jsc"/>
-        <segue reference="ygw-7H-Pr6"/>
-        <segue reference="F2n-Io-IBZ"/>
+        <segue reference="IEx-3z-qZh"/>
+        <segue reference="PRD-UU-UXt"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -15,6 +15,8 @@
 #import "OpenPGPPacket.h"
 #import "OpenPGPMessage.h"
 #import "OpenPGPPublicKey.h"
+#import "UserIDPacket.h"
+#import "OpenPGPSignature.h"
 
 #import <Security/Security.h>
 
@@ -198,7 +200,7 @@
             [self performSegueWithIdentifier:@"exportPublicKey" sender:self];
         }
         else if( buttonIndex == 2 ) {
-            [self performSegueWithIdentifier:@"choosePassword" sender:self];
+            [self performSegueWithIdentifier:@"exportUnencryptedKeystore" sender:self];
         }
     }
 }
@@ -322,6 +324,48 @@
         
         [nextViewController setUserId: userId];
         [nextViewController setChangePassword:true];
+    }
+    else if( [[segue identifier] isEqualToString:@"exportUnencryptedKeystore"]) {
+        ExportViewController *nextViewController = (ExportViewController *)[segue destinationViewController];
+        
+        
+        OpenPGPMessage *publicCertificateMessage = [[OpenPGPMessage alloc]initWithArmouredText:[m_identityData publicCertificate]];
+        
+        NSString *unencryptedKeystore = nil;
+        OpenPGPPacket *userIdPacket;
+        OpenPGPSignature *sig;
+        OpenPGPPacket *primarySigPacket;
+        OpenPGPPacket *secondarySigPacket;
+        
+        if ([publicCertificateMessage validChecksum]) {
+            for (OpenPGPPacket *each in [OpenPGPPacket packetsFromMessage:publicCertificateMessage]) {
+                if ([each packetTag] == 13) {
+                    userIdPacket = [[OpenPGPPacket alloc]initWithData:[each packetData]];
+                }
+                else if( [each packetTag] == 2 ) {
+                    sig = [[OpenPGPSignature alloc]initWithPacket:each];
+                    if (sig.signatureType >= 0x10 &&
+                        sig.signatureType <= 0x13) {
+                        primarySigPacket = [[OpenPGPPacket alloc]initWithData:[each packetData]];;
+                    }
+                    else if(sig.signatureType == 0x18) {
+                        secondarySigPacket = [[OpenPGPPacket alloc]initWithData:[each packetData]];
+                    }
+                }
+            }
+            
+            NSMutableArray *packets = [[NSMutableArray alloc]initWithCapacity:5];
+            [packets addObject:[m_identityData.primaryKeystore exportPrivateKeyUnencrypted]];
+            [packets addObject:userIdPacket];
+            [packets addObject:primarySigPacket];
+            [packets addObject:[m_identityData.encryptionKeystore exportPrivateKeyUnencrypted]];
+            [packets addObject:secondarySigPacket];
+            
+            unencryptedKeystore = [OpenPGPMessage armouredMessageFromPacketChain:packets type:kPGPPrivateCertificate];
+        
+            [nextViewController setText:unencryptedKeystore];
+            [nextViewController setEmail:[m_identityData email]];
+        }
     }
 }
 
