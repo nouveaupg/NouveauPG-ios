@@ -268,7 +268,7 @@
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="First Last Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P9H-f9-GAT">
                                             <rect key="frame" x="72" y="4" width="215" height="21"/>
                                             <fontDescription key="fontDescription" name="Arial-BoldMT" family="Arial" pointSize="16"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="user@email.com" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9WA-dg-fEU">
@@ -438,7 +438,7 @@
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="John Hill" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UvB-4b-arZ">
                                             <rect key="frame" x="72" y="4" width="196" height="21"/>
                                             <fontDescription key="fontDescription" name="Arial-BoldMT" family="Arial" pointSize="16"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0ABFDE5F (2048-bit RSA)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kzv-cL-Rk0">
@@ -765,7 +765,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enable TouchID" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ToI-in-Zg7">
                                 <rect key="frame" x="25" y="101" width="120" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HhI-6o-0oa">
@@ -777,7 +777,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enable Keychain" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yx2-My-7a8">
                                 <rect key="frame" x="25" y="62" width="128" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="PaC-An-HIu">
@@ -793,7 +793,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="iCloud Sync" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iIh-0H-FWn">
                                 <rect key="frame" x="25" y="208" width="93" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Public Key Algorithm" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OQ5-7U-ugc">
@@ -802,7 +802,7 @@
                                     <constraint firstAttribute="width" constant="161" id="2r0-ph-MG9"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="FKi-O7-aNB">
@@ -811,6 +811,13 @@
                                     <action selector="changeSetting:" destination="kJE-GF-nEW" eventType="valueChanged" id="tcC-RL-Ht8"/>
                                 </connections>
                             </switch>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SyncGraphic" translatesAutoresizingMaskIntoConstraints="NO" id="eCD-9m-Gpu">
+                                <rect key="frame" x="32" y="242" width="256" height="256"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="256" id="uYQ-uA-RYW"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="256" id="y89-I9-TxL"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -823,10 +830,14 @@
                             <constraint firstItem="HhI-6o-0oa" firstAttribute="leading" secondItem="Srd-yQ-het" secondAttribute="leading" id="JLf-Gn-HqH"/>
                             <constraint firstItem="Srd-yQ-het" firstAttribute="top" secondItem="HhI-6o-0oa" secondAttribute="bottom" constant="8" symbolic="YES" id="K83-kT-lyc"/>
                             <constraint firstItem="PaC-An-HIu" firstAttribute="top" secondItem="Srd-yQ-het" secondAttribute="bottom" constant="38" id="L9F-5a-tM6"/>
+                            <constraint firstItem="eCD-9m-Gpu" firstAttribute="top" secondItem="FKi-O7-aNB" secondAttribute="bottom" constant="8" id="LSD-QD-asV"/>
                             <constraint firstItem="Yx2-My-7a8" firstAttribute="leading" secondItem="iFG-z0-ojB" secondAttribute="leadingMargin" constant="9" id="MBY-sj-5lY"/>
                             <constraint firstAttribute="trailingMargin" secondItem="PaC-An-HIu" secondAttribute="trailing" constant="14" id="PSj-0X-EdL"/>
+                            <constraint firstItem="eCD-9m-Gpu" firstAttribute="top" secondItem="FKi-O7-aNB" secondAttribute="bottom" constant="8" id="QZ2-fl-vRw"/>
+                            <constraint firstAttribute="centerX" secondItem="eCD-9m-Gpu" secondAttribute="centerX" id="TO5-tU-1TA"/>
                             <constraint firstItem="ToI-in-Zg7" firstAttribute="leading" secondItem="OQ5-7U-ugc" secondAttribute="leading" id="UL9-rn-T8p"/>
                             <constraint firstItem="PaC-An-HIu" firstAttribute="trailing" secondItem="FKi-O7-aNB" secondAttribute="trailing" id="b1z-bM-jXX"/>
+                            <constraint firstAttribute="centerX" secondItem="eCD-9m-Gpu" secondAttribute="centerX" id="dHN-tP-ygw"/>
                             <constraint firstItem="Yx2-My-7a8" firstAttribute="centerY" secondItem="HhI-6o-0oa" secondAttribute="centerY" id="dkQ-Ec-hjP"/>
                             <constraint firstItem="PaC-An-HIu" firstAttribute="leading" secondItem="iIh-0H-FWn" secondAttribute="leading" id="e65-At-CO6"/>
                             <constraint firstItem="OQ5-7U-ugc" firstAttribute="top" secondItem="ToI-in-Zg7" secondAttribute="bottom" constant="13" id="g8c-Ch-iTs"/>
@@ -1038,6 +1049,7 @@
         <image name="Messages" width="25" height="25"/>
         <image name="MyIdentities" width="25" height="25"/>
         <image name="Recipients" width="25" height="25"/>
+        <image name="SyncGraphic" width="256" height="256"/>
         <image name="g39654" width="300" height="384"/>
         <image name="settings" width="23" height="23"/>
         <image name="warning" width="50" height="50"/>

@@ -23,6 +23,7 @@
     NSString *m_password;
     
     bool m_changePassword;
+    bool m_importKeystore;
     
     OpenPGPPublicKey *m_primary;
     OpenPGPPublicKey *m_subkey;

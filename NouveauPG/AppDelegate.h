@@ -33,6 +33,7 @@
 - (bool)addIdentityWithKeystore: (NSString *)privateKeystore password: (NSString *)passwd;
 - (void)addIdentityWithPublicCertificate: (NSString*)publicCertificate privateKeystore: (NSString *)keystore name: (NSString *)userId emailAddr:(NSString *)email keyId: (NSString *)keyid;
 
+- (void)registerCloudSubscriptions: (UIApplication *)application;
 - (void)startSyncFromCloud;
 
 @end

@@ -46,16 +46,28 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
     [m_passwordField becomeFirstResponder];
     
-    if (m_changePassword) {
-        [m_promptLabel setText:@"Enter a password to encrypt your keystore. You will need to enter this password every time you use this key."];
+    
+    if (![m_primary isEncrypted]) {
+        m_importKeystore = true;
+        [m_promptLabel setText:@"Enter a password to protect your keystore."];
+        [m_repeatPasswordField setHidden:NO];
+        [m_rightButton setTitle:@"Import" forState:UIControlStateNormal];
+        [m_keychainSwitch setHidden:YES];
+        [m_keychainLabel setHidden:YES];
+    }
+    else if (m_changePassword) {
+        m_importKeystore = false;
+        [m_promptLabel setText:@"Enter a password to encrypt your keystore."];
         [m_repeatPasswordField setHidden:NO];
         [m_rightButton setTitle:@"Export Keystore" forState:UIControlStateNormal];
         [m_keychainSwitch setHidden:YES];
         [m_keychainLabel setHidden:YES];
     }
     else {
+        m_importKeystore = false;
         [m_promptLabel setText:@"Enter a password to decrypt and unlock your keystore."];
         [m_repeatPasswordField setHidden:YES];
         [m_rightButton setTitle:@"Unlock Keystore" forState:UIControlStateNormal];
@@ -96,7 +108,17 @@
 -(IBAction)unlockKeystore:(id)sender {
     NSString *password = [m_passwordField text];
     
-    if (m_changePassword) {
+    if (m_importKeystore) {
+        if ([[m_passwordField text] isEqualToString:[m_repeatPasswordField text]]) {
+            AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+            [app addIdentityWithKeystore:m_keystoreData password:[m_passwordField text]];
+        }
+        else {
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Passwords didn't match" message:@"You must enter the same password in each field" delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles: nil];
+            [alert show];
+        }
+    }
+    else if (m_changePassword) {
         if ([[m_passwordField text] isEqualToString:[m_repeatPasswordField text]]) {
             m_password = [m_passwordField text];
             [self performSegueWithIdentifier:@"exportKeystore" sender:self];

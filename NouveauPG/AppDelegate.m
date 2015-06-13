@@ -44,16 +44,27 @@
     
     [[NSNotificationCenter defaultCenter]addObserverForName:@"cloudKitError" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note){
         NSError *error = [note object];
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"iCloud Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+        UIAlertView *alert;
+        // provide better messages for some errors
+        if ([error code] == 9) {
+            alert = [[UIAlertView alloc]initWithTitle:@"Not authenticated" message:@"This device must be logged into iCloud and iCloud drive enabled to sync identities." delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+        }
+        else {
+            alert = [[UIAlertView alloc]initWithTitle:@"iCloud Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+        }
         [alert show];
+        
+        [[NSUserDefaults standardUserDefaults]setBool:false forKey:@"iCloudSyncEnabled"];
     }];
     
-    [[NSUserDefaults standardUserDefaults]registerDefaults:[NSDictionary dictionaryWithObject:[NSNumber numberWithBool:true] forKey:@"enableKeychain"]];
+    
+    [[NSUserDefaults standardUserDefaults]registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:true],@"enableKeychain",[NSNumber numberWithBool:true],@"iCloudSyncEnabled",nil]];
     
     NSManagedObjectContext *ctx = [self managedObjectContext];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"Recipient"
                                               inManagedObjectContext:ctx];
+    
     [fetchRequest setEntity:entity];
     
     NSError *error;
@@ -184,9 +195,57 @@
     }
     
     // if cloud sync is enabled
-    [self startSyncFromCloud];
+    if ([[NSUserDefaults standardUserDefaults]boolForKey:@"iCloudSyncEnabled"]) {
+        [self registerCloudSubscriptions: application];
+        [self startSyncFromCloud];
+    }
+    
     
     return YES;
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    CKNotification *cloudKitNotification = [CKNotification notificationFromRemoteNotificationDictionary:userInfo];
+    
+    if (cloudKitNotification.notificationType == CKNotificationTypeQuery) {
+        CKRecordID *recordID = [(CKQueryNotification *)cloudKitNotification recordID];
+        
+        [self startSyncFromCloud];
+    }
+    
+}
+
+- (void)registerCloudSubscriptions: (UIApplication *)application {
+    // subscribe to cloudkit change notifications
+    NSDate *lastSync = [[NSUserDefaults standardUserDefaults]objectForKey:@"lastSync"];
+    
+    if(!lastSync) {
+        // if this installation hasn't synced before, we make the last sync the earliest date so we pull all records
+        lastSync = [NSDate dateWithTimeIntervalSince1970:0];
+    }
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"Created > %@",lastSync];
+    
+    CKSubscription *subsciption = [[CKSubscription alloc]initWithRecordType:@"Identities" predicate:predicate options:CKSubscriptionOptionsFiresOnRecordCreation];
+    
+    CKContainer *myContainer = [CKContainer containerWithIdentifier:@"iCloud.com.nouveaupg.nouveaupg"];
+    CKDatabase *privateDatabase = [myContainer privateCloudDatabase];
+    
+    [privateDatabase saveSubscription:subsciption completionHandler:^(CKSubscription *subscription, NSError *error) {
+        
+        if (error) {
+            NSLog(@"NSError: %@",[error description]);
+        }
+        else {
+            NSLog(@"Subscription saved.");
+        }
+    }];
+    
+    // push notifications
+    
+    UIUserNotificationSettings *notificationSettings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeNone categories:nil];
+    [application registerUserNotificationSettings:notificationSettings];
+    [application registerForRemoteNotifications];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -256,7 +315,7 @@
             }
             else if( [eachPacket packetTag] == 2 ) {
                 OpenPGPSignature *signature = [[OpenPGPSignature alloc]initWithPacket:eachPacket];
-                if (signature.signatureType == 0x13) {
+                if (signature.signatureType >= 0x10 && signature.signatureType <= 0x13) {
                     userIdSig = signature;
                 }
                 else if(signature.signatureType == 0x18 ) {
@@ -720,7 +779,13 @@
 - (void)startSyncFromCloud {
     CKContainer *myContainer = [CKContainer containerWithIdentifier:@"iCloud.com.nouveaupg.nouveaupg"];
     CKDatabase *privateDatabase = [myContainer privateCloudDatabase];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"Created > %@",[NSDate dateWithTimeIntervalSince1970:0]];
+    
+    NSDate *lastSync = [[NSUserDefaults standardUserDefaults]objectForKey:@"lastSync"];
+    if (!lastSync) {
+        lastSync = [NSDate dateWithTimeIntervalSince1970:0];
+    }
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"Created > %@",lastSync];
     CKQuery *query = [[CKQuery alloc] initWithRecordType:@"Identities" predicate:predicate];
     [privateDatabase performQuery:query inZoneWithID:nil completionHandler:^(NSArray *results, NSError *error) {
         if (error) {
@@ -731,6 +796,8 @@
         }
         else {
             // Sync with local database...
+            
+            [[NSUserDefaults standardUserDefaults]setObject:[NSDate date] forKey:@"lastSync"];
             
             for( CKRecord *each in results ) {
                 if( ![each objectForKey:@"PrivateKeystore"] ) {
