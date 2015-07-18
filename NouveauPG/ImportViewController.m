@@ -11,6 +11,7 @@
 #import "OpenPGPPacket.h"
 #import "UserIDPacket.h"
 #import "OpenPGPPublicKey.h"
+#import "OpenPGPSignature.h"
 #import "UnlockKeystoreViewController.h"
 #import "AppDelegate.h"
 
@@ -51,6 +52,12 @@
 -(IBAction)importFromTextView:(id)sender {
     m_importData = [m_importText text];
     m_primary = nil;
+    
+    OpenPGPPublicKey *subkey;
+    OpenPGPPacket *userId;
+    OpenPGPPacket *primarySigPacket;
+    OpenPGPPacket *subkeySigPacket;
+    
     OpenPGPMessage *openPGPMessage = [[OpenPGPMessage alloc]initWithArmouredText:m_importData];
     if ([openPGPMessage validChecksum]) {
         NSLog(@"Valid PGP Message found.");
@@ -61,20 +68,30 @@
             if ([eachPacket packetTag] == 5) {
                 m_primary = [[OpenPGPPublicKey alloc]initWithEncryptedPacket:eachPacket];
             }
-            if ([eachPacket packetTag] == 6) {
+            else if ([eachPacket packetTag] == 6) {
                 [appDelegate addRecipientWithCertificate:[openPGPMessage originalArmouredText]];
                 // now show the recipients tab
                 [self clearTextView:self];
                 [[[self navigationController] tabBarController] setSelectedIndex:0];
             }
-            if ([eachPacket packetTag] == 1) {
+            else if ([eachPacket packetTag] == 1) {
                 [appDelegate addMessageToStore:[openPGPMessage originalArmouredText]];
                 // now show the messages tab
                 [self clearTextView:self];
                 [[[self navigationController] tabBarController] setSelectedIndex:2];
             }
+            else if( [eachPacket packetTag] == 2 ) {
+                OpenPGPSignature *signature = [[OpenPGPSignature alloc]initWithPacket:eachPacket];
+                if (signature.signatureType == 0x18) {
+                    subkeySigPacket = eachPacket;
+                }
+                else if ( signature.signatureType <= 0x13 && signature.signatureType >= 0x10 ) {
+                    primarySigPacket = eachPacket;
+                }
+            }
+            
         }
-        if (m_primary) {
+        if (m_primary && [m_primary isEncrypted]) {
             [self performSegueWithIdentifier:@"unlockImport" sender:self];
         }
     }

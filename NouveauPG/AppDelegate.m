@@ -542,6 +542,25 @@
     [self saveContext];
 }
 
+- (bool)addIdentityWithPrimaryKey: (OpenPGPPublicKey *)primary subkey:(OpenPGPPublicKey *)encryptionSubkey userId:(OpenPGPPacket *)userIdPkt userIdCert:(OpenPGPPacket *)userIdCertPkt subkeyCert:(OpenPGPPacket *)subkeyCertPkt password:(NSString *)passwd {
+    
+    Identity *newIdentity = [NSEntityDescription insertNewObjectForEntityForName:@"Identity" inManagedObjectContext:[self managedObjectContext]];
+    newIdentity.created = [NSDate date];
+    
+    UserIDPacket *userIdPacket = [[UserIDPacket alloc]initWithPacket:userIdCertPkt];
+    NSRange emailRange = [[userIdPacket stringValue] rangeOfCharacterFromSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
+    NSString *remainder = [[userIdPacket stringValue]substringFromIndex:emailRange.location+1];
+    NSRange emailEndMark = [remainder rangeOfCharacterFromSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
+    
+    newIdentity.name = [[userIdPacket stringValue]substringToIndex:emailRange.location];
+    newIdentity.email = [remainder substringToIndex:emailEndMark.location];
+    newIdentity.keyId = [[newIdentity.primaryKeystore keyId] uppercaseString];
+    
+    
+    
+    return false;
+}
+
 - (bool)addIdentityWithKeystore: (NSString *)privateKeystore password: (NSString *)passwd; {
     
     Identity *newIdentity = [NSEntityDescription insertNewObjectForEntityForName:@"Identity" inManagedObjectContext:[self managedObjectContext]];
