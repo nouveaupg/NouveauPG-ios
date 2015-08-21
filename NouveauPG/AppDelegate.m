@@ -41,7 +41,7 @@
     //[self.window makeKeyAndVisible];
     
     // register for CloudKit errors
-    
+    /*
     [[NSNotificationCenter defaultCenter]addObserverForName:@"cloudKitError" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note){
         NSError *error = [note object];
         UIAlertView *alert;
@@ -56,9 +56,9 @@
         
         [[NSUserDefaults standardUserDefaults]setBool:false forKey:@"iCloudSyncEnabled"];
     }];
+    */
     
-    
-    [[NSUserDefaults standardUserDefaults]registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:true],@"enableKeychain",[NSNumber numberWithBool:true],@"iCloudSyncEnabled",nil]];
+    [[NSUserDefaults standardUserDefaults]registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:true],@"enableKeychain",[NSNumber numberWithBool:false],@"iCloudSyncEnabled",nil]];
     
     NSManagedObjectContext *ctx = [self managedObjectContext];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
@@ -193,13 +193,13 @@
             }
         }
     }
-    
+    /*
     // if cloud sync is enabled
     if ([[NSUserDefaults standardUserDefaults]boolForKey:@"iCloudSyncEnabled"]) {
         [self registerCloudSubscriptions: application];
         [self startSyncFromCloud];
     }
-    
+    */
     
     return YES;
 }
@@ -217,6 +217,7 @@
 
 - (void)registerCloudSubscriptions: (UIApplication *)application {
     // subscribe to cloudkit change notifications
+    /*
     NSDate *lastSync = [[NSUserDefaults standardUserDefaults]objectForKey:@"lastSync"];
     
     if(!lastSync) {
@@ -240,12 +241,12 @@
             NSLog(@"Subscription saved.");
         }
     }];
-    
+    */
     // push notifications
     
-    UIUserNotificationSettings *notificationSettings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeNone categories:nil];
-    [application registerUserNotificationSettings:notificationSettings];
-    [application registerForRemoteNotifications];
+    //UIUserNotificationSettings *notificationSettings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeNone categories:nil];
+    //[application registerUserNotificationSettings:notificationSettings];
+    //[application registerForRemoteNotifications];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -796,6 +797,7 @@
 }
 
 - (void)startSyncFromCloud {
+    /*
     CKContainer *myContainer = [CKContainer containerWithIdentifier:@"iCloud.com.nouveaupg.nouveaupg"];
     CKDatabase *privateDatabase = [myContainer privateCloudDatabase];
     
@@ -853,6 +855,7 @@
             [[NSNotificationCenter defaultCenter] postNotificationName:@"flushTables" object:@"recipients"];
         }
     }];
+     */
 
 }
 
