@@ -12,6 +12,8 @@
 
 @implementation OpenPGPMessage
 
+#define DEBUG_OPENPGPMESSAGE 1
+
 #define kParsingHeaders 0
 #define kParsingContent 1
 #define kParsingChecksum 2
@@ -29,9 +31,15 @@
         
         if (header.location != NSNotFound) {
             footer = [armouredMessage rangeOfString:@"-----END PGP PUBLIC KEY BLOCK-----"];
+#ifdef DEBUG_OPENPGPMESSAGE
+            NSLog(@"Public key block message header found.");
+#endif
             if (footer.location != NSNotFound) {
                 messageBody = [armouredMessage substringWithRange:NSMakeRange(header.location + header.length, footer.location - (header.location+header.length))];
                 m_originalArmouredText = [armouredMessage substringWithRange:NSMakeRange(header.location, (footer.location + footer.length) - header.location)];
+            }
+            else {
+                NSLog(@"Error - no OpenPGP public key block footer found.");
             }
         }
         
@@ -39,9 +47,15 @@
             header = [armouredMessage rangeOfString:@"-----BEGIN PGP MESSAGE-----"];
             if (header.location != NSNotFound) {
                 footer = [armouredMessage rangeOfString:@"-----END PGP MESSAGE-----"];
+#ifdef DEBUG_OPENPGPMESSAGE
+                NSLog(@"OpenPGP message header found.");
+#endif
                 if (footer.location != NSNotFound) {
                     messageBody = [armouredMessage substringWithRange:NSMakeRange(header.location + header.length, footer.location - (header.location+header.length))];
                     m_originalArmouredText = [armouredMessage substringWithRange:NSMakeRange(header.location, (footer.location + footer.length) - header.location)];
+                }
+                else {
+                    NSLog(@"Error - no OpenPGP message footer found.");
                 }
             }
         }
@@ -49,9 +63,16 @@
         if (!messageBody) {
             header = [armouredMessage rangeOfString:@"-----BEGIN PGP PRIVATE KEY BLOCK-----"];
             if (header.location != NSNotFound) {
+#ifdef DEBUG_OPENPGPMESSAGE
+                NSLog(@"Private key block message header found.");
+#endif
+                
                 footer = [armouredMessage rangeOfString:@"-----END PGP PRIVATE KEY BLOCK-----"];
                 if (footer.location != NSNotFound) {
                     messageBody = [armouredMessage substringWithRange:NSMakeRange(header.location + header.length, footer.location - (header.location+header.length))];
+                }
+                else {
+                    NSLog(@"Error - no OpenPGP private key block footer found.");
                 }
             }
         }
@@ -60,8 +81,14 @@
             header = [armouredMessage rangeOfString:@"-----BEGIN PGP SIGNATURE-----"];
             if (header.location != NSNotFound) {
                 footer = [armouredMessage rangeOfString:@"-----END PGP SIGNATURE-----"];
+#ifdef DEBUG_OPENPGPMESSAGE
+                NSLog(@"OpenPGP signature message header found.");
+#endif
                 if (footer.location != NSNotFound) {
                     messageBody = [armouredMessage substringWithRange:NSMakeRange(header.location + header.length, footer.location - (header.location+header.length))];
+                }
+                else {
+                    NSLog(@"Error - no OpenPGP signature footer found");
                 }
             }
         }
@@ -69,8 +96,10 @@
         if (messageBody) {
             NSMutableString *contentAccumulator = [[NSMutableString alloc]initWithCapacity:[messageBody length]];
             NSArray *lines = [messageBody componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"\n"]];
+            NSCharacterSet *charactersToRemove = [[NSCharacterSet characterSetWithCharactersInString:@"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwx yz0123456789+/="] invertedSet];
             for (NSString* line in lines) {
-                NSString *trimmedString = [line stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+                NSString *strippedReplacement = [[line componentsSeparatedByCharactersInSet:charactersToRemove] componentsJoinedByString:@""];
+                NSString *trimmedString = [strippedReplacement stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
                 if (parserState == -1) {
                     // Look for the headers, the only place there should be any colons
                     //NSRange colonRange = [trimmedString rangeOfCharacterFromSet:[NSCharacterSet characterSetWithCharactersInString:@":"]];
@@ -103,7 +132,8 @@
                     }
                     
                     if ([trimmedString characterAtIndex:0] == '=') {
-                        m_decodedData = [OpenPGPMessage base64DataFromString:contentAccumulator];
+                        m_decodedData = [NSData dataFromBase64String:contentAccumulator];
+                        //m_decodedData = [OpenPGPMessage base64DataFromString:contentAccumulator];
                         if ( m_decodedData ) {
                             parserState = kParsingChecksum;
                             NSString *encodedChecksum = [trimmedString substringWithRange:NSMakeRange(1, [trimmedString length] -1)];
@@ -133,7 +163,13 @@
                             if (checksum == crc) {
                                 m_validChecksum = true;
                             }
+                            else {
+                                NSLog(@"Checksum validation failed.");
+                            }
                             return self;
+                        }
+                        else {
+                            NSLog(@"Could not decode Base64 data.");
                         }
                     }
                     else {

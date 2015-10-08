@@ -21,8 +21,6 @@
 
 #import "NSString+Base64.h"
 
-@import CloudKit;
-
 @implementation AppDelegate
 
 @synthesize managedObjectContext = _managedObjectContext;
@@ -205,6 +203,7 @@
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    /*
     CKNotification *cloudKitNotification = [CKNotification notificationFromRemoteNotificationDictionary:userInfo];
     
     if (cloudKitNotification.notificationType == CKNotificationTypeQuery) {
@@ -212,6 +211,7 @@
         
         [self startSyncFromCloud];
     }
+     */
     
 }
 
@@ -328,6 +328,17 @@
         
         // check the public key certificate for errors before importing
         
+        if( primaryPublicKey.publicKeyType == -1 ) {
+            NSLog(@"Unsupported public key algorithm");
+            return nil;
+        }
+        
+        bool validSig = [userIdSig validateWithPublicKey:primaryPublicKey userId:[userId stringValue]];
+        
+        if (subkeySig) {
+            validSig = [subkeySig validateSubkey:publicSubkey withSigningKey:primaryPublicKey];
+        }
+        
         NSManagedObjectContext *ctx = [self managedObjectContext];
         Recipient *newRecipient = [NSEntityDescription insertNewObjectForEntityForName:@"Recipient" inManagedObjectContext:ctx];
         newRecipient.userId = [userId stringValue];
@@ -378,6 +389,7 @@
 }
 
 - (void)deleteCloudObject: (NSString *)keyId recordType:(NSString *)type {
+    /*
     CKRecord *newRecord = [[CKRecord alloc]initWithRecordType:@"Identities"];
     //CKContainer *myContainer = [CKContainer defaultContainer];
     CKContainer *myContainer = [CKContainer containerWithIdentifier:@"iCloud.com.nouveaupg.nouveaupg"];
@@ -402,10 +414,11 @@
             }
         }
     }];
+     */
 }
 
 -(bool)saveObjectToCloud: (NSManagedObject *)object {
-    
+    /*
     CKRecord *newRecord = [[CKRecord alloc]initWithRecordType:@"Identities"];
     //CKContainer *myContainer = [CKContainer defaultContainer];
     CKContainer *myContainer = [CKContainer containerWithIdentifier:@"iCloud.com.nouveaupg.nouveaupg"];
@@ -458,6 +471,7 @@
         [newRecord setObject:[NSDate date] forKey:@"Created"];
         [newRecord setObject:keyId forKey:@"KeyId"];
         [newRecord setObject:fingerprintString forKey:@"Fingerprint"];
+     
     }
     
     [privateDatabase saveRecord:newRecord completionHandler:^(CKRecord *identityRecord, NSError *error){
@@ -474,7 +488,7 @@
         }
     }];
     
-    
+    */
     return true;
 }
 
@@ -488,7 +502,7 @@
     newIdentity.privateKeystore = keystore;
     newIdentity.publicCertificate = publicCertificate;
     newIdentity.created = [NSDate date];
-    
+    // TODO: create new identity
     OpenPGPMessage *message = [[OpenPGPMessage alloc]initWithArmouredText: keystore];
     if ([message validChecksum]) {
         for (OpenPGPPacket *eachPacket in [OpenPGPPacket packetsFromMessage:message]) {
