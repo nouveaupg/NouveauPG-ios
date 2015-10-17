@@ -23,7 +23,7 @@
 
 #import <Foundation/Foundation.h>
 
-#define kVersionString @"NouveauPG 1.6 (OS X)"
+#define kVersionString @"NouveauPG 1.71 (iOS)"
 
 void *NewBase64Decode(
                       const char *inputBuffer,
