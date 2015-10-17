@@ -200,7 +200,6 @@
     }
      */
     
-    
     return YES;
 }
  /* Removing cloudKit - Oct 17, 2015
@@ -248,13 +247,12 @@
             NSLog(@"Subscription saved.");
         }
     }];
-    */
+    
     // push notifications
     
-    UIUserNotificationSettings *notificationSettings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeNone categories:nil];
-    [application registerUserNotificationSettings:notificationSettings];
-    [application registerForRemoteNotifications];
- 
+    //UIUserNotificationSettings *notificationSettings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeNone categories:nil];
+    //[application registerUserNotificationSettings:notificationSettings];
+    //[application registerForRemoteNotifications];
 }
  */
 
@@ -425,11 +423,11 @@
             }
         }
     }];
-     */
+ 
 }
 
 -(bool)saveObjectToCloud: (NSManagedObject *)object {
-    /*
+ 
     CKRecord *newRecord = [[CKRecord alloc]initWithRecordType:@"Identities"];
     //CKContainer *myContainer = [CKContainer defaultContainer];
     CKContainer *myContainer = [CKContainer containerWithIdentifier:@"iCloud.com.nouveaupg.nouveaupg"];
@@ -498,8 +496,7 @@
             NSLog(@"Error saving CloudKit record: %@",[error description]);
         }
     }];
-    
-    */
+ 
     return true;
 }
 
@@ -887,7 +884,7 @@
             [[NSNotificationCenter defaultCenter] postNotificationName:@"flushTables" object:@"recipients"];
         }
     }];
-     */
+     
 
 }
  */
