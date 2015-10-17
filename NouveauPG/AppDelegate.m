@@ -21,8 +21,6 @@
 
 #import "NSString+Base64.h"
 
-@import CloudKit;
-
 @implementation AppDelegate
 
 @synthesize managedObjectContext = _managedObjectContext;
@@ -183,7 +181,7 @@
                         NSString *keyId = [NSString stringWithFormat:@"%02x%02x%02x%02x",*(ptr+5),*(ptr+6),*(ptr+7),*(ptr+8)];
                         
                         for (Identity *eachIdentity in self.identities ) {
-                            if ([[eachIdentity.primaryKeystore keyId] isEqualToString:keyId] || [[eachIdentity.encryptionKeystore keyId] isEqualToString:keyId]) {
+                            if ([eachIdentity.primaryKeystore.keyId isEqualToString:keyId] || [eachIdentity.encryptionKeystore.keyId isEqualToString:keyId]) {
                                 eachMessage.keyId = eachIdentity.primaryKeystore.keyId;
                             }
                         }
@@ -195,16 +193,21 @@
     }
     
     // if cloud sync is enabled
+    /*
     if ([[NSUserDefaults standardUserDefaults]boolForKey:@"iCloudSyncEnabled"]) {
         [self registerCloudSubscriptions: application];
         [self startSyncFromCloud];
     }
+     */
     
     
     return YES;
 }
+ /* Removing cloudKit - Oct 17, 2015
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+     
+     
     CKNotification *cloudKitNotification = [CKNotification notificationFromRemoteNotificationDictionary:userInfo];
     
     if (cloudKitNotification.notificationType == CKNotificationTypeQuery) {
@@ -212,10 +215,14 @@
         
         [self startSyncFromCloud];
     }
+  
     
 }
 
+
 - (void)registerCloudSubscriptions: (UIApplication *)application {
+    
+    
     // subscribe to cloudkit change notifications
     NSDate *lastSync = [[NSUserDefaults standardUserDefaults]objectForKey:@"lastSync"];
     
@@ -246,7 +253,9 @@
     UIUserNotificationSettings *notificationSettings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeNone categories:nil];
     [application registerUserNotificationSettings:notificationSettings];
     [application registerForRemoteNotifications];
+ 
 }
+ */
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
@@ -334,7 +343,7 @@
         
         RecipientDetails *details = [NSEntityDescription insertNewObjectForEntityForName:@"RecipientDetails" inManagedObjectContext:ctx];
         details.publicKeyAlgo = [NSString stringWithFormat:@"%ld-bit RSA",(long)primaryPublicKey.publicKeySize];
-        details.keyId = [[primaryPublicKey keyId] uppercaseString];
+        details.keyId = [primaryPublicKey.keyId uppercaseString];
         newRecipient.details = details;
         
         NSRange firstBracket = [[userId stringValue] rangeOfString:@"<"];
@@ -375,6 +384,8 @@
     }
     return nil;
 }
+
+/* Removing cloudkit Oct 17, 2015
 
 - (void)deleteCloudObject: (NSString *)keyId recordType:(NSString *)type {
     CKRecord *newRecord = [[CKRecord alloc]initWithRecordType:@"Identities"];
@@ -477,6 +488,9 @@
     return true;
 }
 
+ 
+ */
+
 - (void)addIdentityWithPublicCertificate: (NSString*)publicCertificate privateKeystore: (NSString *)keystore name: (NSString *)userId emailAddr:(NSString *)email keyId: (NSString *)keyid {
     
     NSManagedObjectContext *ctx = [self managedObjectContext];
@@ -524,7 +538,7 @@
                     NSString *keyId = [NSString stringWithFormat:@"%02x%02x%02x%02x",*(ptr+5),*(ptr+6),*(ptr+7),*(ptr+8)];
                     
                     for (Identity *eachIdentity in self.identities ) {
-                        if ([[eachIdentity.primaryKeystore keyId] isEqualToString:keyId] || [[eachIdentity.encryptionKeystore keyId] isEqualToString:keyId]) {
+                        if ([eachIdentity.primaryKeystore.keyId isEqualToString:keyId] || [eachIdentity.encryptionKeystore.keyId isEqualToString:keyId]) {
                             newMessage.keyId = eachIdentity.primaryKeystore.keyId;
                         }
                     }
@@ -554,7 +568,9 @@
     
     newIdentity.name = [[userIdPacket stringValue]substringToIndex:emailRange.location];
     newIdentity.email = [remainder substringToIndex:emailEndMark.location];
-    newIdentity.keyId = [[newIdentity.primaryKeystore keyId] uppercaseString];
+    newIdentity.keyId = [primary.keyId uppercaseString];
+    
+    NSMutableArray *publicCertPackets = [[NSMutableArray alloc]initWithCapacity:5];
     
     
     
@@ -616,7 +632,7 @@
         
         newIdentity.name = [[userIdPacket stringValue]substringToIndex:emailRange.location];
         newIdentity.email = [remainder substringToIndex:emailEndMark.location];
-        newIdentity.keyId = [[newIdentity.primaryKeystore keyId] uppercaseString];
+        newIdentity.keyId = [newIdentity.primaryKeystore.keyId uppercaseString];
         
         NSLog(@"Username: %@",newIdentity.name);
         NSLog(@"E-mail: %@",newIdentity.email);
@@ -795,6 +811,8 @@
     return _persistentStoreCoordinator;
 }
 
+/* Removing cloudkit Oct 17, 2015
+
 - (void)startSyncFromCloud {
     CKContainer *myContainer = [CKContainer containerWithIdentifier:@"iCloud.com.nouveaupg.nouveaupg"];
     CKDatabase *privateDatabase = [myContainer privateCloudDatabase];
@@ -831,7 +849,7 @@
                             if ([eachPacket packetTag] == 6) {
                                 OpenPGPPublicKey *primaryKey = [[OpenPGPPublicKey alloc]initWithPacket:eachPacket];
                                 NSString *keyToMatch = [each objectForKey:@"KeyId"];
-                                if ([[[primaryKey keyId] uppercaseString] isEqualToString:keyToMatch]) {
+                                if ([[primaryKey.keyId uppercaseString] isEqualToString:keyToMatch]) {
                                     found = true;
                                     localDate = eachRecipient.added;
                                 }
@@ -855,6 +873,7 @@
     }];
 
 }
+ */
 
 #pragma mark - Application's Documents directory
 
