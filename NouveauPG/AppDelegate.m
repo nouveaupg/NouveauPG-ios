@@ -39,7 +39,7 @@
     //[self.window makeKeyAndVisible];
     
     // register for CloudKit errors
-    
+    /*
     [[NSNotificationCenter defaultCenter]addObserverForName:@"cloudKitError" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note){
         NSError *error = [note object];
         UIAlertView *alert;
@@ -54,9 +54,9 @@
         
         [[NSUserDefaults standardUserDefaults]setBool:false forKey:@"iCloudSyncEnabled"];
     }];
+    */
     
-    
-    [[NSUserDefaults standardUserDefaults]registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:true],@"enableKeychain",[NSNumber numberWithBool:true],@"iCloudSyncEnabled",nil]];
+    [[NSUserDefaults standardUserDefaults]registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:true],@"enableKeychain",[NSNumber numberWithBool:false],@"iCloudSyncEnabled",nil]];
     
     NSManagedObjectContext *ctx = [self managedObjectContext];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
@@ -191,7 +191,7 @@
             }
         }
     }
-    
+    /*
     // if cloud sync is enabled
     /*
     if ([[NSUserDefaults standardUserDefaults]boolForKey:@"iCloudSyncEnabled"]) {
@@ -224,6 +224,7 @@
     
     
     // subscribe to cloudkit change notifications
+    /*
     NSDate *lastSync = [[NSUserDefaults standardUserDefaults]objectForKey:@"lastSync"];
     
     if(!lastSync) {
@@ -247,7 +248,7 @@
             NSLog(@"Subscription saved.");
         }
     }];
-    
+    */
     // push notifications
     
     UIUserNotificationSettings *notificationSettings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeNone categories:nil];
@@ -336,6 +337,17 @@
         
         // check the public key certificate for errors before importing
         
+        if( primaryPublicKey.publicKeyType == -1 ) {
+            NSLog(@"Unsupported public key algorithm");
+            return nil;
+        }
+        
+        bool validSig = [userIdSig validateWithPublicKey:primaryPublicKey userId:[userId stringValue]];
+        
+        if (subkeySig) {
+            validSig = [subkeySig validateSubkey:publicSubkey withSigningKey:primaryPublicKey];
+        }
+        
         NSManagedObjectContext *ctx = [self managedObjectContext];
         Recipient *newRecipient = [NSEntityDescription insertNewObjectForEntityForName:@"Recipient" inManagedObjectContext:ctx];
         newRecipient.userId = [userId stringValue];
@@ -388,6 +400,7 @@
 /* Removing cloudkit Oct 17, 2015
 
 - (void)deleteCloudObject: (NSString *)keyId recordType:(NSString *)type {
+    /*
     CKRecord *newRecord = [[CKRecord alloc]initWithRecordType:@"Identities"];
     //CKContainer *myContainer = [CKContainer defaultContainer];
     CKContainer *myContainer = [CKContainer containerWithIdentifier:@"iCloud.com.nouveaupg.nouveaupg"];
@@ -412,10 +425,11 @@
             }
         }
     }];
+     */
 }
 
 -(bool)saveObjectToCloud: (NSManagedObject *)object {
-    
+    /*
     CKRecord *newRecord = [[CKRecord alloc]initWithRecordType:@"Identities"];
     //CKContainer *myContainer = [CKContainer defaultContainer];
     CKContainer *myContainer = [CKContainer containerWithIdentifier:@"iCloud.com.nouveaupg.nouveaupg"];
@@ -468,6 +482,7 @@
         [newRecord setObject:[NSDate date] forKey:@"Created"];
         [newRecord setObject:keyId forKey:@"KeyId"];
         [newRecord setObject:fingerprintString forKey:@"Fingerprint"];
+     
     }
     
     [privateDatabase saveRecord:newRecord completionHandler:^(CKRecord *identityRecord, NSError *error){
@@ -484,7 +499,7 @@
         }
     }];
     
-    
+    */
     return true;
 }
 
@@ -501,7 +516,7 @@
     newIdentity.privateKeystore = keystore;
     newIdentity.publicCertificate = publicCertificate;
     newIdentity.created = [NSDate date];
-    
+    // TODO: create new identity
     OpenPGPMessage *message = [[OpenPGPMessage alloc]initWithArmouredText: keystore];
     if ([message validChecksum]) {
         for (OpenPGPPacket *eachPacket in [OpenPGPPacket packetsFromMessage:message]) {
@@ -814,6 +829,7 @@
 /* Removing cloudkit Oct 17, 2015
 
 - (void)startSyncFromCloud {
+    /*
     CKContainer *myContainer = [CKContainer containerWithIdentifier:@"iCloud.com.nouveaupg.nouveaupg"];
     CKDatabase *privateDatabase = [myContainer privateCloudDatabase];
     
@@ -871,6 +887,7 @@
             [[NSNotificationCenter defaultCenter] postNotificationName:@"flushTables" object:@"recipients"];
         }
     }];
+     */
 
 }
  */
